@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AuthenticationService } from './service/authentication.service';
 import { Eecs447ClientService } from './service/eecs447-client.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +10,13 @@ import { Eecs447ClientService } from './service/eecs447-client.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   title = 'eecs447-project-ng';
   usernameForm: FormControl = new FormControl();
   passwordForm:FormControl = new FormControl();
   message?:string;
 
-  constructor(public auth: AuthenticationService, private eecs447: Eecs447ClientService) {}
+  constructor(public auth: AuthenticationService, private eecs447: Eecs447ClientService, private router: Router) {}
 
   login() {
     let username = this.usernameForm.value;
@@ -27,4 +29,5 @@ export class AppComponent {
       this.message = response.message;
     })
   }
+
 }

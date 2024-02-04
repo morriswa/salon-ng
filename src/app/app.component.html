@@ -14,6 +14,8 @@
   placeholder="Enter your username..."
   >
 
+<br> 
+
 <button (click)="login()">Click to login!</button>
 
 @if (auth.ready) {
@@ -21,6 +23,16 @@
   <h1>{{auth.token}}</h1>
 }
 
+<br>
+
 <button (click)="sayHi()">SayHi</button>
 
 <h1>{{message}}</h1>
+
+<br>
+
+<button [routerLink]="['user']">Go to User Profile</button>
+<button [routerLink]="['employee']">Go to Employee Homepage</button>
+<button [routerLink]="['client']">Go to Client Homepage</button>
+
+<router-outlet></router-outlet>
