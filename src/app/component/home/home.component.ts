@@ -29,8 +29,8 @@ export class HomeComponent {
   sayHi() { // when the user clicks 'Say Hi'
     // call web service's health check endpoint using salon client
     this.salonClient.healthCheck()
-    .subscribe((response:any)=>{ // on success print message to screen
-      this.message = response.message;
+    .subscribe((response:string)=>{ // on success print message to screen
+      this.message = response;
     })
   }
 

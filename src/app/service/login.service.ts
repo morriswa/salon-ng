@@ -41,7 +41,7 @@ export class LoginService {
           // set status as authenticated and not processing
           this._authenticated = true;
           this._processing = false;
-          this._authorities = res.payload.authorities
+          this._authorities = res.authorities
         }),
         catchError(() => { // if the user was unable to log in
           // set status as unauthenticated and not processing
