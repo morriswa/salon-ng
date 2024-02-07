@@ -1,0 +1,3 @@
+
+
+export type USER_AUTHORITY = "USER"|"CLIENT"|"EMPLOYEE"|"ADMIN";

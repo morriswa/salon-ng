@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthenticationService } from 'src/app/service/authentication.service';
-import { Eecs447ClientService } from 'src/app/service/eecs447-client.service';
+import { CredentialService } from 'src/app/service/credential.service';
+import { SalonService } from 'src/app/service/salon.service';
+import {LoginService} from "../../service/login.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -13,8 +14,10 @@ export class UserProfileComponent {
 
   profile$:Observable<any>;
 
-  constructor(private auth: AuthenticationService, private eecs447Client: Eecs447ClientService, router: Router) {
-    if (!auth.ready) router.navigate(['']);
+  constructor(private login: LoginService, private eecs447Client: SalonService, router: Router) {
+
+    console.log(`user is authenticated with username ${login.username}`)
+
 
     this.profile$ = this.eecs447Client.getUserProfile();
   }

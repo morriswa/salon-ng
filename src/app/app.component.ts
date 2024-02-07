@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { AuthenticationService } from './service/authentication.service';
-import { Eecs447ClientService } from './service/eecs447-client.service';
+import { SalonService } from './service/salon.service';
 import { Router } from '@angular/router';
+import {LoginService} from "./service/login.service";
 
 @Component({
   selector: 'app-root',
@@ -11,23 +11,44 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
 
-  title = 'eecs447-project-ng';
+  title = 'salon-project-ng';
   usernameForm: FormControl = new FormControl();
   passwordForm:FormControl = new FormControl();
   message?:string;
+  loginMessage?:string;
 
-  constructor(public auth: AuthenticationService, private eecs447: Eecs447ClientService, private router: Router) {}
+  constructor(public loginService: LoginService,
+              private salonService: SalonService,
+              private router: Router) { }
 
-  login() {
+
+  login() { // when the user clicks login...
+    // grab username and password from angular forms
     let username = this.usernameForm.value;
     let password = this.passwordForm.value;
-    this.auth.login(username, password);
+    // and begin login attempt
+    this.loginService.login(username, password)
+    .subscribe({
+      next: (res:any) => { // on successful authentication reset the forms
+        console.log(res)
+        this.usernameForm.reset();
+        this.passwordForm.reset();
+      },
+      error: () => { // on authentication failure...
+        // provided a helpful message
+        this.loginMessage = "Could not authenticate with provided credentials!";
+        // and reset the password form
+        this.passwordForm.reset();
+      }
+    });
   }
 
-  sayHi() {
-    this.eecs447.healthCheck().subscribe((response:any)=>{
-      this.message = response.message;
-    })
+  logout() { // when user clicks logout
+    // initiate logout via service
+    this.loginService.logout();
+    // navigate back to start
+    this.router.navigate([''])
+    // provide a message confirming logout
+    this.loginMessage = "Successfully logged out!";
   }
-
 }

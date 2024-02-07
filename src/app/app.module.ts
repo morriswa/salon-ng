@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { UserProfileComponent } from './component/user-profile/user-profile.component';
 import { EmployeeComponent } from './component/employee/employee.component';
 import { ClientComponent } from './component/client/client.component';
-import { Eecs447ClientService } from './service/eecs447-client.service';
+import { SalonService } from './service/salon.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,7 @@ import { Eecs447ClientService } from './service/eecs447-client.service';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true },
-    Eecs447ClientService
+    SalonService
   ],
   bootstrap: [AppComponent]
 })
