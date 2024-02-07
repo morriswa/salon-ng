@@ -1,22 +1,35 @@
 import { Component } from '@angular/core';
 import {LoginService} from "../../service/login.service";
-import {SalonService} from "../../service/salon.service";
+import {SalonClient} from "../../service/salon-client.service";
 
+
+/**
+ * Home page for the application
+ */
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
 
+  /**
+   * controls template message displayed when service is accessed
+   */
   message?: string;
 
-  constructor(public loginService: LoginService, private salonService: SalonService) { }
 
-  sayHi() {
-    this.salonService.login().subscribe((response:any)=>{
+  // component dependencies
+  constructor(public loginService: LoginService, private salonClient: SalonClient) { }
+
+
+  /**
+   * verifies the web service is running
+   */
+  sayHi() { // when the user clicks 'Say Hi'
+    // call web service's health check endpoint using salon client
+    this.salonClient.healthCheck()
+    .subscribe((response:any)=>{ // on success print message to screen
       this.message = response.message;
     })
   }

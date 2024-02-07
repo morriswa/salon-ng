@@ -6,7 +6,7 @@ import {
 
 import { Observable } from 'rxjs';
 import { CredentialService } from '../service/credential.service';
-import {SalonService} from "../service/salon.service";
+import {SalonClient} from "../service/salon-client.service";
 
 @Injectable()
 export class AddTokenInterceptor implements HttpInterceptor {
@@ -14,7 +14,7 @@ export class AddTokenInterceptor implements HttpInterceptor {
   constructor(private credentials: CredentialService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.startsWith(SalonService.SERVICE_URL)) {
+    if (req.url.startsWith(SalonClient.SERVICE_URL)) {
       const authReq = req.clone({
         headers: req.headers.set('Authorization', this.credentials.token)
       });

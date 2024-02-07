@@ -5,11 +5,11 @@ import {Observable, map, tap} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class SalonService {
+export class SalonClient {
 
 
   public static SERVICE_URL = '//127.0.0.1:8080';
-  private SERVICE_URL = SalonService.SERVICE_URL;
+  private SERVICE_URL = SalonClient.SERVICE_URL;
 
   constructor(private http: HttpClient) { }
 

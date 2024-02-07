@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CredentialService } from 'src/app/service/credential.service';
-import { SalonService } from 'src/app/service/salon.service';
+import { SalonClient } from 'src/app/service/salon-client.service';
 import {LoginService} from "../../service/login.service";
 
 @Component({
@@ -14,7 +14,7 @@ export class UserProfileComponent {
 
   profile$:Observable<any>;
 
-  constructor(private login: LoginService, private eecs447Client: SalonService, router: Router) {
+  constructor(private login: LoginService, private eecs447Client: SalonClient, router: Router) {
 
     console.log(`user is authenticated with username ${login.username}`)
 

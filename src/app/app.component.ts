@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { SalonService } from './service/salon.service';
 import { Router } from '@angular/router';
 import {LoginService} from "./service/login.service";
 
+
+/**
+ * Core application component loaded on every child page
+ * Provides login and routing capabilities to the user
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,18 +15,31 @@ import {LoginService} from "./service/login.service";
 })
 export class AppComponent {
 
-  title = 'salon-project-ng';
-  usernameForm: FormControl = new FormControl();
-  passwordForm:FormControl = new FormControl();
-  message?:string;
+  /**
+   * controls the message displayed on template during login, default is blank
+   */
   loginMessage?:string;
 
+  /**
+   * provides username form access and manipulation on login page
+   */
+  usernameForm: FormControl = new FormControl();
+
+  /**
+   * provides password form access and manipulation on login page
+   */
+  passwordForm:FormControl = new FormControl();
+
+
+  // component dependencies
   constructor(public loginService: LoginService,
-              private salonService: SalonService,
               private router: Router) { }
 
 
-  login() { // when the user clicks login...
+  /**
+   * logs in a user using credentials provided in login form
+   */
+  login(): void { // when the user clicks login...
     // grab username and password from angular forms
     let username = this.usernameForm.value;
     let password = this.passwordForm.value;
@@ -43,7 +60,10 @@ export class AppComponent {
     });
   }
 
-  logout() { // when user clicks logout
+  /**
+   * logs a user out of the application
+   */
+  logout(): void { // when user clicks logout
     // initiate logout via service
     this.loginService.logout();
     // navigate back to start

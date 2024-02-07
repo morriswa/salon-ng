@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {CredentialService} from "./credential.service";
-import {SalonService} from "./salon.service";
+import {SalonClient} from "./salon-client.service";
 import {catchError, map, of, pipe, tap, throwError} from "rxjs";
 import {USER_AUTHORITY} from "../type-declarations";
 
@@ -26,7 +26,7 @@ export class LoginService {
     return this.creds.username!;
   }
 
-  constructor(private creds: CredentialService, private salonService: SalonService) {
+  constructor(private creds: CredentialService, private salonService: SalonClient) {
     // if there are currently credentials cached, attempt login
     if (this.creds.ready) this.attemptLogin().subscribe();
   }

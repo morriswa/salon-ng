@@ -10,11 +10,13 @@ import { CommonModule } from '@angular/common';
 import { UserProfileComponent } from './component/user-profile/user-profile.component';
 import { EmployeeComponent } from './component/employee/employee.component';
 import { ClientComponent } from './component/client/client.component';
-import { SalonService } from './service/salon.service';
+import { SalonClient } from './service/salon-client.service';
+import {HomeComponent} from "./component/home/home.component";
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     UserProfileComponent,
     EmployeeComponent,
     ClientComponent
@@ -29,7 +31,7 @@ import { SalonService } from './service/salon.service';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true },
-    SalonService
+    SalonClient
   ],
   bootstrap: [AppComponent]
 })
