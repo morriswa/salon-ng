@@ -6,10 +6,8 @@ import {environment} from "../../environments/environment";
 
 /**
  * when passed into an RXJS pipe, this operator maps the full JSON response to the payload
- * this logs the service message to the console as well
  */
 const extractPayload: OperatorFunction<any, any> = map((res:any):any => {
-  console.log(res.message);
   return res.payload;
 });
 
@@ -43,4 +41,11 @@ export class SalonClient {
     return this.http.get(`${this.SERVICE_URL}/user`).pipe(extractPayload);
   }
 
+  updateUserProfile(params: any) {
+    return this.http.patch(`${this.SERVICE_URL}/user`, params);
+  }
+
+  createUserProfile(params: any) {
+    return this.http.post(`${this.SERVICE_URL}/user`, params);
+  }
 }

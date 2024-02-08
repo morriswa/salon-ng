@@ -1,6 +1,200 @@
 <p>user-profile works!</p>
 
-@if (profile$|async; as user) {
-    <h1>{{user.firstName}}</h1>
-    <h1>{{user.phoneNumber}}</h1>
+@if (loading) {
+  <h1>Loading</h1>
+} @else {
+
+  <h2>Account Information</h2>
+  <h3>Username: {{ account.username }}</h3>
+  <h3>Date created: {{ account.accountCreationDate }}</h3>
+  <h3>Permissions: {{ account.authorities }}</h3>
+
+  @if (userProfile) {
+    <h2>Contact Information</h2>
+    <h3>First name: {{ userProfile.firstName }}</h3>
+    <h3>Last name: {{ userProfile.lastName }}</h3>
+    <h3>Email: {{ userProfile.email }}</h3>
+    <h3>Phone: {{ userProfile.phoneNumber }}</h3>
+    <h3>Address: {{ userProfile.address }}</h3>
+    <h3>Contact Preference: {{ userProfile.contactPreference }}</h3>
+
+    <button (click)="this.isUpdatingContactInfo = !this.isUpdatingContactInfo">{{ !isUpdatingContactInfo? 'Update Info' : 'Cancel' }}</button>
+
+    @if (isUpdatingContactInfo) {
+
+      @for(error of updateFormErrors; track error) {
+        <br><h3>{{error}}</h3>
+      }
+
+      <br>
+
+      <p>Update first name: </p>
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="firstNameForm"
+        placeholder="Update your first name..."
+      >
+
+      <p>Update last name: </p>
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="lastNameForm"
+        placeholder="Update your last name..."
+      >
+
+      <p>Update email: </p>
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="emailForm"
+        placeholder="Update your email..."
+      >
+
+      <p>Update phone number: </p>
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="phoneNumberForm"
+        placeholder="Update your phone number..."
+      >
+
+      <p>Update address (line 1): </p>
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="addressLineOneForm"
+        placeholder="Update your address..."
+      >
+
+      <p>Update address (line 2): </p>
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="addressLineTwoForm"
+        placeholder="Update your address..."
+      >
+
+      <p>Update address (city): </p>
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="cityForm"
+        placeholder="Update your city..."
+      >
+
+      <p>Update address (state): </p>
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="stateForm"
+        placeholder="Update your state..."
+      >
+
+      <p>Update address (zip code): </p>
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="zipCodeForm"
+        placeholder="Update your zip code..."
+      >
+
+      <button (click)="updateContactInfo()">Confirm</button>
+
+    }
+
+  } @else {
+    <h2>Please enter your contact information!</h2>
+
+    @for(error of createFormErrors; track error) {
+      <br><h3>{{error}}</h3>
+    }
+
+    <br>
+
+    <p>Enter your first name: </p>
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="firstNameForm"
+      placeholder="first name..."
+    >
+
+    <p>Enter your last name: </p>
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="lastNameForm"
+      placeholder="last name..."
+    >
+
+    <p>Enter your email: </p>
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="emailForm"
+      placeholder="email..."
+    >
+
+    <p>Enter your phone number: </p>
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="phoneNumberForm"
+      placeholder="phone number..."
+    >
+
+    <p>Enter your address (line 1): </p>
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="addressLineOneForm"
+      placeholder="address..."
+    >
+
+    <p>Enter your address (line 2): </p>
+    <input
+      type="text"
+      class="form-control"
+      [formControl]="addressLineTwoForm"
+      placeholder="address..."
+    >
+
+    <p>Enter your address (city): </p>
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="cityForm"
+      placeholder="city..."
+    >
+
+    <p>Enter your address (state): </p>
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="stateForm"
+      placeholder="state..."
+    >
+
+    <p>Enter your address (zip code): </p>
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="zipCodeForm"
+      placeholder="zip code..."
+    >
+
+    <button (click)="createUserProfile()">Confirm</button>
+  }
+
 }
+

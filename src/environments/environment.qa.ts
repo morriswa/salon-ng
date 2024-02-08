@@ -2,6 +2,6 @@
 export const environment = {
   production: false,
   webService: {
-    url: '//api.salon.morriswa.org'
+    url: 'https://api.salon.morriswa.org'
   }
 };

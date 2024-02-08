@@ -9,11 +9,16 @@ import {USER_AUTHORITY} from "../type-declarations";
 })
 export class LoginService {
 
+  private _account?: any;
   private _authenticated: boolean = false;
   private _processing: boolean = false;
   private _authorities: USER_AUTHORITY[] = [];
 
   // defn necessary getters for private attributes
+  public get account(): any {
+    return this._account;
+  }
+
   public get processing(): boolean {
     return this._processing;
   }
@@ -41,7 +46,9 @@ export class LoginService {
           // set status as authenticated and not processing
           this._authenticated = true;
           this._processing = false;
-          this._authorities = res.authorities
+          this._authorities = res.authorities;
+          this._account = res;
+          this._account.accountCreationDate = new Date(this._account.accountCreationDate);
         }),
         catchError(() => { // if the user was unable to log in
           // set status as unauthenticated and not processing
