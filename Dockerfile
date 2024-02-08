@@ -8,4 +8,5 @@ RUN npm install
 RUN npm run build:prod
 #stage 2
 FROM --platform=x86-64 nginx:alpine
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=node /app/dist/salon-ng /usr/share/nginx/html
