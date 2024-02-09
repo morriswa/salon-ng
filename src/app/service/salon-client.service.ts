@@ -1,15 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {map, OperatorFunction} from 'rxjs';
+import {map} from 'rxjs';
 import {environment} from "../../environments/environment";
-
-
-/**
- * when passed into an RXJS pipe, this operator maps the full JSON response to the payload
- */
-const extractPayload: OperatorFunction<any, any> = map((res:any):any => {
-  return res.payload;
-});
 
 
 /**
@@ -27,18 +19,15 @@ export class SalonClient {
 
   healthCheck() {
     return this.http.get(`${this.SERVICE_URL}/health`)
-    .pipe(map((res:any)=>{
-      console.log(res.message);
-      return res.message;
-    }));
+    .pipe(map((res:any)=>res.message));
   }
 
   login() {
-    return this.http.get(`${this.SERVICE_URL}/login`).pipe(extractPayload);
+    return this.http.get(`${this.SERVICE_URL}/login`);
   }
 
   getUserProfile() {
-    return this.http.get(`${this.SERVICE_URL}/user`).pipe(extractPayload);
+    return this.http.get(`${this.SERVICE_URL}/user`);
   }
 
   updateUserProfile(params: any) {

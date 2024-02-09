@@ -6,7 +6,7 @@
 
   <h2>Account Information</h2>
   <h3>Username: {{ account.username }}</h3>
-  <h3>Date created: {{ account.accountCreationDate }}</h3>
+  <h3>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</h3>
   <h3>Permissions: {{ account.authorities }}</h3>
 
   @if (userProfile) {

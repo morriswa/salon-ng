@@ -100,7 +100,7 @@ export class UserProfileComponent {
         error: (err:any) => { // if errors were encountered during update profile
           this.updateFormErrors = []; // reset error messages
           // cache all server error messages and display them to the user
-          err.error.stack.map((each:any)=>this.updateFormErrors.push(each.message))
+          err.error.additionalInfo.map((each:any)=>this.updateFormErrors.push(each.message))
           this.loading = false; // and mark component as available
         }
       });
@@ -151,7 +151,7 @@ export class UserProfileComponent {
         error: (err:any) => { // if errors were encountered during profile creation
           this.createFormErrors = []; // reset error messages
           // cache all server error messages and display them to the user
-          err.error.stack.map((each:any)=>this.createFormErrors.push(each.message))
+          err.error.additionalInfo.map((each:any)=>this.createFormErrors.push(each.message))
           this.loading = false; // and mark component as available
         }
       });
