@@ -2,6 +2,7 @@
 @if (loginService.processing) {
   <h1>Loading</h1>
 } @else if (!loginService.authenticated) {
+  <div>
   <input
     type="text"
     class="form-control"
@@ -15,11 +16,13 @@
     class="form-control"
     [formControl]="passwordForm"
     required
-    placeholder="Enter your username..."
+    placeholder="Enter your password..."
   >
+  </div>
 
-  <button (click)="login()">login!</button>
-
+  <div class="login-button">
+  <button (click)="login()">Login</button>
+ </div>
   <h3>{{ loginMessage }}</h3>
 
 } @else {
