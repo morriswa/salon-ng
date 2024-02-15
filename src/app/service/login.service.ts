@@ -62,6 +62,9 @@ export class LoginService {
       );
   }
 
+  public refreshAccountCredentials = () => this.attemptLogin();
+
+
   public hasAuthority = (authority:USER_AUTHORITY) => this._authorities.includes(authority);
 
   public login(username: string, password: string) { // on log in

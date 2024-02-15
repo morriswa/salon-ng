@@ -20,7 +20,7 @@ export class HomeComponent {
 
 
   // component dependencies
-  constructor(public loginService: LoginService, private salonClient: SalonClient) { }
+  constructor(private salonClient: SalonClient) { }
 
 
   /**

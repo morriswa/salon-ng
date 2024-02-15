@@ -45,7 +45,7 @@ export class UserProfileComponent {
 
 
 
-  constructor(login: LoginService, private salonClient: SalonClient) {
+  constructor(private login: LoginService, private salonClient: SalonClient) {
     this.account = login.account;
     this.salonClient.getUserProfile().subscribe({
       next: res =>{
@@ -140,6 +140,8 @@ export class UserProfileComponent {
     // after response body has been created, call create user profile endpoint with constructed params
     this.salonClient.createUserProfile(params)
       // assuming no errors are encountered, immediately call get user profile endpoint to retrieve info
+      .pipe(switchMap(()=>this.login.refreshAccountCredentials()))
+      .pipe(switchMap(()=>this.account = this.login.account))
       .pipe(switchMap(()=>this.salonClient.getUserProfile()))
       .subscribe({
         next: (res:any) => { // if requests were successful

@@ -13,7 +13,9 @@ export class AddTokenInterceptor implements HttpInterceptor {
   constructor(private credentials: CredentialService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.startsWith(environment.webService.url)) {
+    if (req.url.startsWith(environment.webService.url)
+        &&!(req.url.endsWith("register")||req.url.endsWith('health'))) {
+
       const authReq = req.clone({
         headers: req.headers.set('Authorization', this.credentials.token)
       });

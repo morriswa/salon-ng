@@ -1,36 +1,15 @@
 
-@if (loginService.processing) {
-  <h1>Loading</h1>
-} @else if (!loginService.authenticated) {
-  <div>
-  <input
-    type="text"
-    class="form-control"
-    [formControl]="usernameForm"
-    required
-    placeholder="Enter your username..."
-  >
-
-  <input
-    type="password"
-    class="form-control"
-    [formControl]="passwordForm"
-    required
-    placeholder="Enter your password..."
-  >
-  </div>
-
-  <div class="login-button">
-  <button (click)="login()">Login</button>
- </div>
-  <h3>{{ loginMessage }}</h3>
-
-} @else {
+<div class="menu-buttons">
   <button [routerLink]="['']">Home</button>
-  <button *ngIf="loginService.hasAuthority('USER')" [routerLink]="['user']">Go to User Profile</button>
-  <button *ngIf="loginService.hasAuthority('EMPLOYEE')" [routerLink]="['employee']">Go to Employee Homepage</button>
-  <button *ngIf="loginService.hasAuthority('CLIENT')" [routerLink]="['client']">Go to Client Homepage</button>
-  <button (click)="logout()">Logout</button>
 
-  <router-outlet></router-outlet>
-}
+  @if (loginService.authenticated){
+    <button *ngIf="loginService.hasAuthority('USER')" [routerLink]="['user']">Go to User Profile</button>
+    <button *ngIf="loginService.hasAuthority('EMPLOYEE')" [routerLink]="['employee']">Go to Employee Homepage</button>
+    <button *ngIf="loginService.hasAuthority('CLIENT')" [routerLink]="['client']">Go to Client Homepage</button>
+    <button (click)="logout()">Logout</button>
+  } @else {
+    <button [routerLink]="['/login']">Login</button>
+  }
+</div>
+
+<router-outlet></router-outlet>

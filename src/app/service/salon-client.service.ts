@@ -22,6 +22,13 @@ export class SalonClient {
     .pipe(map((res:any)=>res.message));
   }
 
+  registerUser(username: string, password: string) {
+    return this.http.post(`${this.SERVICE_URL}/register`, {
+      username: username,
+      password: password
+    });
+  }
+
   login() {
     return this.http.get(`${this.SERVICE_URL}/login`);
   }

@@ -12,11 +12,15 @@ import { EmployeeComponent } from './component/employee/employee.component';
 import { ClientComponent } from './component/client/client.component';
 import { SalonClient } from './service/salon-client.service';
 import {HomeComponent} from "./component/home/home.component";
+import {RegisterUserComponent} from "./component/register-user/register-user.component";
+import {LoginComponent} from "./component/login/login.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    LoginComponent,
+    RegisterUserComponent,
     UserProfileComponent,
     EmployeeComponent,
     ClientComponent

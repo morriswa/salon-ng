@@ -1,0 +1,31 @@
+
+@if (loginService.processing) {
+  <h1>Loading</h1>
+} @else if (!loginService.authenticated) {
+  <div>
+    <input
+      type="text"
+      class="form-control"
+      [formControl]="usernameForm"
+      required
+      placeholder="Enter your username..."
+    >
+
+    <input
+      type="password"
+      class="form-control"
+      [formControl]="passwordForm"
+      required
+      placeholder="Enter your password..."
+    >
+  </div>
+
+  <div class="menu-buttons">
+
+    <button (click)="login()">Login</button>
+
+    <button [routerLink]="['/register']">Create Account</button>
+  </div>
+
+  <h3>{{ loginMessage }}</h3>
+}

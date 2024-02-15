@@ -1,0 +1,30 @@
+
+@if(!loading) {
+
+  @for(error of updateFormErrors; track error) {
+    <br><h3>{{error}}</h3>
+  }
+
+  <div>
+    <input
+      type="text"
+      class="form-control"
+      [formControl]="usernameForm"
+      required
+      placeholder="Enter a username..."
+    >
+
+    <input
+      type="password"
+      class="form-control"
+      [formControl]="passwordForm"
+      required
+      placeholder="Enter a password..."
+    >
+  </div>
+
+  <button (click)="registerUser()">Register!</button>
+
+  <button [routerLink]="['']">Cancel!</button>
+
+}
