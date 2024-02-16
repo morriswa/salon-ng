@@ -14,6 +14,7 @@ export class EmployeeComponent {
   constructor(router: Router, login: LoginService) {
     // if the user has the proper authorities, they may proceed
     if (!login.authenticated) router.navigate(['/login']);
+    if (!login.hasAuthority('EMPLOYEE')) router.navigate(['/'])
   }
 
 }

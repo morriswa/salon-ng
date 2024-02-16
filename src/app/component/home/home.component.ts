@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {LoginService} from "../../service/login.service";
 import {SalonClient} from "../../service/salon-client.service";
+import {Router} from "@angular/router";
 
 
 /**
@@ -20,7 +20,10 @@ export class HomeComponent {
 
 
   // component dependencies
-  constructor(private salonClient: SalonClient) { }
+  constructor(private salonClient: SalonClient, router: Router) {
+    // if the user got rerouted, make sure url segment is correct
+    router.navigate(['/'])
+  }
 
 
   /**

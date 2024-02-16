@@ -13,7 +13,7 @@ const routes: Routes = [
   { path:'user', component: UserProfileComponent },
   { path:'login', component: LoginComponent },
   { path:'register', component: RegisterUserComponent },
-  { path: '', component: HomeComponent, pathMatch: "full" }
+  { path: '**', component: HomeComponent, pathMatch: "full" }
 ];
 
 @NgModule({
