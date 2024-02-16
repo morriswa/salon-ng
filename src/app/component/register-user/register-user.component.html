@@ -6,6 +6,8 @@
   }
 
   <div>
+
+    <h2>Create a username</h2>
     <input
       type="text"
       class="form-control"
@@ -14,6 +16,9 @@
       placeholder="Enter a username..."
     >
 
+    <br>
+
+    <h2>Create a password</h2>
     <input
       type="password"
       class="form-control"
@@ -23,8 +28,10 @@
     >
   </div>
 
+  <br>
+
   <button (click)="registerUser()">Register!</button>
 
-  <button [routerLink]="['']">Cancel!</button>
+  <button [routerLink]="['/login']">Cancel!</button>
 
 }

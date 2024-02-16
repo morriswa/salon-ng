@@ -14,10 +14,18 @@ import {LoginService} from "./service/login.service";
 })
 export class AppComponent {
 
+  loading = true
 
   // component dependencies
   constructor(public loginService: LoginService,
-              private router: Router) { }
+              private router: Router) {
+    this.loginService.init().subscribe({
+      next: (isAuthenticated)=>{
+        console.log("Initialized login service with status " + (isAuthenticated? "authenticated" : "not authenticated"));
+        this.loading = false
+      },
+    });
+  }
 
   /**
    * logs a user out of the application

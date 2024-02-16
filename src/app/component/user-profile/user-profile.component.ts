@@ -3,6 +3,7 @@ import {switchMap} from 'rxjs';
 import { SalonClient } from 'src/app/service/salon-client.service';
 import {LoginService} from "../../service/login.service";
 import {FormControl, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-profile',
@@ -13,7 +14,7 @@ export class UserProfileComponent {
 
   loading: boolean = true;
 
-  account: any;
+  account?: any;
   userProfile?: any;
 
   updateFormErrors: string[] = [];
@@ -45,8 +46,9 @@ export class UserProfileComponent {
 
 
 
-  constructor(private login: LoginService, private salonClient: SalonClient) {
-    this.account = login.account;
+  constructor(router: Router, public login: LoginService, private salonClient: SalonClient) {
+    if (!login.authenticated) router.navigate(['/login']);
+    this.account = this.login.account;
     this.salonClient.getUserProfile().subscribe({
       next: res =>{
         this.userProfile = res;
@@ -139,12 +141,15 @@ export class UserProfileComponent {
 
     // after response body has been created, call create user profile endpoint with constructed params
     this.salonClient.createUserProfile(params)
-      // assuming no errors are encountered, immediately call get user profile endpoint to retrieve info
-      .pipe(switchMap(()=>this.login.refreshAccountCredentials()))
-      .pipe(switchMap(()=>this.account = this.login.account))
-      .pipe(switchMap(()=>this.salonClient.getUserProfile()))
+      .pipe(
+        // since this action will update a user's credentials, refresh the login cache
+        switchMap(()=>this.login.refreshAccountCredentials()),
+      // assuming no errors are encountered, call get user profile endpoint to retrieve updated info
+        switchMap(()=>this.salonClient.getUserProfile())
+      )
       .subscribe({
         next: (res:any) => { // if requests were successful
+          this.account = this.login.account; // get new login information
           this.createFormErrors = []; // reset error messages
           this.userProfile = res; // cache profile
           this.resetAllForms(); // reset profile forms

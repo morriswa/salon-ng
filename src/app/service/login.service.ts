@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {CredentialService} from "./credential.service";
 import {SalonClient} from "./salon-client.service";
-import {catchError, map, of, pipe, tap, throwError} from "rxjs";
+import {catchError, map, Observable, of, tap, throwError} from "rxjs";
 import {USER_AUTHORITY} from "../type-declarations";
 
 @Injectable({
@@ -24,16 +24,20 @@ export class LoginService {
   }
 
   public get authenticated(): boolean {
-    return this._authenticated;
+    return this._authenticated
   }
 
-  public get username(): string {
-    return this.creds.username!;
-  }
+  constructor(private creds: CredentialService, private salonService: SalonClient) { }
 
-  constructor(private creds: CredentialService, private salonService: SalonClient) {
+  /**
+   * observable which will return the current authentication status
+   */
+  init(): Observable<boolean> {
     // if there are currently credentials cached, attempt login
-    if (this.creds.ready) this.attemptLogin().subscribe();
+    if (this.creds.ready)
+      return this.attemptLogin().pipe(catchError(()=>of(false)),
+      map(()=>true));
+    return of(false);
   }
 
   private attemptLogin() {
@@ -57,15 +61,16 @@ export class LoginService {
           // and delete bad stored credentials
           this.creds.deleteStoredCredentials();
           // and throw a useful error
-          return throwError(()=>of("Authentication Failed"))
+          return throwError(()=>of("Authentication Failed"));
         })
       );
   }
 
   public refreshAccountCredentials = () => this.attemptLogin();
 
-
-  public hasAuthority = (authority:USER_AUTHORITY) => this._authorities.includes(authority);
+  public hasAuthority(authority:USER_AUTHORITY): boolean {
+    return this._authorities.includes(authority);
+  }
 
   public login(username: string, password: string) { // on log in
     // set status as processing during user authentication flow

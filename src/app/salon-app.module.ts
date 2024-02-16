@@ -14,6 +14,8 @@ import { SalonClient } from './service/salon-client.service';
 import {HomeComponent} from "./component/home/home.component";
 import {RegisterUserComponent} from "./component/register-user/register-user.component";
 import {LoginComponent} from "./component/login/login.component";
+import {LoginService} from "./service/login.service";
+import {CredentialService} from "./service/credential.service";
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import {LoginComponent} from "./component/login/login.component";
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true },
-    SalonClient
+    SalonClient,
+    LoginService,
+    CredentialService
   ],
   bootstrap: [AppComponent]
 })
