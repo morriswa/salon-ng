@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
  * Home page for the application
  */
 @Component({
-  selector: 'app-home',
+  selector: 'salon-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

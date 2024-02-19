@@ -8,7 +8,7 @@ import {LoginService} from "./service/login.service";
  * Provides login and routing capabilities to the user
  */
 @Component({
-  selector: 'app-root',
+  selector: 'salon-application',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

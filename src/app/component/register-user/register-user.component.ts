@@ -6,7 +6,7 @@ import {switchMap} from "rxjs";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-register-user',
+  selector: 'salon-register-user',
   templateUrl: './register-user.component.html',
   styleUrl: './register-user.component.scss'
 })

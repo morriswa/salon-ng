@@ -6,7 +6,7 @@ import {FormControl, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-user-profile',
+  selector: 'salon-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
 })
