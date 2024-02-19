@@ -1,2 +1,24 @@
 
-<p>employee works!</p>
+<h1>Hello {{ firstName$ | async }}!</h1>
+
+<br>
+<h2>What would you like to do today?</h2>
+
+<button
+  class="salon-btn-secondary-outline"
+  [routerLink]="['schedule']"
+  >View Schedule</button>
+
+<button
+  class="salon-btn-secondary-outline"
+  [routerLink]="['services']"
+  >Edit Services</button>
+
+<button
+  class="salon-btn-secondary-outline"
+  [routerLink]="['finance']"
+  >Access Finances</button>
+
+<div style="display: block; margin: 20px auto 0 auto;">
+  <router-outlet></router-outlet>
+</div>

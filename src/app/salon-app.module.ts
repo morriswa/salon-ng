@@ -16,6 +16,9 @@ import {RegisterUserComponent} from "./component/register-user/register-user.com
 import {LoginComponent} from "./component/login/login.component";
 import {LoginService} from "./service/login.service";
 import {CredentialService} from "./service/credential.service";
+import {ProvidedServiceComponent} from "./component/employee/provided-service/provided-service.component";
+import {EmployeeScheduleComponent} from "./component/employee/employee-schedule/employee-schedule.component";
+import {EmployeeFinanceComponent} from "./component/employee/employee-finance/employee-finance.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +28,9 @@ import {CredentialService} from "./service/credential.service";
     RegisterUserComponent,
     UserProfileComponent,
     EmployeeComponent,
+    ProvidedServiceComponent,
+    EmployeeScheduleComponent,
+    EmployeeFinanceComponent,
     ClientComponent
   ],
   imports: [

@@ -2,6 +2,7 @@
 
 
 $primary: #e12fc6;
+$secondary: #343434;
 
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
 @import "bootstrap/scss/bootstrap";
@@ -16,6 +17,35 @@ $primary: #e12fc6;
 .salon-btn-primary:hover {
   background-color: lighten($primary, 10%);
   color: white;
+}
+
+.salon-btn-primary-outline,
+.salon-btn-primary-outline:active,
+.salon-btn-primary-outline:visited,
+.salon-btn-primary-outline:focus{
+  @extend .btn;
+  background-color: $body-bg;
+  border-color: $primary;
+  color: $primary;
+  margin-right: 5px;
+}
+
+.salon-btn-primary-outline:hover {
+  background-color: $primary;
+  color: $body-bg;
+}
+
+.salon-btn-secondary-outline {
+  @extend .btn;
+  background-color: $body-bg;
+  border-color: $secondary;
+  color: $secondary;
+  margin-right: 5px;
+}
+
+.salon-btn-secondary-outline:hover {
+  background-color: $primary;
+  color: $body-bg;
 }
 
 

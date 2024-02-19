@@ -6,9 +6,17 @@ import { UserProfileComponent } from './component/user-profile/user-profile.comp
 import {HomeComponent} from "./component/home/home.component";
 import {RegisterUserComponent} from "./component/register-user/register-user.component";
 import {LoginComponent} from "./component/login/login.component";
+import {ProvidedServiceComponent} from "./component/employee/provided-service/provided-service.component";
+import {EmployeeScheduleComponent} from "./component/employee/employee-schedule/employee-schedule.component";
+import {EmployeeFinanceComponent} from "./component/employee/employee-finance/employee-finance.component";
 
 const routes: Routes = [
-  { path:'employee', component: EmployeeComponent },
+  { path:'employee', component: EmployeeComponent, children: [
+    { path:'services', component: ProvidedServiceComponent },
+    { path:'schedule', component: EmployeeScheduleComponent },
+    { path:'finance', component: EmployeeFinanceComponent },
+    { path: '**', pathMatch: "full", redirectTo: ""}
+  ] },
   { path:'client', component: ClientComponent },
   { path:'user', component: UserProfileComponent },
   { path:'login', component: LoginComponent },

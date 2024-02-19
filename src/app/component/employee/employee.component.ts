@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {LoginService} from "../../service/login.service";
 import {Router} from "@angular/router";
+import {SalonClient} from "../../service/salon-client.service";
+import {map, Observable} from "rxjs";
 
 @Component({
   selector: 'salon-employee',
@@ -9,12 +11,15 @@ import {Router} from "@angular/router";
 })
 export class EmployeeComponent {
 
+  firstName$: Observable<string>;
 
   // component dependencies
-  constructor(router: Router, login: LoginService) {
+  constructor(router: Router, public login: LoginService, private salonClient: SalonClient) {
     // if the user has the proper authorities, they may proceed
     if (!login.authenticated) router.navigate(['/login']);
-    if (!login.hasAuthority('EMPLOYEE')) router.navigate(['/'])
+    if (!login.hasAuthority('EMPLOYEE')) router.navigate(['/']);
+
+    this.firstName$ = this.salonClient.getUserProfile().pipe(map((res:any)=>res.firstName))
   }
 
 }

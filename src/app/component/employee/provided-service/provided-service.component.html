@@ -1,0 +1,64 @@
+
+@if (!loading) {
+
+  <h3>Your provided services: </h3>
+
+  <ul>
+    @for (service of services; track service.serviceId) {
+      <li>{{ service.name }} -- {{service.defaultLength }} min, ${{ service.defaultCost}}</li>
+    }
+  </ul>
+
+
+
+  @if (showCreateServiceMenu) {
+
+    @for (error of errors; track error) {
+      <h3 style="color: red">{{error}}</h3>
+    }
+
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        class="form-control"
+        [formControl]="serviceNameForm"
+      >
+      <label>Enter a name for your new service! </label>
+    </div>
+    <br>
+
+    <div class="form-floating">
+      <input
+        required
+        type="number"
+        class="form-control"
+        [formControl]="serviceCostForm"
+      >
+      <label>How much will your service cost? </label>
+    </div>
+    <br>
+
+    <div class="form-floating">
+      <input
+        required
+        type="number"
+        class="form-control"
+        [formControl]="serviceLengthForm"
+      >
+      <label>How many minutes will you need to complete your service? </label>
+    </div>
+    <br>
+
+    <button
+      (click)="createNewService()"
+      class="salon-btn-primary"
+    >Create Service!</button>
+
+  }
+
+  <button
+    (click)="this.showCreateServiceMenu = !this.showCreateServiceMenu"
+    class="salon-btn-primary-outline"
+  >{{ this.showCreateServiceMenu? "Cancel" : "Create a Service" }}</button>
+}

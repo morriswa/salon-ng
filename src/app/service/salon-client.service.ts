@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {map} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {environment} from "../../environments/environment";
 
 
@@ -43,5 +43,13 @@ export class SalonClient {
 
   createUserProfile(params: any) {
     return this.http.post(`${this.SERVICE_URL}/user`, params);
+  }
+
+  getProvidedServices(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.SERVICE_URL}/employee/service`)
+  }
+
+  createProvidedService(request: { defaultCost: string; defaultLength: number; name: string }) {
+    return this.http.post(`${this.SERVICE_URL}/employee/service`, request);
   }
 }
