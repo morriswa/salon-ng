@@ -1,15 +1,35 @@
 
 @if (!loading) {
   <div class="menu-buttons">
-    <button [routerLink]="['']">Home</button>
+    <button
+      class="btn salon-btn-primary"
+      [routerLink]="['']">Home</button>
 
     @if (loginService.authenticated){
-      <button *ngIf="loginService.hasAuthority('USER')" [routerLink]="['/user']">User Menu</button>
-      <button *ngIf="loginService.hasAuthority('CLIENT')" [routerLink]="['/client']">Client Portal</button>
-      <button *ngIf="loginService.hasAuthority('EMPLOYEE')" [routerLink]="['/employee']">Employee Portal</button>
-      <button (click)="logout()">Logout</button>
+      <button
+        class="btn salon-btn-primary"
+        *ngIf="loginService.hasAuthority('USER')"
+        [routerLink]="['/user']"
+      >User Menu</button>
+      <button
+        class="btn salon-btn-primary"
+        *ngIf="loginService.hasAuthority('CLIENT')"
+        [routerLink]="['/client']"
+      >Client Portal</button>
+      <button
+        class="btn salon-btn-primary"
+        *ngIf="loginService.hasAuthority('EMPLOYEE')"
+        [routerLink]="['/employee']"
+      >Employee Portal</button>
+      <button
+        class="btn salon-btn-primary"
+        (click)="logout()"
+      >Logout</button>
     } @else {
-      <button [routerLink]="['/login']">Login</button>
+      <button
+        class="btn salon-btn-primary"
+        [routerLink]="['/login']"
+      >Login</button>
     }
   </div>
 

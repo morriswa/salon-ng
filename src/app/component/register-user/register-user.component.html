@@ -30,8 +30,14 @@
 
   <br>
 
-  <button (click)="registerUser()">Register!</button>
+  <button
+    class="btn salon-btn-primary"
+    (click)="registerUser()"
+  >Register!</button>
 
-  <button [routerLink]="['/login']">Cancel!</button>
+  <button
+    class="btn salon-btn-primary"
+    [routerLink]="['/login']"
+  >Cancel!</button>
 
 }

@@ -4,104 +4,140 @@
 } @else {
 
   <h2>Account Information</h2>
-  <h3>Username: {{ account.username }}</h3>
-  <h3>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</h3>
-  <h3>Permissions: {{ account.authorities }}</h3>
+  <h4>Username: {{ account.username }}</h4>
+  <h4>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</h4>
+  <h4>Permissions: {{ account.authorities }}</h4>
+
+  <br>
 
   @if (userProfile) {
     <h2>Contact Information</h2>
-    <h3>First name: {{ userProfile.firstName }}</h3>
-    <h3>Last name: {{ userProfile.lastName }}</h3>
-    <h3>Email: {{ userProfile.email }}</h3>
-    <h3>Phone: {{ userProfile.phoneNumber }}</h3>
-    <h3>Address: {{ userProfile.address }}</h3>
-    <h3>Contact Preference: {{ userProfile.contactPreference }}</h3>
+    <h4>First name: {{ userProfile.firstName }}</h4>
+    <h4>Last name: {{ userProfile.lastName }}</h4>
+    <h4>Email: {{ userProfile.email }}</h4>
+    <h4>Phone: {{ userProfile.phoneNumber }}</h4>
+    <h4>Address: {{ userProfile.address }}</h4>
+    <h4>Contact Preference: {{ userProfile.contactPreference }}</h4>
 
-    <button (click)="this.isUpdatingContactInfo = !this.isUpdatingContactInfo">{{ !isUpdatingContactInfo? 'Update Info' : 'Cancel' }}</button>
+    <br>
 
     @if (isUpdatingContactInfo) {
 
       @for(error of updateFormErrors; track error) {
         <br><h3>{{error}}</h3>
       }
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="firstNameForm"
+          placeholder="Update your first name..."
+          >
+        <label>Update first name: </label>
+      </div>
 
       <br>
 
-      <p>Update first name: </p>
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="firstNameForm"
-        placeholder="Update your first name..."
-      >
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="lastNameForm"
+          placeholder="Update your last name..."
+        >
+        <label>Update last name: </label>
+      </div>
 
-      <p>Update last name: </p>
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="lastNameForm"
-        placeholder="Update your last name..."
-      >
+      <br>
 
-      <p>Update email: </p>
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="emailForm"
-        placeholder="Update your email..."
-      >
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="emailForm"
+          placeholder="Update your email..."
+        >
+        <label>Update email: </label>
+      </div>
+      <br>
 
-      <p>Update phone number: </p>
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="phoneNumberForm"
-        placeholder="Update your phone number..."
-      >
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="phoneNumberForm"
+          placeholder="Update your phone number..."
+        >
+        <label>Update phone number: </label>
+      </div>
+      <br>
 
-      <p>Update address (line 1): </p>
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="addressLineOneForm"
-        placeholder="Update your address..."
-      >
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="addressLineOneForm"
+          placeholder="Update your address..."
+        >
+        <label>Update address (line 1): </label>
+      </div>
+      <br>
 
-      <p>Update address (line 2): </p>
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="addressLineTwoForm"
-        placeholder="Update your address..."
-      >
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="addressLineTwoForm"
+          placeholder="Update your address..."
+        >
+        <label>Update address (line 2): </label>
+      </div>
+      <br>
 
-      <p>Update address (city): </p>
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="cityForm"
-        placeholder="Update your city..."
-      >
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="cityForm"
+          placeholder="Update your city..."
+        >
+        <label>Update address (city): </label>
 
-      <p>Update address (state): </p>
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="stateForm"
-        placeholder="Update your state..."
-      >
+      </div>
+      <br>
 
-      <p>Update address (zip code): </p>
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="zipCodeForm"
-        placeholder="Update your zip code..."
-      >
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="stateForm"
+          placeholder="Update your state..."
+        >
+        <label>Update address (state): </label>
+      </div>
+      <br>
 
-      <button (click)="updateContactInfo()">Confirm</button>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="zipCodeForm"
+          placeholder="Update your zip code..."
+        >
+        <label>Update address (zip code): </label>
+      </div>
+      <br>
+
+      <button
+        class="btn salon-btn-primary"
+        (click)="updateContactInfo()">Confirm</button>
 
     }
+
+    <button
+      class="btn salon-btn-primary"
+      (click)="this.isUpdatingContactInfo = !this.isUpdatingContactInfo"
+    >{{ !isUpdatingContactInfo? 'Update Info' : 'Cancel' }}</button>
 
   } @else {
     <h2>Please enter your contact information!</h2>

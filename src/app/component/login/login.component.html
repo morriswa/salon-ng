@@ -28,11 +28,17 @@
 
   </div>
 
-  <div class="menu-buttons">
+  <div>
 
-    <button (click)="login()">Login</button>
+    <button
+      class="btn salon-btn-primary"
+      (click)="login()"
+    >Login</button>
 
-    <button [routerLink]="['/register']">Create Account</button>
+    <button
+      class="btn salon-btn-primary"
+      [routerLink]="['/register']"
+    >Create Account</button>
   </div>
 
 }
