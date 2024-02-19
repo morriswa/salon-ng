@@ -1,8 +1,13 @@
 
 @if (!loading) {
 
-  <h3>Your provided services: </h3>
-
+  @if (services.length > 0) {
+    <h3>Your provided services: </h3>
+  }
+  @else {
+    <h3>You have not created any services!</h3>
+    <p>Click below to add a service and begin scheduling appointments!</p>
+  }
   <ul>
     @for (service of services; track service.serviceId) {
       <li>{{ service.name }} -- {{service.defaultLength }} min, ${{ service.defaultCost}}</li>
