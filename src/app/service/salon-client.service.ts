@@ -12,7 +12,7 @@ import {environment} from "../../environments/environment";
 })
 export class SalonClient {
 
-  private SERVICE_URL = environment.webService.url;
+  private SERVICE_URL = environment.webService.path;
 
   constructor(private http: HttpClient) { }
 

@@ -12,9 +12,18 @@ export class AddTokenInterceptor implements HttpInterceptor {
 
   constructor(private credentials: CredentialService) { }
 
+  isPublicRequest(url:string): boolean {
+    let publicRequest = false;
+
+    for (const requestMatcher of environment.webService.publicUrls)
+      publicRequest = publicRequest || (url === `${environment.webService.path}${requestMatcher}`);
+
+    return publicRequest;
+  }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.startsWith(environment.webService.url)
-        &&!(req.url.endsWith("register")||req.url.endsWith('health'))) {
+
+    if (req.url.startsWith(environment.webService.path)&&!this.isPublicRequest(req.url)) {
 
       const authReq = req.clone({
         headers: req.headers.set('Authorization', this.credentials.token)
