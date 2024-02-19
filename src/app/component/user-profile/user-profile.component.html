@@ -129,13 +129,13 @@
       <br>
 
       <button
-        class="btn salon-btn-primary"
+        class="salon-btn-primary"
         (click)="updateContactInfo()">Confirm</button>
 
     }
 
     <button
-      class="btn salon-btn-primary"
+      class="salon-btn-primary"
       (click)="this.isUpdatingContactInfo = !this.isUpdatingContactInfo"
     >{{ !isUpdatingContactInfo? 'Update Info' : 'Cancel' }}</button>
 
@@ -149,87 +149,117 @@
 
     <br>
 
-    <p>Enter your first name: </p>
-    <input
-      required
-      type="text"
-      class="form-control"
-      [formControl]="firstNameForm"
-      placeholder="first name..."
-    >
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        class="form-control"
+        [formControl]="firstNameForm"
+        placeholder="first name..."
+      >
+      <label>Enter your first name: </label>
+    </div>
+    <br>
 
-    <p>Enter your last name: </p>
-    <input
-      required
-      type="text"
-      class="form-control"
-      [formControl]="lastNameForm"
-      placeholder="last name..."
-    >
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        class="form-control"
+        [formControl]="lastNameForm"
+        placeholder="last name..."
+      >
+      <label>Enter your last name: </label>
+    </div>
+    <br>
 
-    <p>Enter your email: </p>
-    <input
-      required
-      type="text"
-      class="form-control"
-      [formControl]="emailForm"
-      placeholder="email..."
-    >
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        class="form-control"
+        [formControl]="emailForm"
+        placeholder="email..."
+      >
+      <label>Enter your email: </label>
+    </div>
+    <br>
 
-    <p>Enter your phone number: </p>
-    <input
-      required
-      type="text"
-      class="form-control"
-      [formControl]="phoneNumberForm"
-      placeholder="phone number..."
-    >
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        class="form-control"
+        [formControl]="phoneNumberForm"
+        placeholder="phone number..."
+      >
+      <label>Enter your phone number: </label>
+    </div>
+    <br>
 
-    <p>Enter your address (line 1): </p>
-    <input
-      required
-      type="text"
-      class="form-control"
-      [formControl]="addressLineOneForm"
-      placeholder="address..."
-    >
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        class="form-control"
+        [formControl]="addressLineOneForm"
+        placeholder="address..."
+      >
+      <label>Enter your address (line 1): </label>
+    </div>
+    <br>
 
-    <p>Enter your address (line 2): </p>
-    <input
-      type="text"
-      class="form-control"
-      [formControl]="addressLineTwoForm"
-      placeholder="address..."
-    >
+    <div class="form-floating">
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="addressLineTwoForm"
+        placeholder="address..."
+      >
+      <label>Enter your address (line 2): </label>
+    </div>
+    <br>
 
-    <p>Enter your address (city): </p>
-    <input
-      required
-      type="text"
-      class="form-control"
-      [formControl]="cityForm"
-      placeholder="city..."
-    >
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        class="form-control"
+        [formControl]="cityForm"
+        placeholder="city..."
+      >
+      <label>Enter your address (city): </label>
+    </div>
+    <br>
 
-    <p>Enter your address (state): </p>
-    <input
-      required
-      type="text"
-      class="form-control"
-      [formControl]="stateForm"
-      placeholder="state..."
-    >
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        class="form-control"
+        [formControl]="stateForm"
+        placeholder="state..."
+      >
+      <label>Enter your address (state): </label>
+    </div>
+    <br>
 
-    <p>Enter your address (zip code): </p>
-    <input
-      required
-      type="text"
-      class="form-control"
-      [formControl]="zipCodeForm"
-      placeholder="zip code..."
-    >
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        class="form-control"
+        [formControl]="zipCodeForm"
+        placeholder="zip code..."
+      >
+      <label>Enter your address (zip code): </label>
+    </div>
+    <br>
 
-    <button (click)="createUserProfile()">Confirm</button>
+    <button
+      class="salon-btn-primary"
+      (click)="createUserProfile()"
+    >Confirm</button>
   }
 
 }

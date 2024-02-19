@@ -2,32 +2,32 @@
 @if (!loading) {
   <div class="menu-buttons">
     <button
-      class="btn salon-btn-primary"
+      class="salon-btn-primary"
       [routerLink]="['']">Home</button>
 
     @if (loginService.authenticated){
       <button
-        class="btn salon-btn-primary"
+        class="salon-btn-primary"
         *ngIf="loginService.hasAuthority('USER')"
         [routerLink]="['/user']"
       >User Menu</button>
       <button
-        class="btn salon-btn-primary"
+        class="salon-btn-primary"
         *ngIf="loginService.hasAuthority('CLIENT')"
         [routerLink]="['/client']"
       >Client Portal</button>
       <button
-        class="btn salon-btn-primary"
+        class="salon-btn-primary"
         *ngIf="loginService.hasAuthority('EMPLOYEE')"
         [routerLink]="['/employee']"
       >Employee Portal</button>
       <button
-        class="btn salon-btn-primary"
+        class="salon-btn-primary"
         (click)="logout()"
       >Logout</button>
     } @else {
       <button
-        class="btn salon-btn-primary"
+        class="salon-btn-primary"
         [routerLink]="['/login']"
       >Login</button>
     }
