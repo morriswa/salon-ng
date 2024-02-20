@@ -12,14 +12,13 @@ import {Router} from "@angular/router";
 })
 export class RegisterUserComponent {
 
+  loading: boolean = false;
+
+  registerUserErrors: any[] = [];
+
   usernameForm: FormControl = new FormControl();
 
   passwordForm: FormControl = new FormControl();
-
-  updateFormErrors: any[] = [];
-
-  loading: boolean = false;
-
 
 
   constructor(private router: Router, private salonClient: SalonClient, private login: LoginService) { }
@@ -35,16 +34,16 @@ export class RegisterUserComponent {
     .pipe(switchMap(()=>this.login.login(username, password)))
     .subscribe({
       next: () => { // if requests were successful
-        this.updateFormErrors = []; // reset error messages
+        this.registerUserErrors = []; // reset error messages
         this.usernameForm.reset(); // reset profile forms
         this.passwordForm.reset(); // reset profile forms
         this.router.navigate(['/user']);
         this.loading = false;
       },
       error: (err:any) => { // if errors were encountered during profile creation
-        this.updateFormErrors = []; // reset error messages
+        this.registerUserErrors = []; // reset error messages
         // cache all server error messages and display them to the user
-        err.error.additionalInfo.map((each:any)=>this.updateFormErrors.push(each.message))
+        err.error.additionalInfo.map((each:any)=>this.registerUserErrors.push(each.message))
         this.loading = false; // and mark component as available
       }
     });

@@ -1,211 +1,82 @@
 
-@if (loading) {
-  <h1>Loading</h1>
-} @else {
 
-  <h2>Account Information</h2>
-  <h4>Username: {{ account.username }}</h4>
-  <h4>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</h4>
-  <h4>Permissions: {{ account.authorities }}</h4>
+<h2>Account Information</h2>
+<h4>Username: {{ account.username }}</h4>
+<h4>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</h4>
+<h4>Permissions: {{ account.authorities }}</h4>
+
+<br>
+
+@if (userProfile) {
+  <h2>Contact Information</h2>
+  <h4>First name: {{ userProfile.firstName }}</h4>
+  <h4>Last name: {{ userProfile.lastName }}</h4>
+  <h4>Email: {{ userProfile.email }}</h4>
+  <h4>Phone: {{ userProfile.phoneNumber }}</h4>
+  <h4>Address: {{ userProfile.address }}</h4>
+  <h4>Contact Preference: {{ userProfile.contactPreference }}</h4>
 
   <br>
 
-  @if (userProfile) {
-    <h2>Contact Information</h2>
-    <h4>First name: {{ userProfile.firstName }}</h4>
-    <h4>Last name: {{ userProfile.lastName }}</h4>
-    <h4>Email: {{ userProfile.email }}</h4>
-    <h4>Phone: {{ userProfile.phoneNumber }}</h4>
-    <h4>Address: {{ userProfile.address }}</h4>
-    <h4>Contact Preference: {{ userProfile.contactPreference }}</h4>
+  @if (isUpdatingContactInfo) {
 
-    <br>
-
-    @if (isUpdatingContactInfo) {
-
-      @for(error of updateFormErrors; track error) {
-        <br><h3>{{error}}</h3>
-      }
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="firstNameForm"
-          placeholder="Update your first name..."
-          >
-        <label>Update first name: </label>
-      </div>
-
-      <br>
-
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="lastNameForm"
-          placeholder="Update your last name..."
-        >
-        <label>Update last name: </label>
-      </div>
-
-      <br>
-
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="emailForm"
-          placeholder="Update your email..."
-        >
-        <label>Update email: </label>
-      </div>
-      <br>
-
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="phoneNumberForm"
-          placeholder="Update your phone number..."
-        >
-        <label>Update phone number: </label>
-      </div>
-      <br>
-
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="addressLineOneForm"
-          placeholder="Update your address..."
-        >
-        <label>Update address (line 1): </label>
-      </div>
-      <br>
-
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="addressLineTwoForm"
-          placeholder="Update your address..."
-        >
-        <label>Update address (line 2): </label>
-      </div>
-      <br>
-
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="cityForm"
-          placeholder="Update your city..."
-        >
-        <label>Update address (city): </label>
-
-      </div>
-      <br>
-
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="stateForm"
-          placeholder="Update your state..."
-        >
-        <label>Update address (state): </label>
-      </div>
-      <br>
-
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="zipCodeForm"
-          placeholder="Update your zip code..."
-        >
-        <label>Update address (zip code): </label>
-      </div>
-      <br>
-
-      <button
-        class="salon-btn-primary"
-        (click)="updateContactInfo()">Confirm</button>
-
-    }
-
-    <button
-      class="salon-btn-primary"
-      (click)="this.isUpdatingContactInfo = !this.isUpdatingContactInfo"
-    >{{ !isUpdatingContactInfo? 'Update Info' : 'Cancel' }}</button>
-
-  } @else {
-    <h2>Please enter your contact information!</h2>
-    <p><i>After entering your contact information, you should gain access to the client portal</i></p>
-
-    @for(error of createFormErrors; track error) {
+    @for(error of updateFormErrors; track error) {
       <br><h3>{{error}}</h3>
     }
-
-    <br>
-
     <div class="form-floating">
       <input
-        required
         type="text"
         class="form-control"
         [formControl]="firstNameForm"
-        placeholder="first name..."
-      >
-      <label>Enter your first name: </label>
+        placeholder="Update your first name..."
+        >
+      <label>Update first name: </label>
     </div>
+
     <br>
 
     <div class="form-floating">
       <input
-        required
         type="text"
         class="form-control"
         [formControl]="lastNameForm"
-        placeholder="last name..."
+        placeholder="Update your last name..."
       >
-      <label>Enter your last name: </label>
+      <label>Update last name: </label>
     </div>
+
     <br>
 
     <div class="form-floating">
       <input
-        required
         type="text"
         class="form-control"
         [formControl]="emailForm"
-        placeholder="email..."
+        placeholder="Update your email..."
       >
-      <label>Enter your email: </label>
+      <label>Update email: </label>
     </div>
     <br>
 
     <div class="form-floating">
       <input
-        required
         type="text"
         class="form-control"
         [formControl]="phoneNumberForm"
-        placeholder="phone number..."
+        placeholder="Update your phone number..."
       >
-      <label>Enter your phone number: </label>
+      <label>Update phone number: </label>
     </div>
     <br>
 
     <div class="form-floating">
       <input
-        required
         type="text"
         class="form-control"
         [formControl]="addressLineOneForm"
-        placeholder="address..."
+        placeholder="Update your address..."
       >
-      <label>Enter your address (line 1): </label>
+      <label>Update address (line 1): </label>
     </div>
     <br>
 
@@ -214,53 +85,178 @@
         type="text"
         class="form-control"
         [formControl]="addressLineTwoForm"
-        placeholder="address..."
+        placeholder="Update your address..."
       >
-      <label>Enter your address (line 2): </label>
+      <label>Update address (line 2): </label>
     </div>
     <br>
 
     <div class="form-floating">
       <input
-        required
         type="text"
         class="form-control"
         [formControl]="cityForm"
-        placeholder="city..."
+        placeholder="Update your city..."
       >
-      <label>Enter your address (city): </label>
+      <label>Update address (city): </label>
+
     </div>
     <br>
 
     <div class="form-floating">
       <input
-        required
         type="text"
         class="form-control"
         [formControl]="stateForm"
-        placeholder="state..."
+        placeholder="Update your state..."
       >
-      <label>Enter your address (state): </label>
+      <label>Update address (state): </label>
     </div>
     <br>
 
     <div class="form-floating">
       <input
-        required
         type="text"
         class="form-control"
         [formControl]="zipCodeForm"
-        placeholder="zip code..."
+        placeholder="Update your zip code..."
       >
-      <label>Enter your address (zip code): </label>
+      <label>Update address (zip code): </label>
     </div>
     <br>
 
     <button
       class="salon-btn-primary"
-      (click)="createUserProfile()"
-    >Confirm</button>
+      (click)="updateContactInfo()">Confirm</button>
+
   }
 
+  <button
+    class="salon-btn-primary"
+    (click)="this.isUpdatingContactInfo = !this.isUpdatingContactInfo"
+  >{{ !isUpdatingContactInfo? 'Update Info' : 'Cancel' }}</button>
+
+} @else if (!loading) {
+  <h2>Please enter your contact information!</h2>
+  <p><i>After entering your contact information, you should gain access to the client portal</i></p>
+
+  @for(error of createFormErrors; track error) {
+    <br><h3>{{error}}</h3>
+  }
+
+  <br>
+
+  <div class="form-floating">
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="firstNameForm"
+      placeholder="first name..."
+    >
+    <label>Enter your first name: </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="lastNameForm"
+      placeholder="last name..."
+    >
+    <label>Enter your last name: </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="emailForm"
+      placeholder="email..."
+    >
+    <label>Enter your email: </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="phoneNumberForm"
+      placeholder="phone number..."
+    >
+    <label>Enter your phone number: </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="addressLineOneForm"
+      placeholder="address..."
+    >
+    <label>Enter your address (line 1): </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      type="text"
+      class="form-control"
+      [formControl]="addressLineTwoForm"
+      placeholder="address..."
+    >
+    <label>Enter your address (line 2): </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="cityForm"
+      placeholder="city..."
+    >
+    <label>Enter your address (city): </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="stateForm"
+      placeholder="state..."
+    >
+    <label>Enter your address (state): </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="zipCodeForm"
+      placeholder="zip code..."
+    >
+    <label>Enter your address (zip code): </label>
+  </div>
+  <br>
+
+  <button
+    class="salon-btn-primary"
+    (click)="createUserProfile()"
+  >Confirm</button>
 }
+
 

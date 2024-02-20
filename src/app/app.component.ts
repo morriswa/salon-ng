@@ -34,6 +34,6 @@ export class AppComponent {
     // initiate logout via service
     this.loginService.logout();
     // navigate back to start
-    this.router.navigate([''])
+    this.router.navigate(['/'])
   }
 }

@@ -2,6 +2,8 @@ import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {map, Observable} from 'rxjs';
 import {environment} from "../../environments/environment";
+import {UserAccount} from "../interface/user-account.interface";
+import {UserProfile} from "../interface/user-profile.interface";
 
 
 /**
@@ -29,12 +31,37 @@ export class SalonClient {
     });
   }
 
-  login() {
-    return this.http.get(`${this.SERVICE_URL}/login`);
+  login(): Observable<UserAccount> {
+    return this.http.get(`${this.SERVICE_URL}/login`)
+      .pipe(map((res:any)=>{
+        // maps JSON response to typescript type
+        const account: UserAccount = {
+          userId: res.userId,
+          username: res.username,
+          accountCreationDate: new Date(res.accountCreationDate),
+          authorities: res.authorities
+        }
+
+        return account;
+      }));
   }
 
-  getUserProfile() {
-    return this.http.get(`${this.SERVICE_URL}/user`);
+  getUserProfile(): Observable<UserProfile> {
+    return this.http.get(`${this.SERVICE_URL}/user`).pipe(map((res:any)=>{
+      const userProfile: UserProfile = {
+        userId: res.userId,
+        username: res.username,
+        accountCreationDate: new Date(res.accountCreationDate),
+        firstName: res.firstName,
+        lastName: res.lastName,
+        address: res.address,
+        phoneNumber: res.phoneNumber,
+        email: res.email,
+        contactPreference: res.contactPreference
+      }
+
+      return userProfile;
+    }));
   }
 
   updateUserProfile(params: any) {

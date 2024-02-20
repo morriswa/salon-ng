@@ -40,14 +40,13 @@ export class LoginComponent {
     let password = this.passwordForm.value;
     // and begin login attempt
     this.loginService.login(username, password)
-      .subscribe({
-        next: (res:any) => { // on successful authentication reset the forms
-          console.log(res)
+      .subscribe((authenticationSuccessful:boolean) => {
+        if (authenticationSuccessful) { // on successful authentication reset the forms
           this.usernameForm.reset();
           this.passwordForm.reset();
+          // and reroute to user-profile page
           this.router.navigate(['/user'])
-        },
-        error: () => { // on authentication failure...
+        } else { // on authentication failure...
           // provided a helpful message
           this.loginMessage = "Could not authenticate with provided credentials!";
           // and reset the password form

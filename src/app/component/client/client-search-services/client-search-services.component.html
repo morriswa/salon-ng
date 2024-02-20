@@ -16,5 +16,9 @@
     [routerLink]="['/client','service',service.serviceId]">{{ service.name }}</h2>
   <p>With {{ service.employee.firstName }} {{service.employee.lastName }}</p>
 } @empty {
-  <h1>No results found!</h1>
+  @if (searchServiceForm.value) {
+    <h1>No results found!</h1>
+  } @else {
+    <h2>Start typing to view available services...</h2>
+  }
 }

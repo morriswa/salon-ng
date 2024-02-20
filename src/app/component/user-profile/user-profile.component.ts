@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import {switchMap} from 'rxjs';
+import {of, switchMap} from 'rxjs';
 import { SalonClient } from 'src/app/service/salon-client.service';
 import {LoginService} from "../../service/login.service";
 import {FormControl, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {UserAccount} from "../../interface/user-account.interface";
+import {UserProfile} from "../../interface/user-profile.interface";
 
 @Component({
   selector: 'salon-user-profile',
@@ -13,9 +15,10 @@ import {Router} from "@angular/router";
 export class UserProfileComponent {
 
   loading: boolean = true;
+  isUpdatingContactInfo: boolean = false;
 
-  account?: any;
-  userProfile?: any;
+  account: UserAccount;
+  userProfile?: UserProfile;
 
   updateFormErrors: string[] = [];
   createFormErrors: string[] = [];
@@ -42,11 +45,10 @@ export class UserProfileComponent {
     Validators.maxLength(10),
     Validators.pattern("^[0-9-]*$")
   ]);
-  isUpdatingContactInfo: boolean = false;
 
 
 
-  constructor(router: Router, public login: LoginService, private salonClient: SalonClient) {
+  constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated) router.navigate(['/login']);
     this.account = this.login.account;
     this.salonClient.getUserProfile().subscribe({
@@ -143,9 +145,17 @@ export class UserProfileComponent {
     this.salonClient.createUserProfile(params)
       .pipe(
         // since this action will update a user's credentials, refresh the login cache
-        switchMap(()=>this.login.refreshAccountCredentials()),
-      // assuming no errors are encountered, call get user profile endpoint to retrieve updated info
-        switchMap(()=>this.salonClient.getUserProfile())
+        switchMap(()=>this.login.init()),
+        switchMap((authenticationSuccessful: boolean)=>{
+          // assuming no errors are encountered, call get user profile endpoint to retrieve updated info
+          if (authenticationSuccessful) return this.salonClient.getUserProfile();
+          // if the user could not be authenticated, reset
+          else {
+            this.login.logout();
+            this.router.navigate(['/']);
+            return of();
+          }
+        })
       )
       .subscribe({
         next: (res:any) => { // if requests were successful
