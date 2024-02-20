@@ -22,6 +22,9 @@ import {EmployeeFinanceComponent} from "./component/employee/employee-finance/em
 import {
   ClientSearchServicesComponent
 } from "./component/client/client-search-services/client-search-services.component";
+import {
+  ClientServiceAndBookingComponent
+} from "./component/client/client-service-and-booking/client-service-and-booking.component";
 
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ import {
     EmployeeFinanceComponent,
     // Client Components
     ClientComponent,
-    ClientSearchServicesComponent
+    ClientSearchServicesComponent,
+    ClientServiceAndBookingComponent
   ],
   imports: [
     CommonModule,

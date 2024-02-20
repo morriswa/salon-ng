@@ -12,6 +12,9 @@ import {EmployeeFinanceComponent} from "./component/employee/employee-finance/em
 import {
   ClientSearchServicesComponent
 } from "./component/client/client-search-services/client-search-services.component";
+import {
+  ClientServiceAndBookingComponent
+} from "./component/client/client-service-and-booking/client-service-and-booking.component";
 
 const routes: Routes = [
   { path:'employee', component: EmployeeComponent, children: [
@@ -22,6 +25,7 @@ const routes: Routes = [
   ] },
   { path:'client', component: ClientComponent, children: [
       { path:'services', component: ClientSearchServicesComponent },
+      { path:'service/:serviceId', component: ClientServiceAndBookingComponent },
       { path: '**', pathMatch: "full", redirectTo: ""}
   ] },
   { path:'user', component: UserProfileComponent },

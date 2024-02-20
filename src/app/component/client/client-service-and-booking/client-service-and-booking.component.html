@@ -1,0 +1,12 @@
+
+@if (!serviceInfo) {
+  <h1>Retrieving service info...</h1>
+} @else {
+  <h3>{{ serviceInfo.name }}, provided by {{ serviceInfo.employee.firstName }} {{ serviceInfo.employee.lastName }}</h3>
+  <h3>${{ serviceInfo.cost }} for {{ serviceInfo.length }} min.</h3>
+  <p>Images and additional content will go here. Thinking employee bio/terms? Not sure yet :)</p>
+
+  <br>
+
+  <p>This is where clients will book their appointments</p>
+}

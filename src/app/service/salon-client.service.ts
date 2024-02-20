@@ -56,4 +56,8 @@ export class SalonClient {
   searchAvailableServices(searchText: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.SERVICE_URL}/client/services?searchText=${searchText}`);
   }
+
+  getProvidedServiceDetailsForClient(serviceId: number) {
+    return this.http.get<any>(`${this.SERVICE_URL}/client/service/${serviceId}`);
+  }
 }
