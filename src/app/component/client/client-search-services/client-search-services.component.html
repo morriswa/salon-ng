@@ -1,0 +1,18 @@
+
+<input
+  required
+  type="text"
+  class="form-control"
+  [formControl]="searchServiceForm"
+  placeholder="Search for services..."
+  (keyup)="searchAvailableServices($event)"
+  >
+
+<br>
+
+@for (service of availableServiceSearchResults; track service.serviceId) {
+  <h2 class="search-result-links">{{ service.name }}</h2>
+  <p>With {{ service.employee.firstName }} {{service.employee.lastName }}</p>
+} @empty {
+  <h1>No results found!</h1>
+}

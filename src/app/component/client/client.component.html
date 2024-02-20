@@ -1,3 +1,12 @@
 <h1>client portal works!</h1>
 <h2>This page will contain all client facing actions</h2>
 <p><i>Users should only be able to access this functionality AFTER providing their contact information...</i></p>
+
+<button
+  class="salon-btn-secondary-outline"
+  [routerLink]="['services']"
+>Search for Services</button>
+
+<div style="display: block; margin: 20px auto 0 auto;">
+  <router-outlet></router-outlet>
+</div>

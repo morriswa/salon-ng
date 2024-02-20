@@ -52,4 +52,8 @@ export class SalonClient {
   createProvidedService(request: { defaultCost: string; defaultLength: number; name: string }) {
     return this.http.post(`${this.SERVICE_URL}/employee/service`, request);
   }
+
+  searchAvailableServices(searchText: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.SERVICE_URL}/client/services?searchText=${searchText}`);
+  }
 }

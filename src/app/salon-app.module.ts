@@ -19,6 +19,9 @@ import {CredentialService} from "./service/credential.service";
 import {ProvidedServiceComponent} from "./component/employee/provided-service/provided-service.component";
 import {EmployeeScheduleComponent} from "./component/employee/employee-schedule/employee-schedule.component";
 import {EmployeeFinanceComponent} from "./component/employee/employee-finance/employee-finance.component";
+import {
+  ClientSearchServicesComponent
+} from "./component/client/client-search-services/client-search-services.component";
 
 @NgModule({
   declarations: [
@@ -31,7 +34,9 @@ import {EmployeeFinanceComponent} from "./component/employee/employee-finance/em
     ProvidedServiceComponent,
     EmployeeScheduleComponent,
     EmployeeFinanceComponent,
-    ClientComponent
+    // Client Components
+    ClientComponent,
+    ClientSearchServicesComponent
   ],
   imports: [
     CommonModule,
