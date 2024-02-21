@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {BehaviorSubject, switchMap} from "rxjs";
+import {BehaviorSubject, Subject, switchMap} from "rxjs";
 import {SalonClient} from "../../../service/salon-client.service";
 import {FormControl} from "@angular/forms";
 
@@ -15,7 +15,7 @@ export class ProvidedServiceComponent {
   showCreateServiceMenu$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 
-  providedService$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  providedServices$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[]|undefined>(undefined);
 
 
   errors: string[] = [];
@@ -26,8 +26,8 @@ export class ProvidedServiceComponent {
   constructor(private salonClient: SalonClient) {
    salonClient.getProvidedServices()
     .subscribe(res=>{
-      this.providedService$.next(res);
       this.processingCreateService$.next(false);
+      this.providedServices$.next(res);
     });
   }
 
@@ -50,7 +50,7 @@ export class ProvidedServiceComponent {
     .subscribe({
       next: (res:any) => { // if requests were successful
         this.errors = []; // reset error messages
-        this.providedService$.next(res); // cache profile
+        this.providedServices$.next(res); // cache profile
         this.serviceNameForm.reset();
         this.serviceLengthForm.reset();
         this.serviceCostForm.reset();

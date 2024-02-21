@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {SalonClient} from "../../../service/salon-client.service";
-import {Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'salon-client-service-and-booking',
@@ -11,7 +11,7 @@ import {Subject} from "rxjs";
 export class ClientServiceAndBookingComponent {
 
   serviceId: number;
-  serviceInfo$: Subject<any> = new Subject<any>();
+  serviceInfo$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
 
   constructor(active: ActivatedRoute, private salonClient: SalonClient, router: Router) {
     this.serviceId = active.snapshot.params['serviceId'];
