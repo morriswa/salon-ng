@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {SalonClient} from "../../service/salon-client.service";
 import {LoginService} from "../../service/login.service";
-import {switchMap} from "rxjs";
+import {BehaviorSubject, switchMap} from "rxjs";
 import {Router} from "@angular/router";
 
 @Component({
@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 })
 export class RegisterUserComponent {
 
-  loading: boolean = false;
+  processingRegistration$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   registerUserErrors: any[] = [];
 
@@ -27,7 +27,7 @@ export class RegisterUserComponent {
 
 
   registerUser() {
-    this.loading = true;
+    this.processingRegistration$.next(true);
 
     let username = this.usernameForm.value;
     let password = this.passwordForm.value;
@@ -40,13 +40,13 @@ export class RegisterUserComponent {
         this.usernameForm.reset(); // reset profile forms
         this.passwordForm.reset(); // reset profile forms
         this.router.navigate(['/user']);
-        this.loading = false;
+        this.processingRegistration$.next(false);
       },
       error: (err:any) => { // if errors were encountered during profile creation
         this.registerUserErrors = []; // reset error messages
         // cache all server error messages and display them to the user
         err.error.additionalInfo.map((each:any)=>this.registerUserErrors.push(each.message))
-        this.loading = false; // and mark component as available
+        this.processingRegistration$.next(false); // and mark component as available
       }
     });
   }

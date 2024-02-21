@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {SalonClient} from "../../service/salon-client.service";
 import {Router} from "@angular/router";
+import {BehaviorSubject} from "rxjs";
 
 
 /**
@@ -16,7 +17,7 @@ export class HomeComponent {
   /**
    * controls template message displayed when service is accessed
    */
-  message?: string;
+  message$: BehaviorSubject<string> = new BehaviorSubject<string>("");
 
 
   // component dependencies
@@ -33,7 +34,7 @@ export class HomeComponent {
     // call web service's health check endpoint using salon client
     this.salonClient.healthCheck()
     .subscribe((response:string)=>{ // on success print message to screen
-      this.message = response;
+      this.message$.next(response);
     })
   }
 

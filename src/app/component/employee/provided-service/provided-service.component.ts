@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Observable, switchMap} from "rxjs";
+import {BehaviorSubject, switchMap} from "rxjs";
 import {SalonClient} from "../../../service/salon-client.service";
 import {FormControl} from "@angular/forms";
 
@@ -10,25 +10,30 @@ import {FormControl} from "@angular/forms";
 })
 export class ProvidedServiceComponent {
 
-  loading = true;
+  processingCreateService$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+  showCreateServiceMenu$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+
+  providedService$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+
+
   errors: string[] = [];
-  showCreateServiceMenu: boolean = false;
   serviceNameForm: FormControl = new FormControl();
   serviceCostForm: FormControl = new FormControl();
   serviceLengthForm: FormControl = new FormControl();
-  services: any;
 
   constructor(private salonClient: SalonClient) {
    salonClient.getProvidedServices()
     .subscribe(res=>{
-      this.services = res;
-      this.loading = false;
+      this.providedService$.next(res);
+      this.processingCreateService$.next(false);
     });
   }
 
   createNewService() {
 
-    this.loading = true;
+    this.processingCreateService$.next(true);
 
     let serviceName = this.serviceNameForm.value;
     let serviceCost:string = this.serviceCostForm.value;
@@ -37,7 +42,7 @@ export class ProvidedServiceComponent {
     let request = {
       name: serviceName,
       defaultCost: serviceCost,
-      defaultLength: serviceLength / 15
+      defaultLength: Math.ceil(serviceLength / 15)
     };
 
     this.salonClient.createProvidedService(request)
@@ -45,18 +50,18 @@ export class ProvidedServiceComponent {
     .subscribe({
       next: (res:any) => { // if requests were successful
         this.errors = []; // reset error messages
-        this.services = res; // cache profile
+        this.providedService$.next(res); // cache profile
         this.serviceNameForm.reset();
         this.serviceLengthForm.reset();
         this.serviceCostForm.reset();
-        this.showCreateServiceMenu = false;
-        this.loading = false; // and mark component as available
+        this.showCreateServiceMenu$.next(false);
+        this.processingCreateService$.next(false); // and mark component as available
       },
       error: (err:any) => { // if errors were encountered during profile creation
         this.errors = []; // reset error messages
         // cache all server error messages and display them to the user
         err.error.additionalInfo.map((each:any)=>this.errors.push(each.message))
-        this.loading = false; // and mark component as available
+        this.processingCreateService$.next(false); // and mark component as available
       }
     });
   }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {SalonClient} from "../../../service/salon-client.service";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'salon-client-service-and-booking',
@@ -9,9 +10,8 @@ import {SalonClient} from "../../../service/salon-client.service";
 })
 export class ClientServiceAndBookingComponent {
 
-
   serviceId: number;
-  serviceInfo?: any;
+  serviceInfo$: Subject<any> = new Subject<any>();
 
   constructor(active: ActivatedRoute, private salonClient: SalonClient, router: Router) {
     this.serviceId = active.snapshot.params['serviceId'];
@@ -19,13 +19,12 @@ export class ClientServiceAndBookingComponent {
     salonClient.getProvidedServiceDetailsForClient(this.serviceId)
       .subscribe({
         next: res=>{
-          this.serviceInfo = res;
+          this.serviceInfo$.next(res);
         },
         error: err => {
           router.navigate(['/client','services'])
         }
       });
   }
-
 
 }

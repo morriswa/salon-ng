@@ -10,14 +10,14 @@ import {UserAccount} from "../interface/user-account.interface";
 })
 export class LoginService {
 
-  private _account?: UserAccount;
+  private _account$: BehaviorSubject<UserAccount|undefined> = new BehaviorSubject<UserAccount|undefined>(undefined);
   private _authenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   // private _processing: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // defn necessary getters for private attributes
-  public get account(): UserAccount {
-    if (!this._account) throw new Error("Login service has not been initialized!");
-    return this._account;
+  public get account$(): Observable<UserAccount|undefined> {
+    // if (!this._account$.getValue()) throw new Error("Login service has not been initialized!");
+    return this._account$;
   }
 
   // public get processing(): boolean {
@@ -51,7 +51,7 @@ export class LoginService {
             // set status as authenticated and not processing
             this._authenticated.next(true);
             // this._processing.next(false);
-            this._account = res;
+            this._account$.next(res);
             // return true
             return true;
           }),
@@ -68,7 +68,9 @@ export class LoginService {
   }
 
   public hasAuthority(authority:USER_AUTHORITY): boolean {
-    return this.account.authorities.includes(authority);
+    let account = this._account$.getValue();
+    if (!account) return false;
+    return account.authorities.includes(authority);
   }
 
   /**
@@ -94,7 +96,7 @@ export class LoginService {
     // set status as unauthenticated
     this._authenticated.next(false);
     // delete cached account
-    this._account = undefined;
+    this._account$.next(undefined);
     // and delete stored credentials
     this.creds.deleteStoredCredentials();
     // reset processing flag

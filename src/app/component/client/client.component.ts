@@ -11,6 +11,6 @@ export class ClientComponent {
 
   constructor(login: LoginService, router: Router) {
     if (!login.authenticated) router.navigate(['/login']);
-    if (!login.hasAuthority('CLIENT')) router.navigate(['/user'])
+    else if (!login.hasAuthority('CLIENT')) router.navigate(['/user'])
   }
 }

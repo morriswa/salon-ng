@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {SalonClient} from "../../../service/salon-client.service";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'salon-client-search-services',
@@ -9,14 +10,12 @@ import {SalonClient} from "../../../service/salon-client.service";
 })
 export class ClientSearchServicesComponent {
 
-  availableServiceSearchResults: any[] = [];
+  availableServiceSearchResults: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
   searchServiceForm: FormControl = new FormControl();
 
 
-
-  constructor(private salonClient: SalonClient) {
-  }
+  constructor(private salonClient: SalonClient) { }
 
   searchAvailableServices($event: KeyboardEvent) {
 
@@ -24,7 +23,7 @@ export class ClientSearchServicesComponent {
     this.salonClient.searchAvailableServices(searchText)
       .subscribe({
         next: res=>{
-          this.availableServiceSearchResults = res;
+          this.availableServiceSearchResults.next(res);
         }
       });
   }

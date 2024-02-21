@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import {BehaviorSubject, of, switchMap} from 'rxjs';
+import {BehaviorSubject, switchMap} from 'rxjs';
 import { SalonClient } from 'src/app/service/salon-client.service';
 import {LoginService} from "../../service/login.service";
 import {FormControl, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {UserAccount} from "../../interface/user-account.interface";
 import {UserProfile} from "../../interface/user-profile.interface";
 
 @Component({
@@ -14,11 +13,23 @@ import {UserProfile} from "../../interface/user-profile.interface";
 })
 export class UserProfileComponent {
 
-  loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  isUpdatingContactInfo: boolean = false;
 
-  account: UserAccount;
-  userProfile?: UserProfile;
+  /**
+   * state for items that should not be visible if a user profile request is still processing
+   */
+  processingProfile$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+
+  /**
+   * state for update contact info from
+   */
+  isUpdatingContactInfo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+
+  /**
+   * state of user profile, and if it has been successfully loaded
+   */
+  userProfile$: BehaviorSubject<UserProfile|undefined> = new BehaviorSubject<UserProfile|undefined>(undefined);
 
   updateFormErrors: string[] = [];
   createFormErrors: string[] = [];
@@ -50,14 +61,13 @@ export class UserProfileComponent {
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated) router.navigate(['/login']);
-    this.account = this.login.account;
-    this.salonClient.getUserProfile().subscribe({
+    else this.salonClient.getUserProfile().subscribe({
       next: res =>{
-        this.userProfile = res;
-        this.loading$.next(false);
+        this.userProfile$.next(res);
+        this.processingProfile$.next(false);
       },
       error: res=>{
-        this.loading$.next(false);
+        this.processingProfile$.next(false);
       }
     });
   }
@@ -65,7 +75,7 @@ export class UserProfileComponent {
 
   updateContactInfo() { // when user submits updated contact information...
     // mark component as loading so no further changes can be made
-    this.loading$.next(true);
+    this.processingProfile$.next(true);
 
     // create response body
     let params:any = {};
@@ -96,16 +106,16 @@ export class UserProfileComponent {
       .subscribe({
         next: (res:any) => { // if requests were successful
           this.updateFormErrors = []; // reset error messages
-          this.userProfile = res; // cache updated profile
+          this.userProfile$.next(res); // cache updated profile
           this.resetAllForms(); // reset update profile forms
-          this.isUpdatingContactInfo = false; // hide update profile form
-          this.loading$.next(false); // and mark component as available
+          this.isUpdatingContactInfo$.next(false); // hide update profile form
+          this.processingProfile$.next(false); // and mark component as available
         },
         error: (err:any) => { // if errors were encountered during update profile
           this.updateFormErrors = []; // reset error messages
           // cache all server error messages and display them to the user
           err.error.additionalInfo.map((each:any)=>this.updateFormErrors.push(each.message))
-          this.loading$.next(false); // and mark component as available
+          this.processingProfile$.next(false); // and mark component as available
         }
       });
   }
@@ -124,7 +134,7 @@ export class UserProfileComponent {
 
   createUserProfile() { // when user submits their contact information...
     // mark component as loading so no further changes can be made
-    this.loading$.next(true);
+    this.processingProfile$.next(true);
 
     // create response body
     let params:any = {
@@ -158,17 +168,17 @@ export class UserProfileComponent {
       )
       .subscribe({
         next: (res:any) => { // if requests were successful
-          this.account = this.login.account; // get new login information
+          // this.account$ = this.login.account$; // get new login information
           this.createFormErrors = []; // reset error messages
-          this.userProfile = res; // cache profile
+          this.userProfile$.next(res); // cache profile
           this.resetAllForms(); // reset profile forms
-          this.loading$.next(false); // and mark component as available
+          this.processingProfile$.next(false); // and mark component as available
         },
         error: (err:any) => { // if errors were encountered during profile creation
           this.createFormErrors = []; // reset error messages
           // cache all server error messages and display them to the user
           err.error.additionalInfo.map((each:any)=>this.createFormErrors.push(each.message))
-          this.loading$.next(false); // and mark component as available
+          this.processingProfile$.next(false); // and mark component as available
         }
       });
   }

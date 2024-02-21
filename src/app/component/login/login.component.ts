@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {LoginService} from "../../service/login.service";
 import {Router} from "@angular/router";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'salon-login',
@@ -13,7 +14,7 @@ export class LoginComponent {
   /**
    * controls the message displayed on template during login, default is blank
    */
-  loginMessage?:string;
+  loginMessage:BehaviorSubject<string> = new BehaviorSubject<string>("");
 
   /**
    * provides username form access and manipulation on login page
@@ -50,7 +51,7 @@ export class LoginComponent {
           this.router.navigate(['/user'])
         } else { // on authentication failure...
           // provided a helpful message
-          this.loginMessage = "Could not authenticate with provided credentials!";
+          this.loginMessage.next("Could not authenticate with provided credentials!");
           // and reset the password form
           this.passwordForm.reset();
         }
