@@ -10,7 +10,9 @@ import {environment} from "../../environments/environment";
 @Injectable()
 export class AddTokenInterceptor implements HttpInterceptor {
 
-  constructor(private credentials: CredentialService) { }
+  constructor(private credentials: CredentialService) {
+
+  }
 
   isPublicRequest(url:string): boolean {
     let publicRequest = false;
