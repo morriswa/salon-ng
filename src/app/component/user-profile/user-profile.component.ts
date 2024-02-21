@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {of, switchMap} from 'rxjs';
+import {BehaviorSubject, of, switchMap} from 'rxjs';
 import { SalonClient } from 'src/app/service/salon-client.service';
 import {LoginService} from "../../service/login.service";
 import {FormControl, Validators} from "@angular/forms";
@@ -14,7 +14,7 @@ import {UserProfile} from "../../interface/user-profile.interface";
 })
 export class UserProfileComponent {
 
-  loading: boolean = true;
+  loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   isUpdatingContactInfo: boolean = false;
 
   account: UserAccount;
@@ -54,10 +54,10 @@ export class UserProfileComponent {
     this.salonClient.getUserProfile().subscribe({
       next: res =>{
         this.userProfile = res;
-        this.loading = false;
+        this.loading$.next(false);
       },
       error: res=>{
-        this.loading = false;
+        this.loading$.next(false);
       }
     });
   }
@@ -65,7 +65,7 @@ export class UserProfileComponent {
 
   updateContactInfo() { // when user submits updated contact information...
     // mark component as loading so no further changes can be made
-    this.loading = true;
+    this.loading$.next(true);
 
     // create response body
     let params:any = {};
@@ -99,13 +99,13 @@ export class UserProfileComponent {
           this.userProfile = res; // cache updated profile
           this.resetAllForms(); // reset update profile forms
           this.isUpdatingContactInfo = false; // hide update profile form
-          this.loading = false; // and mark component as available
+          this.loading$.next(false); // and mark component as available
         },
         error: (err:any) => { // if errors were encountered during update profile
           this.updateFormErrors = []; // reset error messages
           // cache all server error messages and display them to the user
           err.error.additionalInfo.map((each:any)=>this.updateFormErrors.push(each.message))
-          this.loading = false; // and mark component as available
+          this.loading$.next(false); // and mark component as available
         }
       });
   }
@@ -124,7 +124,7 @@ export class UserProfileComponent {
 
   createUserProfile() { // when user submits their contact information...
     // mark component as loading so no further changes can be made
-    this.loading = true;
+    this.loading$.next(true);
 
     // create response body
     let params:any = {
@@ -152,8 +152,7 @@ export class UserProfileComponent {
           // if the user could not be authenticated, reset
           else {
             this.login.logout();
-            this.router.navigate(['/']);
-            return of();
+            return this.router.navigate(['/']);
           }
         })
       )
@@ -163,13 +162,13 @@ export class UserProfileComponent {
           this.createFormErrors = []; // reset error messages
           this.userProfile = res; // cache profile
           this.resetAllForms(); // reset profile forms
-          this.loading = false; // and mark component as available
+          this.loading$.next(false); // and mark component as available
         },
         error: (err:any) => { // if errors were encountered during profile creation
           this.createFormErrors = []; // reset error messages
           // cache all server error messages and display them to the user
           err.error.additionalInfo.map((each:any)=>this.createFormErrors.push(each.message))
-          this.loading = false; // and mark component as available
+          this.loading$.next(false); // and mark component as available
         }
       });
   }

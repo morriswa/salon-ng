@@ -21,7 +21,9 @@ export class RegisterUserComponent {
   passwordForm: FormControl = new FormControl();
 
 
-  constructor(private router: Router, private salonClient: SalonClient, private login: LoginService) { }
+  constructor(private router: Router, private salonClient: SalonClient, private login: LoginService) {
+    if (login.authenticated) router.navigate(['/user'])
+  }
 
 
   registerUser() {

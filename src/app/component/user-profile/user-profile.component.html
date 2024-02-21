@@ -7,7 +7,11 @@
 
 <br>
 
-@if (userProfile) {
+@if (loading$ | async) {
+  <div class="spinner-border m-5" role="status" style="width: 5rem; height: 5rem;">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+} @else if (userProfile) {
   <h2>Contact Information</h2>
   <h4>First name: {{ userProfile.firstName }}</h4>
   <h4>Last name: {{ userProfile.lastName }}</h4>
@@ -136,7 +140,7 @@
     (click)="this.isUpdatingContactInfo = !this.isUpdatingContactInfo"
   >{{ !isUpdatingContactInfo? 'Update Info' : 'Cancel' }}</button>
 
-} @else if (!loading) {
+} @else {
   <h2>Please enter your contact information!</h2>
   <p><i>After entering your contact information, you should gain access to the client portal</i></p>
 
@@ -258,5 +262,3 @@
     (click)="createUserProfile()"
   >Confirm</button>
 }
-
-

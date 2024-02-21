@@ -28,7 +28,9 @@ export class LoginComponent {
 
   // component dependencies
   constructor(public loginService: LoginService,
-              private router: Router) { }
+              private router: Router) {
+    if (loginService.authenticated) router.navigate(['/user']);
+  }
 
 
   /**
