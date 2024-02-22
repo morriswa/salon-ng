@@ -11,26 +11,38 @@ import {BehaviorSubject} from "rxjs";
 })
 export class LoginComponent {
 
+  processingLogin$:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   /**
    * controls the message displayed on template during login, default is blank
    */
-  loginMessage:BehaviorSubject<string> = new BehaviorSubject<string>("");
+  loginMessage$:BehaviorSubject<string> = new BehaviorSubject<string>("");
 
   /**
    * provides username form access and manipulation on login page
    */
-  usernameForm: FormControl = new FormControl();
+  usernameForm: FormControl = new FormControl({value: '', disabled: true},{});
 
   /**
    * provides password form access and manipulation on login page
    */
-  passwordForm:FormControl = new FormControl();
+  passwordForm:FormControl = new FormControl({value: '', disabled: true},{});
 
 
   // component dependencies
   constructor(public loginService: LoginService,
               private router: Router) {
-    if (loginService.authenticated) router.navigate(['/user']);
+    if (loginService.authenticated) router.navigate(['/user'])
+
+    this.processingLogin$.asObservable().subscribe(locked=>{
+      if (locked) {
+        this.usernameForm.disable();
+        this.passwordForm.disable();
+      } else {
+        this.usernameForm.enable();
+        this.passwordForm.enable();
+      }
+    })
   }
 
 
@@ -38,6 +50,7 @@ export class LoginComponent {
    * logs in a user using credentials provided in login form
    */
   login(): void { // when the user clicks login...
+    this.processingLogin$.next(true); // lock the forms until attempt has been processed
     // grab username and password from angular forms
     let username = this.usernameForm.value;
     let password = this.passwordForm.value;
@@ -51,9 +64,11 @@ export class LoginComponent {
           this.router.navigate(['/user'])
         } else { // on authentication failure...
           // provided a helpful message
-          this.loginMessage.next("Could not authenticate with provided credentials!");
+          this.loginMessage$.next("Could not authenticate with provided credentials!");
           // and reset the password form
           this.passwordForm.reset();
+          // unlock the forms
+          this.processingLogin$.next(false);
         }
       });
   }

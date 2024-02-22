@@ -1,5 +1,4 @@
 <div style="width: 30vw; margin: 5px auto;">
-@if(!(processingRegistration$ | async)) {
 
   @for(error of registerUserErrors; track error) {
     <br><h3>{{error}}</h3>
@@ -31,14 +30,15 @@
   <br>
 
   <button
+    [disabled]="processingRegistration$|async"
     class="btn salon-btn-primary"
     (click)="registerUser()"
   >Register!</button>
 
   <button
+    [disabled]="processingRegistration$|async"
     class="btn salon-btn-primary"
     [routerLink]="['/login']"
   >Cancel!</button>
 
-}
 </div>

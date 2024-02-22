@@ -23,21 +23,27 @@
       placeholder="Enter your password..."
     >
 
-    <h3 style="color: red">{{ loginMessage | async }}</h3>
+    <h3 style="color: red">{{ loginMessage$ | async }}</h3>
 
   </div>
 
-  <div>
+  @if (processingLogin$ | async) {
+    <div class="spinner-border m-5" role="status" style="width: 3rem; height: 3rem;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  } @else {
+    <div>
 
-    <button
-      class="btn salon-btn-primary"
-      (click)="login()"
-    >Login</button>
+      <button
+        class="btn salon-btn-primary"
+        (click)="login()"
+      >Login</button>
 
-    <button
-      class="btn salon-btn-primary"
-      [routerLink]="['/register']"
-    >Create Account</button>
-  </div>
+      <button
+        class="btn salon-btn-primary"
+        [routerLink]="['/register']"
+      >Create Account</button>
+    </div>
+  }
 
 </div>

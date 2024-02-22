@@ -11,7 +11,7 @@ import {UserAccount} from "../interface/user-account.interface";
 export class LoginService {
 
   private _account$: BehaviorSubject<UserAccount|undefined> = new BehaviorSubject<UserAccount|undefined>(undefined);
-  private _authenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _authenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   // private _processing: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // defn necessary getters for private attributes
@@ -25,11 +25,11 @@ export class LoginService {
   // }
 
   public get authenticated(): boolean {
-    return this._authenticated.getValue();
+    return this._authenticated$.getValue();
   }
 
   public get authenticated$(): Observable<boolean> {
-    return this._authenticated;
+    return this._authenticated$;
   }
 
   constructor(private creds: CredentialService, private salonService: SalonClient) { }
@@ -49,7 +49,7 @@ export class LoginService {
         .pipe(
           map((res: UserAccount)=>{ // if user was able to log in
             // set status as authenticated and not processing
-            this._authenticated.next(true);
+            this._authenticated$.next(true);
             // this._processing.next(false);
             this._account$.next(res);
             // return true
@@ -94,7 +94,7 @@ export class LoginService {
    */
   public logout() { // on user logout
     // set status as unauthenticated
-    this._authenticated.next(false);
+    this._authenticated$.next(false);
     // delete cached account
     this._account$.next(undefined);
     // and delete stored credentials

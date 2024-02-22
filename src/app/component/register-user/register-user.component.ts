@@ -16,13 +16,23 @@ export class RegisterUserComponent {
 
   registerUserErrors: any[] = [];
 
-  usernameForm: FormControl = new FormControl();
+  usernameForm: FormControl = new FormControl({value: '', disabled: true});
 
-  passwordForm: FormControl = new FormControl();
+  passwordForm: FormControl = new FormControl({value: '', disabled: true});
 
 
   constructor(private router: Router, private salonClient: SalonClient, private login: LoginService) {
-    if (login.authenticated) router.navigate(['/user'])
+    if (login.authenticated) router.navigate(['/user']);
+
+    this.processingRegistration$.asObservable().subscribe(locked=>{
+      if (locked) {
+        this.usernameForm.disable();
+        this.passwordForm.disable();
+      } else {
+        this.usernameForm.enable();
+        this.passwordForm.enable();
+      }
+    })
   }
 
 
