@@ -87,4 +87,8 @@ export class SalonClient {
   getProvidedServiceDetailsForClient(serviceId: number) {
     return this.http.get<any>(`${this.SERVICE_URL}/client/service/${serviceId}`);
   }
+
+  getAvailableAppointmentTimes(request: { searchDate: string; employeeId: number; serviceId: number }): Observable<any[]> {
+    return this.http.post<any[]>(`${this.SERVICE_URL}/client/booking`, request);
+  }
 }

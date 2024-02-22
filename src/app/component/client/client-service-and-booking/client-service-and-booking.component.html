@@ -6,6 +6,26 @@
   <br>
 
   <p>This is where clients will book their appointments</p>
+
+   <mat-form-field>
+     <mat-label>Choose a date</mat-label>
+     <input matInput [matDatepicker]="picker" (dateChange)="selectedDate($event)">
+     <mat-hint>MM/DD/YYYY</mat-hint>
+     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+     <mat-datepicker #picker></mat-datepicker>
+   </mat-form-field>
+
+   @if (availableTimes$ | async; as availableTimes) {
+     @for (availability of availableTimes; track availability.date) {
+       <li>{{ formatAsDate(availability.time) }}</li>
+     } @empty {
+       <h3>There are no available appointment times on selected day!</h3>
+     }
+   } @else {
+     <h3>Select a date to begin booking an appointment!</h3>
+   }
+
+
 } @else {
   <h1>Retrieving service info...</h1>
 }

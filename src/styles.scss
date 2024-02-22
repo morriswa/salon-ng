@@ -1,12 +1,78 @@
-/* You can add global styles to this file, and also import other style files */
 
-
+// OVERRIDING BOOTSTRAP GLOBALS
 $primary: #e12fc6;
 $secondary: #343434;
 
+// defn a color palette to be used by Angular Material
+$my-palette: (
+  50: lighten($primary, 40%),
+  100: lighten($primary, 30%),
+  200: lighten($primary, 20%),
+  300: lighten($primary, 10%),
+  400: $primary,
+  500: darken($primary, 5%),
+  600: darken($primary, 10%),
+  700: darken($primary, 15%),
+  800: darken($primary, 20%),
+  900: darken($primary, 25%),
+  contrast: (
+    50: lighten($secondary, 40%),
+    100: lighten($secondary, 30%),
+    200: lighten($secondary, 20%),
+    300: lighten($secondary, 10%),
+    400: $secondary,
+    500: darken($secondary, 10%),
+    600: darken($secondary, 20%),
+    700: darken($secondary, 30%),
+    800: darken($secondary, 40%),
+    900: darken($secondary, 50%),
+  )
+);
+
+// import angular material and include core mixins
+@use '@angular/material' as mat;
+@include mat.core();
+
+// create material color palette from defined palette
+$material-primary-palette: mat.define-palette($my-palette);
+
+// import Bootstrap Icons
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+
+// import Bootstrap
 @import "bootstrap/scss/bootstrap";
 
+// defn typography to be used by Angular Material
+$my-typography: mat.define-typography-config(
+  $font-family: var(--bs-body-font-family),
+);
+
+// defn theme to be used by Angular Material
+$material-application-theme: mat.define-light-theme((
+  color: (
+    primary: $material-primary-palette,
+    accent: $material-primary-palette,
+  ),
+  density: 0,
+  typography: $my-typography
+));
+
+// mixin theme for Angular Material
+@include mat.core-theme($material-application-theme);
+@include mat.datepicker-theme($material-application-theme);
+@include mat.form-field-theme($material-application-theme);
+
+// defn page body rules
+body {
+  height: 100%;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+}
+
+
+
+// defn global classes
 .salon-btn-primary {
   @extend .btn;
   background-color: $primary;
@@ -46,11 +112,4 @@ $secondary: #343434;
 .salon-btn-secondary-outline:hover {
   background-color: $primary;
   color: $body-bg;
-}
-
-
-body {
-  width: 100vw;
-  padding: 0;
-  margin: 0;
 }
