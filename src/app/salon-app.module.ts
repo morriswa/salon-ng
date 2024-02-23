@@ -28,8 +28,16 @@ import {
 import { MatDatepickerModule} from "@angular/material/datepicker";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {MatNativeDateModule} from "@angular/material/core";
+import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatSelectModule} from "@angular/material/select";
+import {ClientScheduleComponent} from "./component/client/client-schedule/client-schedule.component";
+import {LocaleDatePipe} from "./pipe/AsLocaleDate.pipe";
+import {LocaleTimePipe} from "./pipe/AsLocaleTime.pipe";
+import {
+  ClientAppointmentDetailsComponent
+} from "./component/client/client-appointment-details/client-appointment-details.component";
+import {AmericanPhoneNumberPipe} from "./pipe/AmericanPhoneNumber";
 
 @NgModule({
   declarations: [
@@ -45,7 +53,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     // Client Components
     ClientComponent,
     ClientSearchServicesComponent,
-    ClientServiceAndBookingComponent
+    ClientServiceAndBookingComponent,
+    ClientScheduleComponent,
+    ClientAppointmentDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +68,12 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule,
+    MatOptionModule,
+    LocaleDatePipe,
+    LocaleTimePipe,
+    AmericanPhoneNumberPipe
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true },

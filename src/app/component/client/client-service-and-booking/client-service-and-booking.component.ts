@@ -16,7 +16,12 @@ export class ClientServiceAndBookingComponent {
 
   availableTimes$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[] | undefined>(undefined);
 
-  constructor(active: ActivatedRoute, private salonClient: SalonClient, router: Router) {
+  chosenDateTime$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
+
+  errorMessageOnBook$: BehaviorSubject<string> = new BehaviorSubject<string>("");
+  appointmentConfirmation$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
+
+  constructor(active: ActivatedRoute, private salonClient: SalonClient, private router: Router) {
     this.serviceId = active.snapshot.params['serviceId'];
 
     salonClient.getProvidedServiceDetailsForClient(this.serviceId)
@@ -56,8 +61,38 @@ export class ClientServiceAndBookingComponent {
 
   }
 
-  formatAsDate(time: string) {
+  formatAsString(time: string) {
     const date = new Date(time);
-    return date.toLocaleString()
+    return date.toLocaleString();
+  }
+
+  formatAsTimeString(time: string) {
+    const date = new Date(time);
+    return date.toLocaleTimeString();
+  }
+
+  selectTime($event: any) {
+    this.chosenDateTime$.next($event);
+  }
+
+  bookAppointment(dateTime: {time:string; length:number;}) {
+    console.log(dateTime);
+
+    let currentService = this.serviceInfo$.getValue();
+
+
+    let request = {
+      employeeId: currentService.employee.employeeId,
+      serviceId: this.serviceId,
+      time: dateTime.time
+    };
+
+    this.salonClient.bookAppointment(request)
+      .subscribe({
+        next: () => {
+          this.appointmentConfirmation$.next(dateTime)
+        },
+        error: (err:any) => this.errorMessageOnBook$.next(err.error.message)
+      });
   }
 }

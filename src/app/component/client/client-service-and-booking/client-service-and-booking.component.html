@@ -1,31 +1,61 @@
- @if (serviceInfo$ | async; as serviceInfo) {
+
+@if (serviceInfo$ | async; as serviceInfo) {
   <h3>{{ serviceInfo.name }}, provided by {{ serviceInfo.employee.firstName }} {{ serviceInfo.employee.lastName }}</h3>
   <h3>${{ serviceInfo.cost }} for {{ serviceInfo.length }} min.</h3>
-  <p>Images and additional content will go here. Thinking employee bio/terms? Not sure yet :)</p>
 
-  <br>
 
-  <p>This is where clients will book their appointments</p>
+  @if (appointmentConfirmation$ | async; as appointmentConfirmation) {
 
-   <mat-form-field>
-     <mat-label>Choose a date</mat-label>
-     <input matInput [matDatepicker]="picker" (dateChange)="selectedDate($event)">
-     <mat-hint>MM/DD/YYYY</mat-hint>
-     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-     <mat-datepicker #picker></mat-datepicker>
-   </mat-form-field>
+    <br>
+    <h3>Your appointment has been confirmed!</h3>
+    <h3>{{ formatAsString(appointmentConfirmation.time) }}</h3>
 
-   @if (availableTimes$ | async; as availableTimes) {
-     @for (availability of availableTimes; track availability.date) {
-       <li>{{ formatAsDate(availability.time) }}</li>
-     } @empty {
-       <h3>There are no available appointment times on selected day!</h3>
+  } @else {
+
+    <p>Images and additional content will go here. Thinking employee bio/terms? Not sure yet :)</p>
+
+    <br>
+
+    <p>This is where clients will book their appointments</p>
+
+    <mat-form-field class="booking-fields">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" (dateChange)="selectedDate($event)">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <br>
+
+    @if (availableTimes$ | async; as availableTimes) {
+
+     @if (availableTimes.length == 0) {
+       <h6>There are no available appointment times on selected day!</h6>
      }
-   } @else {
-     <h3>Select a date to begin booking an appointment!</h3>
-   }
 
+     <mat-form-field class="booking-fields">
+       <mat-label>Select a time</mat-label>
+       <mat-select (valueChange)="selectTime($event)">
+         @for (availability of availableTimes; track availability.date) {
+           <mat-option [value]="availability">{{ formatAsTimeString(availability.time) }}</mat-option>
+         }
+       </mat-select>
+     </mat-form-field>
+    } @else {
+      <br>
+      <h6>Select a date to begin booking an appointment!</h6>
+    }
 
+    <br>
+
+    @if (chosenDateTime$ | async; as dateTime) {
+     <button
+       (click)="bookAppointment(dateTime)"
+       class="salon-btn-primary"
+     >Book Appointment!</button>
+    }
+  }
 } @else {
   <h1>Retrieving service info...</h1>
 }

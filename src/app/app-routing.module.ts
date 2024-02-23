@@ -15,6 +15,10 @@ import {
 import {
   ClientServiceAndBookingComponent
 } from "./component/client/client-service-and-booking/client-service-and-booking.component";
+import {ClientScheduleComponent} from "./component/client/client-schedule/client-schedule.component";
+import {
+  ClientAppointmentDetailsComponent
+} from "./component/client/client-appointment-details/client-appointment-details.component";
 
 const routes: Routes = [
   { path:'employee', component: EmployeeComponent, children: [
@@ -26,6 +30,8 @@ const routes: Routes = [
   { path:'client', component: ClientComponent, children: [
       { path:'services', component: ClientSearchServicesComponent },
       { path:'service/:serviceId', component: ClientServiceAndBookingComponent },
+      { path:'schedule', component: ClientScheduleComponent },
+      { path:'appointment/:appointmentId', component: ClientAppointmentDetailsComponent },
       { path: '**', pathMatch: "full", redirectTo: ""}
   ] },
   { path:'user', component: UserProfileComponent },
