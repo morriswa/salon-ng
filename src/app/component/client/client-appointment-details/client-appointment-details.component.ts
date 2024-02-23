@@ -18,13 +18,12 @@ export class ClientAppointmentDetailsComponent {
 
     this.appointmentId = Number(active.snapshot.params['appointmentId']);
 
-    schedule.getClientAppointment(this.appointmentId)
+    schedule.getAppointmentDetailsForClient(this.appointmentId)
       .subscribe({
       next: appointment => {
-        console.log(appointment)
         this.appointmentDetails$.next(appointment)
       },
-      error: () => this.router.navigate(['/client'])
+      error: () => this.router.navigate(['/employee'])
     })
 
   }

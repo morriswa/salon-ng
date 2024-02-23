@@ -99,4 +99,8 @@ export class SalonClient {
   getClientSchedule(): Observable<any[]> {
     return this.http.get<any[]>(`${this.SERVICE_URL}/client/booked`);
   }
+
+  getEmployeeSchedule() {
+    return this.http.get<any[]>(`${this.SERVICE_URL}/employee/schedule`);
+  }
 }

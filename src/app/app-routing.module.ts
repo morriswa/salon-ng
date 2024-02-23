@@ -19,12 +19,16 @@ import {ClientScheduleComponent} from "./component/client/client-schedule/client
 import {
   ClientAppointmentDetailsComponent
 } from "./component/client/client-appointment-details/client-appointment-details.component";
+import {
+  EmployeeAppointmentDetailsComponent
+} from "./component/employee/employee-appointment-details/employee-appointment-details.component";
 
 const routes: Routes = [
   { path:'employee', component: EmployeeComponent, children: [
     { path:'services', component: ProvidedServiceComponent },
     { path:'schedule', component: EmployeeScheduleComponent },
     { path:'finance', component: EmployeeFinanceComponent },
+    { path:'appointment/:appointmentId', component: EmployeeAppointmentDetailsComponent },
     { path: '**', pathMatch: "full", redirectTo: ""}
   ] },
   { path:'client', component: ClientComponent, children: [

@@ -38,6 +38,9 @@ import {
   ClientAppointmentDetailsComponent
 } from "./component/client/client-appointment-details/client-appointment-details.component";
 import {AmericanPhoneNumberPipe} from "./pipe/AmericanPhoneNumber";
+import {
+  EmployeeAppointmentDetailsComponent
+} from "./component/employee/employee-appointment-details/employee-appointment-details.component";
 
 @NgModule({
   declarations: [
@@ -50,6 +53,7 @@ import {AmericanPhoneNumberPipe} from "./pipe/AmericanPhoneNumber";
     ProvidedServiceComponent,
     EmployeeScheduleComponent,
     EmployeeFinanceComponent,
+    EmployeeAppointmentDetailsComponent,
     // Client Components
     ClientComponent,
     ClientSearchServicesComponent,
