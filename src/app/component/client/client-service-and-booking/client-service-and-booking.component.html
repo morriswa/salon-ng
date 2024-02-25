@@ -32,16 +32,16 @@
 
      @if (availableTimes.length == 0) {
        <h6>There are no available appointment times on selected day!</h6>
+     } @else {
+       <mat-form-field class="booking-fields">
+         <mat-label>Select a time</mat-label>
+         <mat-select (valueChange)="selectTime($event)">
+           @for (availability of availableTimes; track availability.date) {
+             <mat-option [value]="availability">{{ formatAsTimeString(availability.time) }}</mat-option>
+           }
+         </mat-select>
+       </mat-form-field>
      }
-
-     <mat-form-field class="booking-fields">
-       <mat-label>Select a time</mat-label>
-       <mat-select (valueChange)="selectTime($event)">
-         @for (availability of availableTimes; track availability.date) {
-           <mat-option [value]="availability">{{ formatAsTimeString(availability.time) }}</mat-option>
-         }
-       </mat-select>
-     </mat-form-field>
     } @else {
       <br>
       <h6>Select a date to begin booking an appointment!</h6>

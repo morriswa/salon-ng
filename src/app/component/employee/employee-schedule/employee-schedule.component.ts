@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {AppointmentService} from "../../../service/appointment.service";
+import {SalonClient} from "../../../service/salon-client.service";
 
 @Component({
   selector: 'salon-employee-schedule',
@@ -10,8 +10,8 @@ import {AppointmentService} from "../../../service/appointment.service";
 export class EmployeeScheduleComponent {
   employeeSchedule$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[] | undefined>(undefined);
 
-  constructor(private schedule: AppointmentService) {
-    schedule.refreshEmployeeSchedule().subscribe({
+  constructor(salonClient: SalonClient) {
+    salonClient.getEmployeeSchedule().subscribe({
       next: (res:any[]) => this.employeeSchedule$.next(res)
     });
   }

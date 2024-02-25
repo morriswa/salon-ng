@@ -19,6 +19,7 @@ export class ClientServiceAndBookingComponent {
   chosenDateTime$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
 
   errorMessageOnBook$: BehaviorSubject<string> = new BehaviorSubject<string>("");
+
   appointmentConfirmation$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
 
   constructor(active: ActivatedRoute, private salonClient: SalonClient, private router: Router) {

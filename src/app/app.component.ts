@@ -31,10 +31,10 @@ export class AppComponent {
    * logs a user out of the application
    */
   logout(): void { // when user clicks logout
-    // initiate logout via service
-    this.loginService.logout();
     // navigate back to start
     this.router.navigate(['/'])
+    // initiate logout via service
+    this.loginService.logout();
   }
 
 }

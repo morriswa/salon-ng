@@ -29,7 +29,7 @@ export class UserProfileComponent {
   /**
    * state of user profile, and if it has been successfully loaded
    */
-  userProfile$: BehaviorSubject<UserProfile|undefined> = new BehaviorSubject<UserProfile|undefined>(undefined);
+  userProfile$: BehaviorSubject<UserProfile|undefined> = new BehaviorSubject<UserProfile | undefined>(undefined);
 
   updateFormErrors: string[] = [];
   createFormErrors: string[] = [];
@@ -63,7 +63,7 @@ export class UserProfileComponent {
     if (!login.authenticated) router.navigate(['/login']);
     else this.salonClient.getUserProfile().subscribe({
       next: res =>{
-        this.userProfile$.next(res);
+        this.userProfile$ .next(res);
         this.processingProfile$.next(false);
       },
       error: res=>{
@@ -101,8 +101,6 @@ export class UserProfileComponent {
 
     // after response body has been created, call update user profile endpoint with constructed params
     this.salonClient.updateUserProfile(params)
-      // assuming no errors are encountered, immediately call get user profile endpoint to retrieve updated info
-      .pipe(switchMap(()=>this.salonClient.getUserProfile()))
       .subscribe({
         next: (res:any) => { // if requests were successful
           this.updateFormErrors = []; // reset error messages

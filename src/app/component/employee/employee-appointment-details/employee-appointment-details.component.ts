@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AppointmentService} from "../../../service/appointment.service";
+import {SalonClient} from "../../../service/salon-client.service";
 
 @Component({
   selector: 'salon-employee-appointment-details',
@@ -13,11 +13,11 @@ export class EmployeeAppointmentDetailsComponent {
   appointmentId: number;
   appointmentDetails$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
 
-  constructor(active: ActivatedRoute, private schedule: AppointmentService, private router: Router) {
+  constructor(active: ActivatedRoute, salonClient: SalonClient, private router: Router) {
 
     this.appointmentId = Number(active.snapshot.params['appointmentId']);
 
-    schedule.getAppointmentDetailsForEmployee(this.appointmentId)
+    salonClient.getAppointmentDetailsForEmployee(this.appointmentId)
       .subscribe({
         next: appointment => {
           this.appointmentDetails$.next(appointment)

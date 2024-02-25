@@ -24,7 +24,7 @@ export class ProvidedServiceComponent {
   serviceLengthForm: FormControl = new FormControl();
 
   constructor(private salonClient: SalonClient) {
-   salonClient.getProvidedServices()
+   salonClient.getEmployeesProvidedServices()
     .subscribe(res=>{
       this.processingCreateService$.next(false);
       this.providedServices$.next(res);
@@ -46,7 +46,6 @@ export class ProvidedServiceComponent {
     };
 
     this.salonClient.createProvidedService(request)
-    .pipe(switchMap(()=>this.salonClient.getProvidedServices()))
     .subscribe({
       next: (res:any) => { // if requests were successful
         this.errors = []; // reset error messages
