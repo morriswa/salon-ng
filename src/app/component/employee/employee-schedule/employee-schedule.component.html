@@ -1,6 +1,12 @@
 
 @if (employeeSchedule$ | async; as schedule) {
 
+  @if (schedule.length > 0) {
+    <h2>Upcoming appointments: </h2>
+  } @else {
+    <h2>Your schedule is free!</h2>
+  }
+
   @for (appointment of schedule; track appointment.appointmentId) {
 
     <h3
@@ -12,4 +18,8 @@
     <br>
   }
 
+  <h3 (click)="refreshEmployeeSchedule()">
+    <i class="bi bi-arrow-clockwise h3" style="width: 3rem; height: 3rem;"></i>
+    Refresh
+  </h3>
 }

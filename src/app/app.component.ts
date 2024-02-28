@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import { Router } from '@angular/router';
 import {LoginService} from "./service/login.service";
-import {BehaviorSubject, Observable, of, Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 
 
 /**
- * Core application component loaded on every child page
+ * Core application component loaded before every other page
  * Provides login and routing capabilities to the user
  */
 @Component({

@@ -1,8 +1,14 @@
 
 @if (clientSchedule$ | async; as schedule) {
 
-  @for (appointment of schedule; track appointment.appointmentId) {
+  @if (schedule.length > 0) {
+    <h2>Upcoming appointments: </h2>
+  } @else {
+    <h2>You have no scheduled appointments!</h2>
+    <p>Click Search Services to begin scheduling!</p>
+  }
 
+  @for (appointment of schedule; track appointment.appointmentId) {
     <h3
       class="search-result-links"
       [routerLink]="['/client', 'appointment', appointment.appointmentId]"

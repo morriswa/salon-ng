@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {BehaviorSubject, Subject, switchMap} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {SalonClient} from "../../../service/salon-client.service";
 import {FormControl} from "@angular/forms";
 
@@ -10,23 +10,35 @@ import {FormControl} from "@angular/forms";
 })
 export class ProvidedServiceComponent {
 
-  processingCreateService$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-
+  /**
+   * state of view create service menu
+   */
   showCreateServiceMenu$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  /**
+   * state of currently processing create service request
+   */
+  processingCreateService$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  /**
+   * errors encountered by create service request
+   */
+  createServiceErrors$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+
+  /**
+   * cached list of provided services
+   */
   providedServices$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[]|undefined>(undefined);
 
-
-  errors: string[] = [];
+  // create service form controls
   serviceNameForm: FormControl = new FormControl();
   serviceCostForm: FormControl = new FormControl();
   serviceLengthForm: FormControl = new FormControl();
 
   constructor(private salonClient: SalonClient) {
-   salonClient.getEmployeesProvidedServices()
+    // cache current services
+    salonClient.getEmployeesProvidedServices()
     .subscribe(res=>{
-      this.processingCreateService$.next(false);
       this.providedServices$.next(res);
     });
   }
@@ -48,7 +60,7 @@ export class ProvidedServiceComponent {
     this.salonClient.createProvidedService(request)
     .subscribe({
       next: (res:any) => { // if requests were successful
-        this.errors = []; // reset error messages
+        this.createServiceErrors$.next([]) // reset error messages
         this.providedServices$.next(res); // cache profile
         this.serviceNameForm.reset();
         this.serviceLengthForm.reset();
@@ -57,9 +69,10 @@ export class ProvidedServiceComponent {
         this.processingCreateService$.next(false); // and mark component as available
       },
       error: (err:any) => { // if errors were encountered during profile creation
-        this.errors = []; // reset error messages
+        let errors:string[] = []
         // cache all server error messages and display them to the user
-        err.error.additionalInfo.map((each:any)=>this.errors.push(each.message))
+        err.error.additionalInfo.map((each:any)=>errors.push(each.message))
+        this.createServiceErrors$.next(errors); // reset error messages
         this.processingCreateService$.next(false); // and mark component as available
       }
     });

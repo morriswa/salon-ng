@@ -4,13 +4,15 @@
 
 <button
   class="salon-btn-secondary-outline"
-  [routerLink]="['services']"
->Search for Services</button>
+  [routerLink]="['schedule']"
+  [disabled]="currentPageIs('/client/schedule')"
+>View Schedule</button>
 
 <button
   class="salon-btn-secondary-outline"
-  [routerLink]="['schedule']"
->View Schedule</button>
+  [routerLink]="['services']"
+  [disabled]="currentPageIs('/client/services')"
+>Search for Services</button>
 
 <div style="display: block; margin: 20px auto 0 auto;">
   <router-outlet></router-outlet>

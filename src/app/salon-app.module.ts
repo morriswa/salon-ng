@@ -41,6 +41,7 @@ import {AmericanPhoneNumberPipe} from "./pipe/AmericanPhoneNumber";
 import {
   EmployeeAppointmentDetailsComponent
 } from "./component/employee/employee-appointment-details/employee-appointment-details.component";
+import {AccessCodeComponent} from "./component/access-code/access-code.component";
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {
     HomeComponent,
     LoginComponent,
     RegisterUserComponent,
+    AccessCodeComponent,
     UserProfileComponent,
     EmployeeComponent,
     ProvidedServiceComponent,

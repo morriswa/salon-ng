@@ -10,10 +10,14 @@ import {SalonClient} from "../../../service/salon-client.service";
 export class EmployeeScheduleComponent {
   employeeSchedule$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[] | undefined>(undefined);
 
-  constructor(salonClient: SalonClient) {
+  constructor(private salonClient: SalonClient) {
     salonClient.getEmployeeSchedule().subscribe({
       next: (res:any[]) => this.employeeSchedule$.next(res)
     });
   }
 
+  refreshEmployeeSchedule() {
+    this.salonClient.refreshEmployeeSchedule()
+      .subscribe(res=>this.employeeSchedule$.next(res));
+  }
 }

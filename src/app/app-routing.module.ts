@@ -22,6 +22,7 @@ import {
 import {
   EmployeeAppointmentDetailsComponent
 } from "./component/employee/employee-appointment-details/employee-appointment-details.component";
+import {AccessCodeComponent} from "./component/access-code/access-code.component";
 
 const routes: Routes = [
   { path:'employee', component: EmployeeComponent, children: [
@@ -29,15 +30,16 @@ const routes: Routes = [
     { path:'schedule', component: EmployeeScheduleComponent },
     { path:'finance', component: EmployeeFinanceComponent },
     { path:'appointment/:appointmentId', component: EmployeeAppointmentDetailsComponent },
-    { path: '**', pathMatch: "full", redirectTo: ""}
+    { path: '**', pathMatch: "full", redirectTo: "schedule"}
   ] },
   { path:'client', component: ClientComponent, children: [
       { path:'services', component: ClientSearchServicesComponent },
       { path:'service/:serviceId', component: ClientServiceAndBookingComponent },
       { path:'schedule', component: ClientScheduleComponent },
       { path:'appointment/:appointmentId', component: ClientAppointmentDetailsComponent },
-      { path: '**', pathMatch: "full", redirectTo: ""}
+      { path: '**', pathMatch: "full", redirectTo: "schedule"}
   ] },
+  { path: 'access/:code', component: AccessCodeComponent },
   { path:'user', component: UserProfileComponent },
   { path:'login', component: LoginComponent },
   { path:'register', component: RegisterUserComponent },

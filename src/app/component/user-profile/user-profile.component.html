@@ -24,6 +24,18 @@
 
     <br>
 
+    <h6
+      *ngIf="!login.hasAuthority('CLIENT')"
+      class="search-result-links"
+      [routerLink]="['/access','client']"
+    >Click here if you are unable to access the client portal...</h6>
+
+    <button
+      *ngIf="!(isUpdatingContactInfo$|async)"
+      class="salon-btn-primary"
+      (click)="this.isUpdatingContactInfo$.next(true)"
+    >Update Info</button>
+
     @if (isUpdatingContactInfo$ | async) {
 
       @for(error of updateFormErrors; track error) {
@@ -135,12 +147,21 @@
         class="salon-btn-primary"
         (click)="updateContactInfo()">Confirm</button>
 
+      <button
+        class="salon-btn-primary"
+        (click)="this.isUpdatingContactInfo$.next(false)"
+      >Cancel</button>
+
+      <br><br>
+
+      <h6
+        *ngIf="!login.hasAuthority('EMPLOYEE')"
+        class="search-result-links"
+        [routerLink]="['/access','employee']"
+        >Click here if you have an employee access code...</h6>
     }
 
-    <button
-      class="salon-btn-primary"
-      (click)="this.isUpdatingContactInfo$.next(!this.isUpdatingContactInfo$.getValue())"
-    >{{ !(isUpdatingContactInfo$ | async)? 'Update Info' : 'Cancel' }}</button>
+
 
   } @else {
     <h2>Please enter your contact information!</h2>

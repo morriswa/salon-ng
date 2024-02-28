@@ -182,4 +182,18 @@ export class SalonClient {
       .pipe(tap((res:any[])=>this.employeeAppointments$.next(res)));
   }
 
+  unlockEmployeePermissions(enteredCode: string) {
+    return this.http.patch(`${this.SERVICE_URL}/user/access/employee?accessCode=${enteredCode}`, {})
+  }
+
+  unlockClientPermissions() {
+    return this.http.patch(`${this.SERVICE_URL}/user/access/client`, {})
+  }
+
+  resetCache() {
+    this.userProfile$ = new BehaviorSubject<UserProfile | undefined>(undefined);
+    this.employeeServices$ = new BehaviorSubject<any[]|undefined>(undefined);
+    this.clientAppointments$ = new BehaviorSubject<any[]|undefined>(undefined);
+    this.employeeAppointments$ = new BehaviorSubject<any[]|undefined>(undefined);
+  }
 }

@@ -21,7 +21,7 @@
 
   @if (showCreateServiceMenu$ | async) {
 
-    @for (error of errors; track error) {
+    @for (error of (createServiceErrors$|async); track error) {
       <h3 style="color: red">{{error}}</h3>
     }
 

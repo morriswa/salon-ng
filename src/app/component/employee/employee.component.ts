@@ -11,15 +11,24 @@ import {map, Observable} from "rxjs";
 })
 export class EmployeeComponent {
 
+  /**
+   * displays authenticated user's first name on template
+   */
   firstName$: Observable<string>;
 
   // component dependencies
-  constructor(router: Router, public login: LoginService, private salonClient: SalonClient) {
+  constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     // if the user has the proper authorities, they may proceed
+    // else route them appropriately
     if (!login.authenticated) router.navigate(['/login']);
     else if (!login.hasAuthority('EMPLOYEE')) router.navigate(['/']);
 
+    // retrieve first name
     this.firstName$ = this.salonClient.getUserProfile().pipe(map((res:any)=>res.firstName))
+  }
+
+  currentPageIs(page: string) {
+    return this.router.routerState.snapshot.url===page;
   }
 
 }

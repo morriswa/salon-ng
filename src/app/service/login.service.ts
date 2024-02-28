@@ -81,11 +81,14 @@ export class LoginService {
    * resets login cache and logs a user out
    */
   public logout() { // on user logout
+    // reset salon client cache
+    this.salonService.resetCache();
     // set status as unauthenticated
     this._authenticated$.next(false);
     // delete cached account
     this._account$.next(undefined);
     // and delete stored credentials
     this.creds.deleteStoredCredentials();
+
   }
 }

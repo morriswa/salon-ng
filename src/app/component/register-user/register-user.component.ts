@@ -12,12 +12,24 @@ import {Router} from "@angular/router";
 })
 export class RegisterUserComponent {
 
+  /**
+   * signals whether the component is currently performing a registration request
+   */
   processingRegistration$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  registerUserErrors: any[] = [];
+  /**
+   * outputs errors encountered during registration
+   */
+  registerUserErrors$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
+  /**
+   * controls username form
+   */
   usernameForm: FormControl = new FormControl({value: '', disabled: true});
 
+  /**
+   * controls password form
+   */
   passwordForm: FormControl = new FormControl({value: '', disabled: true});
 
 
@@ -25,10 +37,10 @@ export class RegisterUserComponent {
     if (login.authenticated) router.navigate(['/user']);
 
     this.processingRegistration$.asObservable().subscribe(locked=>{
-      if (locked) {
+      if (locked) { // disable forms if component is currently processing a request
         this.usernameForm.disable();
         this.passwordForm.disable();
-      } else {
+      } else { // enable after request is complete
         this.usernameForm.enable();
         this.passwordForm.enable();
       }
@@ -46,16 +58,17 @@ export class RegisterUserComponent {
     .pipe(switchMap(()=>this.login.login(username, password)))
     .subscribe({
       next: () => { // if requests were successful
-        this.registerUserErrors = []; // reset error messages
+        this.registerUserErrors$.next([]); // reset error messages
         this.usernameForm.reset(); // reset profile forms
         this.passwordForm.reset(); // reset profile forms
         this.router.navigate(['/user']);
         this.processingRegistration$.next(false);
       },
       error: (err:any) => { // if errors were encountered during profile creation
-        this.registerUserErrors = []; // reset error messages
+        let errors:string[] = []
         // cache all server error messages and display them to the user
-        err.error.additionalInfo.map((each:any)=>this.registerUserErrors.push(each.message))
+        err.error.additionalInfo.map((each:any)=>errors.push(each.message))
+        this.registerUserErrors$.next(errors);
         this.processingRegistration$.next(false); // and mark component as available
       }
     });

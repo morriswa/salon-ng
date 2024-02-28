@@ -11,6 +11,9 @@ import {BehaviorSubject} from "rxjs";
 })
 export class LoginComponent {
 
+  /**
+   * indicates whether the component is in a loading state
+   */
   processingLogin$:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
@@ -32,13 +35,15 @@ export class LoginComponent {
   // component dependencies
   constructor(public loginService: LoginService,
               private router: Router) {
+    // if the user is already authenticated, they should be re-routed to the User menu
     if (loginService.authenticated) router.navigate(['/user'])
 
     this.processingLogin$.asObservable().subscribe(locked=>{
-      if (locked) {
+      if (locked) { // if the component is processing a request
+        // disable relevant components
         this.usernameForm.disable();
         this.passwordForm.disable();
-      } else {
+      } else { // enable them again when ready
         this.usernameForm.enable();
         this.passwordForm.enable();
       }
