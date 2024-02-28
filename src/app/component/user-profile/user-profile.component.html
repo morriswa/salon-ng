@@ -27,7 +27,7 @@
     <h6
       *ngIf="!login.hasAuthority('CLIENT')"
       class="search-result-links"
-      [routerLink]="['/access','client']"
+      (click)="requestClientAccess()"
     >Click here if you are unable to access the client portal...</h6>
 
     <button

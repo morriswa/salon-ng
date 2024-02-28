@@ -180,4 +180,14 @@ export class UserProfileComponent {
         }
       });
   }
+
+  requestClientAccess() {
+    this.salonClient.unlockClientPermissions()
+      .subscribe({
+        next: ()=>{
+          this.router.navigate(['/client'])
+        },
+        error: err=>console.error(err)
+      });
+  }
 }

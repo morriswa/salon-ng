@@ -15,7 +15,7 @@ import {USER_AUTHORITY} from "../../type-declarations";
 export class AccessCodeComponent {
   accessCodeForm: FormControl = new FormControl;
 
-  static availableAccessPages = ['client','employee']
+  static availableAccessPages = ['employee']
 
   mode!: string;
   accessCodeError$: BehaviorSubject<string> = new BehaviorSubject<string>("");
@@ -33,16 +33,7 @@ export class AccessCodeComponent {
   enterCode() {
     const enteredCode = this.accessCodeForm.value;
 
-    if (this.mode === 'client')
-      this.salonClient.unlockClientPermissions()
-        .pipe(switchMap(()=>this.login.init()))
-        .subscribe({
-          next: ()=>{
-            this.router.navigate(['/client'])
-          },
-          error: err=>this.accessCodeError$.next(err.error.description)
-        });
-    else if (this.mode === 'employee')
+    if (this.mode === 'employee')
       this.salonClient.unlockEmployeePermissions(enteredCode)
         .pipe(switchMap(()=>this.login.init()))
         .subscribe({
