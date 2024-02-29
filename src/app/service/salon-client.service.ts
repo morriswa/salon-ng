@@ -4,6 +4,7 @@ import {BehaviorSubject, map, Observable, of, switchMap, tap} from 'rxjs';
 import {environment} from "../../environments/environment";
 import {UserAccount} from "../interface/user-account.interface";
 import {UserProfile} from "../interface/user-profile.interface";
+import {ProvidedService} from "../interface/provided-service.interface";
 
 
 /**
@@ -96,7 +97,7 @@ export class SalonClient {
       .pipe(tap((res:any[])=>this.employeeServices$.next(res)));
   }
 
-  getEmployeesProvidedServices(): Observable<any[]> {
+  getEmployeesProvidedServices(): Observable<ProvidedService[]> {
     return this.employeeServices$.asObservable()
     .pipe(switchMap((res): Observable<any[]> => {
       if (res) return of(res);

@@ -42,6 +42,8 @@ import {
   EmployeeAppointmentDetailsComponent
 } from "./component/employee/employee-appointment-details/employee-appointment-details.component";
 import {AccessCodeComponent} from "./component/access-code/access-code.component";
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -77,6 +79,8 @@ import {AccessCodeComponent} from "./component/access-code/access-code.component
     MatNativeDateModule,
     MatSelectModule,
     MatOptionModule,
+    MatTableModule,
+    MatSortModule,
     LocaleDatePipe,
     LocaleTimePipe,
     AmericanPhoneNumberPipe
