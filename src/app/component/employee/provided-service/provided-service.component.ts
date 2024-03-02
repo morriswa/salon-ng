@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {SalonClient} from "../../../service/salon-client.service";
-import {FormControl} from "@angular/forms";
+import {FormControl, Validators} from "@angular/forms";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import {ProvidedService} from "../../../interface/provided-service.interface";
@@ -35,9 +35,17 @@ export class ProvidedServiceComponent implements AfterViewInit{
   providedServices$: BehaviorSubject<ProvidedService[]|undefined> = new BehaviorSubject<ProvidedService[]|undefined>(undefined);
 
   // create service form controls
-  serviceNameForm: FormControl = new FormControl();
-  serviceCostForm: FormControl = new FormControl();
-  serviceLengthForm: FormControl = new FormControl();
+  serviceNameForm: FormControl = new FormControl('',[
+    Validators.maxLength(128)
+  ]);
+  serviceCostForm: FormControl = new FormControl('',[
+    Validators.pattern('^[0-9]{1,3}(\.[0-9]{1,2})?$'),
+    Validators.min(0.01), Validators.max(999.99)
+  ]);
+  serviceLengthForm: FormControl = new FormControl('',[
+    Validators.pattern('^[0-9]{1,3}$'),
+    Validators.min(1), Validators.max(480)
+  ]);
 
   displayedColumns: string[] = ['serviceId', 'name', 'defaultLength', 'defaultCost'];
 
