@@ -62,6 +62,7 @@ export class SalonClient {
           accountCreationDate: new Date(res.accountCreationDate),
           firstName: res.firstName,
           lastName: res.lastName,
+          pronouns: res.pronouns,
           address: res.address,
           phoneNumber: res.phoneNumber,
           email: res.email,

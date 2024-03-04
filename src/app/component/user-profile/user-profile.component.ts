@@ -31,6 +31,9 @@ export class UserProfileComponent {
    */
   userProfile$: BehaviorSubject<UserProfile|undefined> = new BehaviorSubject<UserProfile | undefined>(undefined);
 
+
+  pronounSelector$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
+
   updateFormErrors: string[] = [];
   createFormErrors: string[] = [];
 
@@ -58,6 +61,7 @@ export class UserProfileComponent {
   ]);
 
 
+  pronounValue?:string;
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated) router.navigate(['/login']);
@@ -84,6 +88,8 @@ export class UserProfileComponent {
     if (this.firstNameForm.value) params['firstName'] = this.firstNameForm.value;
 
     if (this.lastNameForm.value) params['lastName'] = this.lastNameForm.value;
+
+    if (this.pronounSelector$.getValue()) params['pronouns'] = this.pronounSelector$.getValue();
 
     if (this.emailForm.value) params['email'] = this.emailForm.value;
 
@@ -138,6 +144,7 @@ export class UserProfileComponent {
     let params:any = {
       firstName: this.firstNameForm.value,
       lastName: this.lastNameForm.value,
+      pronouns: this.pronounSelector$.getValue(),
       email: this.emailForm.value,
       phoneNumber: this.phoneNumberForm.value,
       addressLineOne: this.addressLineOneForm.value,
@@ -189,5 +196,10 @@ export class UserProfileComponent {
         },
         error: err=>console.error(err)
       });
+  }
+
+  selectedPronouns($event: 'H'|'S'|'T') {
+    this.pronounSelector$.next($event);
+    this.pronounValue = $event;
   }
 }

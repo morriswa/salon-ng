@@ -17,8 +17,9 @@
     <h2>Contact Information</h2>
     <h4>First name: {{ userProfile.firstName }}</h4>
     <h4>Last name: {{ userProfile.lastName }}</h4>
+    <h4>Pronouns: {{userProfile.pronouns }}</h4>
     <h4>Email: {{ userProfile.email }}</h4>
-    <h4>Phone: {{ userProfile.phoneNumber }}</h4>
+    <h4>Phone: {{ userProfile.phoneNumber | americanPhoneNumber }}</h4>
     <h4>Address: {{ userProfile.address }}</h4>
     <h4>Contact Preference: {{ userProfile.contactPreference }}</h4>
 
@@ -41,6 +42,20 @@
       @for(error of updateFormErrors; track error) {
         <br><h3>{{error}}</h3>
       }
+
+      <mat-form-field class="booking-fields">
+        <mat-label>Select your pronouns</mat-label>
+        <mat-select
+          [(value)]="pronounValue"
+          (valueChange)="selectedPronouns($event)">
+
+        <mat-option value="H">He/Him/His</mat-option>
+        <mat-option value="S">She/Her/Hers</mat-option>
+        <mat-option value="T">They/Them/Theirs</mat-option>
+
+        </mat-select>
+      </mat-form-field>
+
       <div class="form-floating">
         <input
           type="text"
@@ -172,6 +187,18 @@
     }
 
     <br>
+
+    <mat-form-field class="booking-fields">
+      <mat-label>Select your pronouns</mat-label>
+      <mat-select
+        [(value)]="pronounValue"
+        (valueChange)="selectedPronouns($event)"
+        >
+          <mat-option value="H">He/Him/His</mat-option>
+          <mat-option value="S">She/Her/Hers</mat-option>
+          <mat-option value="T">They/Them/Theirs</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <div class="form-floating">
       <input
