@@ -6,6 +6,12 @@
 
 <button
   class="salon-btn-secondary-outline"
+  [routerLink]="['user']"
+  [disabled]="currentPageIs('/employee/user')"
+  >Your Profile</button>
+
+<button
+  class="salon-btn-secondary-outline"
   [routerLink]="['schedule']"
   [disabled]="currentPageIs('/employee/schedule')"
   >View Schedule</button>

@@ -44,6 +44,7 @@ import {
 import {AccessCodeComponent} from "./component/access-code/access-code.component";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
+import {CreateProfileComponentComponent} from "./component/create-profile-component/create-profile-component.component";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {MatSortModule} from "@angular/material/sort";
     HomeComponent,
     LoginComponent,
     RegisterUserComponent,
+    CreateProfileComponentComponent,
     AccessCodeComponent,
     UserProfileComponent,
     EmployeeComponent,

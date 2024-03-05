@@ -5,6 +5,7 @@ import {LoginService} from "../../service/login.service";
 import {FormControl, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserProfile} from "../../interface/user-profile.interface";
+import {ValidatorFactory} from "../../validator-factory";
 
 @Component({
   selector: 'salon-user-profile',
@@ -35,36 +36,24 @@ export class UserProfileComponent {
   pronounSelector$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
 
   updateFormErrors: string[] = [];
-  createFormErrors: string[] = [];
 
-
-  firstNameForm = new FormControl('', [Validators.maxLength(32)]);
-  lastNameForm = new FormControl('', [Validators.maxLength(32)]);
-  phoneNumberForm = new FormControl('', [
-    Validators.minLength(10),
-    Validators.maxLength(10),
-    Validators.pattern("^[0-9]*$")
-  ]);
-  emailForm = new FormControl('', Validators.maxLength(100));
-  addressLineOneForm = new FormControl('', Validators.maxLength(50))
-  addressLineTwoForm = new FormControl('', Validators.maxLength(50))
-  cityForm = new FormControl('', Validators.maxLength(50))
-  stateForm = new FormControl('', [
-    Validators.minLength(2),
-    Validators.maxLength(2),
-    Validators.pattern("^[A-Z]*$")
-  ]);
-  zipCodeForm = new FormControl('', [
-    Validators.minLength(10),
-    Validators.maxLength(10),
-    Validators.pattern("^[0-9-]*$")
-  ]);
+  firstNameForm = ValidatorFactory.getFirstNameForm();
+  lastNameForm = ValidatorFactory.getLastNameForm();
+  phoneNumberForm = ValidatorFactory.getPhoneNumberForm();
+  emailForm = ValidatorFactory.getEmailForm();
+  addressLineOneForm = ValidatorFactory.getAddressLnOneForm();
+  addressLineTwoForm = ValidatorFactory.getAddressLnTwoForm();
+  cityForm = ValidatorFactory.getCityForm();
+  stateForm = ValidatorFactory.getStateForm();
+  zipCodeForm = ValidatorFactory.getZipCodeForm();
 
 
   pronounValue?:string;
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated) router.navigate(['/login']);
+    else if (!(login.hasAuthority('CLIENT')||login.hasAuthority('EMPLOYEE')))
+      router.navigate(['/register2'])
     else this.salonClient.getUserProfile().subscribe({
       next: res =>{
         this.userProfile$ .next(res);
@@ -136,57 +125,6 @@ export class UserProfileComponent {
     this.zipCodeForm.reset()
   }
 
-  createUserProfile() { // when user submits their contact information...
-    // mark component as loading so no further changes can be made
-    this.processingProfile$.next(true);
-
-    // create response body
-    let params:any = {
-      firstName: this.firstNameForm.value,
-      lastName: this.lastNameForm.value,
-      pronouns: this.pronounSelector$.getValue(),
-      email: this.emailForm.value,
-      phoneNumber: this.phoneNumberForm.value,
-      addressLineOne: this.addressLineOneForm.value,
-      city: this.cityForm.value,
-      stateCode: this.stateForm.value,
-      zipCode: this.zipCodeForm.value,
-      contactPreference: 'Email'
-    };
-
-    if (this.addressLineTwoForm.value) params['addressLineTwo'] = this.addressLineTwoForm.value;
-
-    // after response body has been created, call create user profile endpoint with constructed params
-    this.salonClient.createUserProfile(params)
-      .pipe(
-        // since this action will update a user's credentials, refresh the login cache
-        switchMap(()=>this.login.init()),
-        switchMap((authenticationSuccessful: boolean)=>{
-          // assuming no errors are encountered, call get user profile endpoint to retrieve updated info
-          if (authenticationSuccessful) return this.salonClient.getUserProfile();
-          // if the user could not be authenticated, reset
-          else {
-            this.login.logout();
-            return this.router.navigate(['/']);
-          }
-        })
-      )
-      .subscribe({
-        next: (res:any) => { // if requests were successful
-          // this.account$ = this.login.account$; // get new login information
-          this.createFormErrors = []; // reset error messages
-          this.userProfile$.next(res); // cache profile
-          this.resetAllForms(); // reset profile forms
-          this.processingProfile$.next(false); // and mark component as available
-        },
-        error: (err:any) => { // if errors were encountered during profile creation
-          this.createFormErrors = []; // reset error messages
-          // cache all server error messages and display them to the user
-          err.error.additionalInfo.map((each:any)=>this.createFormErrors.push(each.message))
-          this.processingProfile$.next(false); // and mark component as available
-        }
-      });
-  }
 
   requestClientAccess() {
     this.salonClient.unlockClientPermissions()

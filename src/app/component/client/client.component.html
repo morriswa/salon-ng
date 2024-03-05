@@ -2,13 +2,22 @@
 <h2>This page will contain all client facing actions</h2>
 <p><i>Users should only be able to access this functionality AFTER providing their contact information...</i></p>
 
+
 <button
+  class="salon-btn-secondary-outline"
+  [routerLink]="['user']"
+  [disabled]="currentPageIs('/client/user')"
+>Your Profile</button>
+
+<button
+  *ngIf="login.hasAuthority('CLIENT')"
   class="salon-btn-secondary-outline"
   [routerLink]="['schedule']"
   [disabled]="currentPageIs('/client/schedule')"
 >View Schedule</button>
 
 <button
+  *ngIf="login.hasAuthority('CLIENT')"
   class="salon-btn-secondary-outline"
   [routerLink]="['services']"
   [disabled]="currentPageIs('/client/services')"

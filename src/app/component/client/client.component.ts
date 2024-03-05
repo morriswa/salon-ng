@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 })
 export class ClientComponent {
 
-  constructor(login: LoginService, public router: Router) {
+  constructor(public login: LoginService, public router: Router) {
     // if the user has the proper authorities, they may proceed
     // else route them appropriately
     if (!login.authenticated) router.navigate(['/login']);

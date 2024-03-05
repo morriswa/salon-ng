@@ -61,7 +61,7 @@ export class RegisterUserComponent {
         this.registerUserErrors$.next([]); // reset error messages
         this.usernameForm.reset(); // reset profile forms
         this.passwordForm.reset(); // reset profile forms
-        this.router.navigate(['/user']);
+        this.router.navigate(['/register2']);
         this.processingRegistration$.next(false);
       },
       error: (err:any) => { // if errors were encountered during profile creation

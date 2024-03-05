@@ -8,9 +8,12 @@
     @if (loginService.authenticated$ | async){
       <button
         class="salon-btn-primary"
-        *ngIf="loginService.hasAuthority('USER')"
-        [routerLink]="['/user']"
-      >User Menu</button>
+        *ngIf="
+          loginService.hasAuthority('USER')
+          && !loginService.hasAuthority('CLIENT')
+        "
+        [routerLink]="['/register2']"
+      >Finish Account Setup</button>
       <button
         class="salon-btn-primary"
         *ngIf="loginService.hasAuthority('CLIENT')"

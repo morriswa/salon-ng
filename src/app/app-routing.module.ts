@@ -23,9 +23,11 @@ import {
   EmployeeAppointmentDetailsComponent
 } from "./component/employee/employee-appointment-details/employee-appointment-details.component";
 import {AccessCodeComponent} from "./component/access-code/access-code.component";
+import {CreateProfileComponentComponent} from "./component/create-profile-component/create-profile-component.component";
 
 const routes: Routes = [
   { path:'employee', component: EmployeeComponent, children: [
+    { path:'user', component: UserProfileComponent },
     { path:'services', component: ProvidedServiceComponent },
     { path:'schedule', component: EmployeeScheduleComponent },
     { path:'finance', component: EmployeeFinanceComponent },
@@ -33,6 +35,7 @@ const routes: Routes = [
     { path: '**', pathMatch: "full", redirectTo: "schedule"}
   ] },
   { path:'client', component: ClientComponent, children: [
+      { path:'user', component: UserProfileComponent },
       { path:'services', component: ClientSearchServicesComponent },
       { path:'service/:serviceId', component: ClientServiceAndBookingComponent },
       { path:'schedule', component: ClientScheduleComponent },
@@ -40,9 +43,10 @@ const routes: Routes = [
       { path: '**', pathMatch: "full", redirectTo: "schedule"}
   ] },
   { path: 'access/:code', component: AccessCodeComponent },
-  { path:'user', component: UserProfileComponent },
   { path:'login', component: LoginComponent },
   { path:'register', component: RegisterUserComponent },
+  { path:'register2', component: CreateProfileComponentComponent },
+  // { path:'user', component: UserProfileComponent },
   { path: '**', component: HomeComponent, pathMatch: "full" }
 ];
 

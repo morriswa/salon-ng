@@ -1,0 +1,133 @@
+
+<h2>Please enter your contact information!</h2>
+<p><i>After entering your contact information, you should gain access to the client portal</i></p>
+
+@for(error of createFormErrors; track error) {
+  <br><h3>{{error}}</h3>
+}
+
+<br>
+
+<mat-form-field class="booking-fields">
+  <mat-label>Select your pronouns</mat-label>
+  <mat-select
+    [(value)]="pronounValue"
+    (valueChange)="selectedPronouns($event)"
+  >
+    <mat-option value="H">He/Him/His</mat-option>
+    <mat-option value="S">She/Her/Hers</mat-option>
+    <mat-option value="T">They/Them/Theirs</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div class="form-floating">
+  <input
+    required
+    type="text"
+    class="form-control"
+    [formControl]="firstNameForm"
+    placeholder="first name..."
+  >
+  <label>Enter your first name: </label>
+</div>
+<br>
+
+<div class="form-floating">
+  <input
+    required
+    type="text"
+    class="form-control"
+    [formControl]="lastNameForm"
+    placeholder="last name..."
+  >
+  <label>Enter your last name: </label>
+</div>
+<br>
+
+<div class="form-floating">
+  <input
+    required
+    type="text"
+    class="form-control"
+    [formControl]="emailForm"
+    placeholder="email..."
+  >
+  <label>Enter your email: </label>
+</div>
+<br>
+
+<div class="form-floating">
+  <input
+    required
+    type="text"
+    class="form-control"
+    [formControl]="phoneNumberForm"
+    placeholder="phone number..."
+  >
+  <label>Enter your phone number: </label>
+</div>
+<br>
+
+<div class="form-floating">
+  <input
+    required
+    type="text"
+    class="form-control"
+    [formControl]="addressLineOneForm"
+    placeholder="address..."
+  >
+  <label>Enter your address (line 1): </label>
+</div>
+<br>
+
+<div class="form-floating">
+  <input
+    type="text"
+    class="form-control"
+    [formControl]="addressLineTwoForm"
+    placeholder="address..."
+  >
+  <label>Enter your address (line 2): </label>
+</div>
+<br>
+
+<div class="form-floating">
+  <input
+    required
+    type="text"
+    class="form-control"
+    [formControl]="cityForm"
+    placeholder="city..."
+  >
+  <label>Enter your address (city): </label>
+</div>
+<br>
+
+<div class="form-floating">
+  <input
+    required
+    type="text"
+    class="form-control"
+    [formControl]="stateForm"
+    placeholder="state..."
+  >
+  <label>Enter your address (state): </label>
+</div>
+<br>
+
+<div class="form-floating">
+  <input
+    required
+    type="text"
+    class="form-control"
+    [formControl]="zipCodeForm"
+    placeholder="zip code..."
+  >
+  <label>Enter your address (zip code): </label>
+</div>
+<br>
+
+<button
+  class="salon-btn-primary"
+  (click)="createUserProfile()"
+>Confirm</button>
