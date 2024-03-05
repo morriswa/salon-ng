@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AddTokenInterceptor } from './interceptor/AddTokenInterceptor';
 import { CommonModule } from '@angular/common';
-import { UserProfileComponent } from './component/user-profile/user-profile.component';
+import { UserProfileComponent } from './component/client/user-profile/user-profile.component';
 import { EmployeeComponent } from './component/employee/employee.component';
 import { ClientComponent } from './component/client/client.component';
 import { SalonClient } from './service/salon-client.service';
@@ -45,6 +45,7 @@ import {AccessCodeComponent} from "./component/access-code/access-code.component
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {CreateProfileComponentComponent} from "./component/create-profile-component/create-profile-component.component";
+import {EmployeeProfileComponent} from "./component/employee/employee-profile/employee-profile.component";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {CreateProfileComponentComponent} from "./component/create-profile-compon
     EmployeeScheduleComponent,
     EmployeeFinanceComponent,
     EmployeeAppointmentDetailsComponent,
+    EmployeeProfileComponent,
     // Client Components
     ClientComponent,
     ClientSearchServicesComponent,

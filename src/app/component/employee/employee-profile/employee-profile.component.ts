@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject, switchMap} from 'rxjs';
 import { SalonClient } from 'src/app/service/salon-client.service';
-import {LoginService} from "../../service/login.service";
-import {FormControl, Validators} from "@angular/forms";
+import {LoginService} from "../../../service/login.service";
 import {Router} from "@angular/router";
-import {UserProfile} from "../../interface/user-profile.interface";
-import {ValidatorFactory} from "../../validator-factory";
+import {UserProfile} from "../../../interface/user-profile.interface";
+import {ValidatorFactory} from "../../../validator-factory";
 
 @Component({
   selector: 'salon-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.scss'
+  templateUrl: './employee-profile.component.html',
+  styleUrl: './employee-profile.component.scss'
 })
-export class UserProfileComponent {
+export class EmployeeProfileComponent {
 
 
   /**
@@ -51,9 +50,8 @@ export class UserProfileComponent {
   pronounValue?:string;
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
-    if (!login.authenticated) router.navigate(['/login']);
-    else if (!(login.hasAuthority('CLIENT')||login.hasAuthority('EMPLOYEE')))
-      router.navigate(['/register2'])
+    if (!login.authenticated)
+      router.navigate(['/login']);
     else this.salonClient.getUserProfile().subscribe({
       next: res =>{
         this.userProfile$ .next(res);
@@ -123,17 +121,6 @@ export class UserProfileComponent {
     this.cityForm.reset()
     this.stateForm.reset()
     this.zipCodeForm.reset()
-  }
-
-
-  requestClientAccess() {
-    this.salonClient.unlockClientPermissions()
-      .subscribe({
-        next: ()=>{
-          this.router.navigate(['/client'])
-        },
-        error: err=>console.error(err)
-      });
   }
 
   selectedPronouns($event: 'H'|'S'|'T') {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EmployeeComponent } from './component/employee/employee.component';
 import { ClientComponent } from './component/client/client.component';
-import { UserProfileComponent } from './component/user-profile/user-profile.component';
+import { UserProfileComponent } from './component/client/user-profile/user-profile.component';
 import {HomeComponent} from "./component/home/home.component";
 import {RegisterUserComponent} from "./component/register-user/register-user.component";
 import {LoginComponent} from "./component/login/login.component";
@@ -24,10 +24,11 @@ import {
 } from "./component/employee/employee-appointment-details/employee-appointment-details.component";
 import {AccessCodeComponent} from "./component/access-code/access-code.component";
 import {CreateProfileComponentComponent} from "./component/create-profile-component/create-profile-component.component";
+import {EmployeeProfileComponent} from "./component/employee/employee-profile/employee-profile.component";
 
 const routes: Routes = [
   { path:'employee', component: EmployeeComponent, children: [
-    { path:'user', component: UserProfileComponent },
+    { path:'user', component: EmployeeProfileComponent },
     { path:'services', component: ProvidedServiceComponent },
     { path:'schedule', component: EmployeeScheduleComponent },
     { path:'finance', component: EmployeeFinanceComponent },
@@ -35,12 +36,12 @@ const routes: Routes = [
     { path: '**', pathMatch: "full", redirectTo: "schedule"}
   ] },
   { path:'client', component: ClientComponent, children: [
-      { path:'user', component: UserProfileComponent },
-      { path:'services', component: ClientSearchServicesComponent },
-      { path:'service/:serviceId', component: ClientServiceAndBookingComponent },
-      { path:'schedule', component: ClientScheduleComponent },
-      { path:'appointment/:appointmentId', component: ClientAppointmentDetailsComponent },
-      { path: '**', pathMatch: "full", redirectTo: "schedule"}
+    { path:'user', component: UserProfileComponent },
+    { path:'services', component: ClientSearchServicesComponent },
+    { path:'service/:serviceId', component: ClientServiceAndBookingComponent },
+    { path:'schedule', component: ClientScheduleComponent },
+    { path:'appointment/:appointmentId', component: ClientAppointmentDetailsComponent },
+    { path: '**', pathMatch: "full", redirectTo: "schedule"}
   ] },
   { path: 'access/:code', component: AccessCodeComponent },
   { path:'login', component: LoginComponent },
