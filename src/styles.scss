@@ -69,6 +69,8 @@ body {
   width: 100vw;
   padding: 0;
   margin: 0;
+  background-color: rgb(10, 10, 10);
+
 }
 
 
@@ -76,7 +78,7 @@ body {
 // defn global classes
 .salon-btn-primary {
   @extend .btn;
-  background-color: $primary;
+  background-color: blue;
   color: white;
   margin-right: 5px;
 }

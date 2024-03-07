@@ -1,0 +1,131 @@
+
+
+
+h1 {
+    color: rgb(255, 251, 251);
+    font-size: 60px;
+    font-family: "Italiana", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+}
+
+h2 {
+    color: rgb(164, 164, 164);
+    text-align: center;
+    font-family: "Roboto Mono", monospace;
+}
+
+.italiana-regular {
+    font-family: "Italiana", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#image {
+    opacity: .85;
+    position: absolute;
+    top: 220px;
+    left: 80px;
+    z-index: -1;
+    /* border: 2px solid white; */
+}
+
+#image2 {
+    opacity: .85;
+    position: absolute;
+    top: 220px;
+    right: 80px;
+    z-index: -2;
+    /* border: 2px solid white; */
+}
+
+.button-89 {
+    font-family: "Roboto Mono", monospace;
+    --b: 3px;   /* border thickness */
+    --s: .45em; /* size of the corner */
+    --color: rgb(164, 164, 164);
+    opacity: .85;
+
+    padding: calc(.5em + var(--s)) calc(.9em + var(--s));
+    color: var(--color);
+    --_p: var(--s);
+    background:
+        conic-gradient(from 90deg at var(--b) var(--b),#0000 90deg,var(--color) 0)
+        var(--_p) var(--_p)/calc(100% - var(--b) - 2*var(--_p)) calc(100% - var(--b) - 2*var(--_p));
+    transition: .3s linear, color 0s, background-color 0s;
+    outline: var(--b) solid #0000;
+    outline-offset: .6em;
+    font-size: 16px;
+
+    border: 0;
+
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-89:hover,
+.button-89:focus-visible{
+    --_p: 0px;
+    outline-color: var(--color);
+    outline-offset: .05em;
+}
+
+.button-89:active {
+    background: var(--color);
+    color: #fff;
+}
+
+.hair {
+    position: absolute;
+    left: 310px;
+    top: 675px;
+    font-size: 40px;
+    color: rgb(164, 164, 164);
+    font-family: "Roboto Mono", monospace;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+}
+.nails {
+
+    position: absolute;
+    right: 310px;
+    top: 675px;
+    font-size: 40px;
+    color: rgb(164, 164, 164);
+    font-family: "Roboto Mono", monospace;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+}
+
+.top-container {
+    background-color: #f1f1f1;
+    padding: 30px;
+    text-align: center;
+}
+
+#salon-author-banner {
+    padding: 0px;
+    background: #555;
+    color: #f1f1f1;
+    height: 50px;
+    display: block;
+    width: 100%;
+}
+
+.content {
+    padding: 16px;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.sticky + .content {
+    padding-top: 102px;
+}
