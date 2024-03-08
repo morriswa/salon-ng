@@ -12,7 +12,7 @@
     <h3
       class="search-result-links"
       [routerLink]="['/client', 'appointment', appointment.appointmentId]"
-      >{{ appointment.service.name }}</h3>
+      >{{ appointment.serviceName }}</h3>
     <h5>on {{ appointment.time | localeDate }} at {{ appointment.time | localeTime }}</h5>
     <h5>with {{ appointment.employee.firstName }} {{ appointment.employee.lastName }}</h5>
     <br>

@@ -4,7 +4,7 @@ import { EmployeeComponent } from './component/employee/employee.component';
 import { ClientComponent } from './component/client/client.component';
 import { UserProfileComponent } from './component/client/user-profile/user-profile.component';
 import {HomeComponent} from "./component/home/home.component";
-import {RegisterUserComponent} from "./component/register-user/register-user.component";
+import {RegisterUserComponent} from "./component/registration/register-user/register-user.component";
 import {LoginComponent} from "./component/login/login.component";
 import {ProvidedServiceComponent} from "./component/employee/provided-service/provided-service.component";
 import {EmployeeScheduleComponent} from "./component/employee/employee-schedule/employee-schedule.component";
@@ -22,9 +22,10 @@ import {
 import {
   EmployeeAppointmentDetailsComponent
 } from "./component/employee/employee-appointment-details/employee-appointment-details.component";
-import {AccessCodeComponent} from "./component/access-code/access-code.component";
-import {CreateProfileComponentComponent} from "./component/create-profile-component/create-profile-component.component";
+import {AccessCodeComponent} from "./component/registration/access-code/access-code.component";
+import {CreateProfileComponentComponent} from "./component/registration/create-profile-component/create-profile-component.component";
 import {EmployeeProfileComponent} from "./component/employee/employee-profile/employee-profile.component";
+import {PublicProfileComponent} from "./component/public-profile/public-profile.component";
 
 const routes: Routes = [
   { path:'employee', component: EmployeeComponent, children: [
@@ -43,10 +44,11 @@ const routes: Routes = [
     { path:'appointment/:appointmentId', component: ClientAppointmentDetailsComponent },
     { path: '**', pathMatch: "full", redirectTo: "schedule"}
   ] },
-  { path: 'access/:code', component: AccessCodeComponent },
+  { path: 'profile/:employeeId', component: PublicProfileComponent },
   { path:'login', component: LoginComponent },
   { path:'register', component: RegisterUserComponent },
   { path:'register2', component: CreateProfileComponentComponent },
+  { path: 'register2/access', component: AccessCodeComponent },
   // { path:'user', component: UserProfileComponent },
   { path: '**', component: HomeComponent, pathMatch: "full" }
 ];

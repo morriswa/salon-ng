@@ -12,7 +12,7 @@ import { EmployeeComponent } from './component/employee/employee.component';
 import { ClientComponent } from './component/client/client.component';
 import { SalonClient } from './service/salon-client.service';
 import {HomeComponent} from "./component/home/home.component";
-import {RegisterUserComponent} from "./component/register-user/register-user.component";
+import {RegisterUserComponent} from "./component/registration/register-user/register-user.component";
 import {LoginComponent} from "./component/login/login.component";
 import {LoginService} from "./service/login.service";
 import {CredentialService} from "./service/credential.service";
@@ -41,11 +41,12 @@ import {AmericanPhoneNumberPipe} from "./pipe/AmericanPhoneNumber";
 import {
   EmployeeAppointmentDetailsComponent
 } from "./component/employee/employee-appointment-details/employee-appointment-details.component";
-import {AccessCodeComponent} from "./component/access-code/access-code.component";
+import {AccessCodeComponent} from "./component/registration/access-code/access-code.component";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
-import {CreateProfileComponentComponent} from "./component/create-profile-component/create-profile-component.component";
+import {CreateProfileComponentComponent} from "./component/registration/create-profile-component/create-profile-component.component";
 import {EmployeeProfileComponent} from "./component/employee/employee-profile/employee-profile.component";
+import {PublicProfileComponent} from "./component/public-profile/public-profile.component";
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {EmployeeProfileComponent} from "./component/employee/employee-profile/em
     RegisterUserComponent,
     CreateProfileComponentComponent,
     AccessCodeComponent,
+    PublicProfileComponent,
     UserProfileComponent,
     EmployeeComponent,
     ProvidedServiceComponent,

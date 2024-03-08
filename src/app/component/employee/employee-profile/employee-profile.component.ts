@@ -3,8 +3,9 @@ import {BehaviorSubject, switchMap} from 'rxjs';
 import { SalonClient } from 'src/app/service/salon-client.service';
 import {LoginService} from "../../../service/login.service";
 import {Router} from "@angular/router";
-import {UserProfile} from "../../../interface/user-profile.interface";
 import {ValidatorFactory} from "../../../validator-factory";
+import {FormControl} from "@angular/forms";
+import {EmployeeProfile} from "../../../interface/profile.interface";
 
 @Component({
   selector: 'salon-user-profile',
@@ -29,7 +30,7 @@ export class EmployeeProfileComponent {
   /**
    * state of user profile, and if it has been successfully loaded
    */
-  userProfile$: BehaviorSubject<UserProfile|undefined> = new BehaviorSubject<UserProfile | undefined>(undefined);
+  employeeProfile$: BehaviorSubject<EmployeeProfile|undefined> = new BehaviorSubject<EmployeeProfile | undefined>(undefined);
 
 
   pronounSelector$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
@@ -48,13 +49,14 @@ export class EmployeeProfileComponent {
 
 
   pronounValue?:string;
+  bioForm: FormControl = new FormControl('');
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated)
       router.navigate(['/login']);
-    else this.salonClient.getUserProfile().subscribe({
+    else this.salonClient.getEmployeeProfile().subscribe({
       next: res =>{
-        this.userProfile$ .next(res);
+        this.employeeProfile$ .next(res);
         this.processingProfile$.next(false);
       },
       error: res=>{
@@ -72,6 +74,8 @@ export class EmployeeProfileComponent {
     let params:any = {};
 
     // and fill with appropriate params based on user input
+    if (this.bioForm.value) params['bio'] = this.bioForm.value;
+
     if (this.firstNameForm.value) params['firstName'] = this.firstNameForm.value;
 
     if (this.lastNameForm.value) params['lastName'] = this.lastNameForm.value;
@@ -92,12 +96,13 @@ export class EmployeeProfileComponent {
 
     if (this.zipCodeForm.value) params['zipCode'] = this.zipCodeForm.value;
 
+
     // after response body has been created, call update user profile endpoint with constructed params
-    this.salonClient.updateUserProfile(params)
+    this.salonClient.updateEmployeeProfile(params)
       .subscribe({
         next: (res:any) => { // if requests were successful
           this.updateFormErrors = []; // reset error messages
-          this.userProfile$.next(res); // cache updated profile
+          this.employeeProfile$.next(res); // cache updated profile
           this.resetAllForms(); // reset update profile forms
           this.isUpdatingContactInfo$.next(false); // hide update profile form
           this.processingProfile$.next(false); // and mark component as available

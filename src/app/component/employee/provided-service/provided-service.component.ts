@@ -47,7 +47,7 @@ export class ProvidedServiceComponent implements AfterViewInit{
     Validators.min(1), Validators.max(480)
   ]);
 
-  displayedColumns: string[] = ['serviceId', 'name', 'defaultLength', 'defaultCost'];
+  displayedColumns: string[] = ['serviceId', 'name', 'length', 'cost'];
 
   @ViewChild(MatSort) set mySorter(sort: MatSort) {
     this.dataSource.sort = sort;
@@ -57,12 +57,12 @@ export class ProvidedServiceComponent implements AfterViewInit{
 
 
   constructor(private salonClient: SalonClient) {
-    this.dataSource.sortingDataAccessor = (item, property) => {
+    this.dataSource.sortingDataAccessor = (item, property): any => {
       switch (property) {
         case 'serviceId': return Number(item.serviceId);
         case 'name': return item.name;
-        case 'defaultLength': return Number(item.defaultLength);
-        case 'defaultCost': return Number(item.defaultCost);
+        case 'length': return Number(item.length);
+        case 'cost': return Number(item.cost);
         default: return item.serviceId;
       }
     };
@@ -90,10 +90,10 @@ export class ProvidedServiceComponent implements AfterViewInit{
     let serviceCost:string = this.serviceCostForm.value;
     let serviceLength = this.serviceLengthForm.value;
 
-    let request = {
+    let request: ProvidedService = {
       name: serviceName,
-      defaultCost: serviceCost,
-      defaultLength: Math.ceil(serviceLength / 15)
+      cost: Number(serviceCost),
+      length: Math.ceil(serviceLength / 15)
     };
 
     this.salonClient.createProvidedService(request)

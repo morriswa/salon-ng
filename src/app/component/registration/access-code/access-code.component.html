@@ -1,0 +1,49 @@
+<div style="width: 30vw; margin: 5px auto;">
+
+  @if (!(showEmployeeRegistrationForm$ | async) && !(showClientRegistrationForm$ | async)) {
+
+      <button
+        class="btn salon-btn-primary"
+        (click)="registerClient()"
+      >I am a Client!</button>
+
+      <button
+        class="btn salon-btn-primary"
+        (click)="showEmployeeRegistrationForm$.next(true)"
+      >I am an Employee!</button>
+
+  }
+
+  @if (showEmployeeRegistrationForm$ | async) {
+    <div>
+
+      <h2>Enter your employee access code</h2>
+      <input
+        type="password"
+        class="form-control"
+        [formControl]="accessCodeForm"
+        required
+        placeholder="Enter a code..."
+      >
+
+      <br>
+
+    </div>
+
+    @if (accessCodeError$|async; as error) {
+      <h1 style="color: red">{{ error }}</h1>
+    }
+
+    <button
+      class="salon-btn-primary"
+      (click)="enterCode()"
+    >Gain Access!</button>
+
+    <button
+      class="salon-btn-secondary-outline"
+      (click)="showEmployeeRegistrationForm$.next(false)"
+    >Cancel!</button>
+
+  }
+
+</div>

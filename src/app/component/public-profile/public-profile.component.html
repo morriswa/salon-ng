@@ -1,0 +1,17 @@
+@if (employeeInfo$ | async; as userProfile) {
+  <h2>Meet {{ userProfile.firstName }} {{ userProfile.lastName }}!</h2>
+  <h4>Pronouns: {{userProfile.pronouns }}</h4>
+  <h2>Bio</h2>
+  <p>{{ userProfile.bio }}</p>
+
+  <img
+    style="max-height: 400px; max-width: 600px"
+    [src]="userProfile.profileImage">
+
+
+  <h3>Contact Info</h3>
+  <h4>Contact Preference: {{ userProfile.contactPreference }}</h4>
+  <h4>Email: {{ userProfile.email }}</h4>
+  <h4>Phone: {{ userProfile.phoneNumber | americanPhoneNumber }}</h4>
+
+}

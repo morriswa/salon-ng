@@ -27,19 +27,19 @@
       </ng-container>
 
       <!-- Weight Column -->
-      <ng-container matColumnDef="defaultLength">
+      <ng-container matColumnDef="length">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by length">
           Length
         </th>
-        <td mat-cell *matCellDef="let element">{{element.defaultLength}} min.</td>
+        <td mat-cell *matCellDef="let element">{{element.length}} min.</td>
       </ng-container>
 
       <!-- Symbol Column -->
-      <ng-container matColumnDef="defaultCost">
+      <ng-container matColumnDef="cost">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cost">
           Cost
         </th>
-        <td mat-cell *matCellDef="let element">${{element.defaultCost}}</td>
+        <td mat-cell *matCellDef="let element">${{element.cost}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

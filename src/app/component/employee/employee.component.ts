@@ -24,7 +24,7 @@ export class EmployeeComponent {
     else if (!login.hasAuthority('EMPLOYEE')) router.navigate(['/']);
 
     // retrieve first name
-    this.firstName$ = this.salonClient.getUserProfile().pipe(map((res:any)=>res.firstName))
+    this.firstName$ = this.salonClient.getClientProfile().pipe(map((res:any)=>res.firstName))
   }
 
   currentPageIs(page: string) {

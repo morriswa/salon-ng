@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {SalonClient} from "../../service/salon-client.service";
-import {LoginService} from "../../service/login.service";
+import {SalonClient} from "../../../service/salon-client.service";
+import {LoginService} from "../../../service/login.service";
 import {BehaviorSubject, switchMap} from "rxjs";
 import {Router} from "@angular/router";
 

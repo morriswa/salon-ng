@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import {BehaviorSubject, switchMap} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import { SalonClient } from 'src/app/service/salon-client.service';
 import {LoginService} from "../../../service/login.service";
-import {FormControl, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {UserProfile} from "../../../interface/user-profile.interface";
 import {ValidatorFactory} from "../../../validator-factory";
+import {ClientInfo} from "../../../interface/profile.interface";
 
 @Component({
   selector: 'salon-user-profile',
@@ -30,7 +29,7 @@ export class UserProfileComponent {
   /**
    * state of user profile, and if it has been successfully loaded
    */
-  userProfile$: BehaviorSubject<UserProfile|undefined> = new BehaviorSubject<UserProfile | undefined>(undefined);
+  userProfile$: BehaviorSubject<ClientInfo|undefined> = new BehaviorSubject<ClientInfo | undefined>(undefined);
 
 
   pronounSelector$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
@@ -52,7 +51,7 @@ export class UserProfileComponent {
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated) router.navigate(['/login']);
-    else this.salonClient.getUserProfile().subscribe({
+    else this.salonClient.getClientProfile().subscribe({
       next: res =>{
         this.userProfile$ .next(res);
         this.processingProfile$.next(false);
@@ -93,7 +92,7 @@ export class UserProfileComponent {
     if (this.zipCodeForm.value) params['zipCode'] = this.zipCodeForm.value;
 
     // after response body has been created, call update user profile endpoint with constructed params
-    this.salonClient.updateUserProfile(params)
+    this.salonClient.updateClientProfile(params)
       .subscribe({
         next: (res:any) => { // if requests were successful
           this.updateFormErrors = []; // reset error messages
