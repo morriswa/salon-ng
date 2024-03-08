@@ -3,13 +3,16 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, map, Observable, of, switchMap, tap} from 'rxjs';
 import {environment} from "../../environments/environment";
 import {UserAccount} from "../interface/user-account.interface";
-import {ClientInfo, EmployeeInfo, EmployeeProfile} from "../interface/profile.interface";
-import {ProvidedService} from "../interface/provided-service.interface";
-import {Appointment} from "../interface/appointment.interface";
+import {ClientInfo, EmployeeProfile} from "../interface/profile.interface";
+import {ProvidedService, ProvidedServiceDetails, ProvidedServiceProfile} from "../interface/provided-service.interface";
+import {Appointment, AppointmentOpening} from "../interface/appointment.interface";
 
 
 /**
  * An HTTP Client responsible for consuming the REST API provided by our Salon Web Service
+ *
+ * @author William A. Morris
+ * @since 2024-02-06
  */
 @Injectable({
   providedIn: 'root'
@@ -41,13 +44,13 @@ export class SalonClient {
     this.employeeAppointments$ = new BehaviorSubject<any[] | undefined>(undefined);
   }
 
-  healthCheck() {
+  healthCheck(): Observable<string> {
     return this.http.get(`${this.SERVICE_URL}/health`)
     .pipe(map((res:any)=>res.message));
   }
 
-  registerUser(username: string, password: string) {
-    return this.http.post(`${this.SERVICE_URL}/register`, {
+  registerUser(username: string, password: string): Observable<void> {
+    return this.http.post<void>(`${this.SERVICE_URL}/register`, {
       username: username,
       password: password
     });
@@ -69,24 +72,8 @@ export class SalonClient {
   }
 
   refreshClientProfile(): Observable<ClientInfo> {
-    return this.http.get(`${this.SERVICE_URL}/client`)
-    .pipe(
-      map((res:any)=>{
-        let clientProfile: ClientInfo = {
-          firstName: res.firstName,
-          lastName: res.lastName,
-          pronouns: res.pronouns,
-          formattedAddress: res.formattedAddress,
-          phoneNumber: res.phoneNumber,
-          email: res.email,
-          contactPreference: res.contactPreference,
-          birthday: res.birthday
-        }
-
-        return clientProfile;
-      }),
-      tap((res:ClientInfo)=>this.clientProfile$.next(res))
-    );
+    return this.http.get<ClientInfo>(`${this.SERVICE_URL}/client/profile`)
+    .pipe(tap((res:ClientInfo)=>this.clientProfile$.next(res)));
   }
 
   getClientProfile(): Observable<ClientInfo> {
@@ -98,16 +85,16 @@ export class SalonClient {
   }
 
   updateClientProfile(params: any): Observable<ClientInfo> {
-    return this.http.patch(`${this.SERVICE_URL}/client`, params)
+    return this.http.patch(`${this.SERVICE_URL}/client/profile`, params)
       .pipe(switchMap(()=>this.refreshClientProfile()));
   }
 
-  createUserProfile(params: any): Observable<any> {
-    return this.http.post(`${this.SERVICE_URL}/r2/profile`, params);
+  createUserProfile(params: any): Observable<void> {
+    return this.http.post<void>(`${this.SERVICE_URL}/newUser/profile`, params);
   }
 
   refreshEmployeesProvidedServices(): Observable<ProvidedService[]> {
-    return this.http.get<ProvidedService[]>(`${this.SERVICE_URL}/management/services`)
+    return this.http.get<ProvidedService[]>(`${this.SERVICE_URL}/employee/services`)
       .pipe(tap((res:ProvidedService[])=>this.employeeServices$.next(res)));
   }
 
@@ -119,29 +106,29 @@ export class SalonClient {
     }));
   }
 
-  createProvidedService(request: ProvidedService) {
-    return this.http.post(`${this.SERVICE_URL}/management/service`, request)
+  createProvidedService(request: ProvidedService): Observable<ProvidedService[]> {
+    return this.http.post(`${this.SERVICE_URL}/employee/service`, request)
       .pipe(switchMap(()=>this.refreshEmployeesProvidedServices()));
   }
 
-  searchAvailableServices(searchText: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.SERVICE_URL}/services?searchText=${searchText}`);
+  searchAvailableServices(searchText: string): Observable<ProvidedServiceDetails[]> {
+    return this.http.get<ProvidedServiceDetails[]>(`${this.SERVICE_URL}/shared/services?searchText=${searchText}`);
   }
 
-  getProvidedServiceDetailsForClient(serviceId: number) {
-    return this.http.get<any>(`${this.SERVICE_URL}/service/${serviceId}`);
+  getProvidedServiceDetailsForClient(serviceId: number): Observable<ProvidedServiceProfile> {
+    return this.http.get<ProvidedServiceProfile>(`${this.SERVICE_URL}/shared/service/${serviceId}`);
   }
 
-  getAvailableAppointmentTimes(request: { searchDate: string; employeeId: number; serviceId: number }): Observable<any[]> {
-    return this.http.post<any[]>(`${this.SERVICE_URL}/schedule`, request);
+  getAvailableAppointmentTimes(request: { searchDate: string; employeeId: number; serviceId: number }): Observable<AppointmentOpening[]> {
+    return this.http.post<AppointmentOpening[]>(`${this.SERVICE_URL}/client/schedule`, request);
   }
 
-  bookAppointment(request: { serviceId: number; employeeId: number; time: string; }) {
-    return this.http.post(`${this.SERVICE_URL}/schedule/confirm`, request)
+  bookAppointment(request: { serviceId: number; employeeId: number; time: string; }): Observable<Appointment[]> {
+    return this.http.post<void>(`${this.SERVICE_URL}/client/schedule/confirm`, request)
       .pipe(switchMap(()=>this.refreshClientSchedule()));
   }
 
-  getClientSchedule(): Observable<any[]> {
+  getClientSchedule(): Observable<Appointment[]> {
     return this.clientAppointments$.asObservable()
     .pipe(switchMap((res): Observable<any[]> => {
       if (res) return of(res);
@@ -187,22 +174,22 @@ export class SalonClient {
       }));
   }
 
-  refreshClientSchedule() {
-    return this.http.get<any[]>(`${this.SERVICE_URL}/schedule`)
-      .pipe(tap((res:any[])=>this.clientAppointments$.next(res)));
+  refreshClientSchedule(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.SERVICE_URL}/client/schedule`)
+      .pipe(tap((res:Appointment[])=>this.clientAppointments$.next(res)));
   }
 
-  refreshEmployeeSchedule() {
-    return this.http.get<any[]>(`${this.SERVICE_URL}/management/schedule`)
-      .pipe(tap((res:any[])=>this.employeeAppointments$.next(res)));
+  refreshEmployeeSchedule(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.SERVICE_URL}/employee/schedule`)
+      .pipe(tap((res:Appointment[])=>this.employeeAppointments$.next(res)));
   }
 
-  unlockEmployeePermissions(enteredCode: string) {
-    return this.http.patch(`${this.SERVICE_URL}/r2/access/employee?accessCode=${enteredCode}`, {})
+  unlockEmployeePermissions(enteredCode: string): Observable<void> {
+    return this.http.patch<void>(`${this.SERVICE_URL}/newUser/access/employee?accessCode=${enteredCode}`, {})
   }
 
-  unlockClientPermissions() {
-    return this.http.patch(`${this.SERVICE_URL}/r2/access/client`, {})
+  unlockClientPermissions(): Observable<void> {
+    return this.http.patch<void>(`${this.SERVICE_URL}/newUser/access/client`, {})
   }
 
   getEmployeeProfile(): Observable<EmployeeProfile> {
@@ -214,16 +201,16 @@ export class SalonClient {
   }
 
   refreshEmployeeProfile(): Observable<EmployeeProfile> {
-    return this.http.get<EmployeeProfile>(`${this.SERVICE_URL}/management/employee`)
+    return this.http.get<EmployeeProfile>(`${this.SERVICE_URL}/employee/profile`)
       .pipe(tap((res: EmployeeProfile)=>this.employeeProfile$.next(res)));
   }
 
   getPublicEmployeeProfile(employeeId: number): Observable<EmployeeProfile> {
-    return this.http.get<EmployeeProfile>(`${this.SERVICE_URL}/employee/${employeeId}`);
+    return this.http.get<EmployeeProfile>(`${this.SERVICE_URL}/shared/employee/${employeeId}`);
   }
 
-  updateEmployeeProfile(params: any) {
-    return this.http.patch(`${this.SERVICE_URL}/management/employee`, params)
+  updateEmployeeProfile(params: any): Observable<EmployeeProfile> {
+    return this.http.patch(`${this.SERVICE_URL}/employee/profile`, params)
       .pipe(switchMap(()=>this.refreshEmployeeProfile()))
   }
 }

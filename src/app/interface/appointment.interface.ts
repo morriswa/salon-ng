@@ -1,4 +1,9 @@
 
+export interface AppointmentOpening {
+  time:string,
+  length:string
+}
+
 export interface Appointment {
   appointmentId:number,
   time:string,
