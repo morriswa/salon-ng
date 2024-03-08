@@ -115,6 +115,19 @@
     </div>
     <br>
 
+    <mat-form-field class="booking-fields">
+      <mat-label>Select your preferred contact method: </mat-label>
+      <mat-select
+        [(value)]="contactMethodValue"
+        (valueChange)="selectedContactMethod($event)">
+
+        <mat-option value="PhoneCall">Phone Call</mat-option>
+        <mat-option value="TextMessage">Text Message</mat-option>
+        <mat-option value="Email">Email</mat-option>
+
+      </mat-select>
+    </mat-form-field>
+
     <div class="form-floating">
       <input
         type="text"

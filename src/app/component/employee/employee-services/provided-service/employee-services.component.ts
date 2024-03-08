@@ -1,18 +1,18 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {SalonClient} from "../../../service/salon-client.service";
+import {SalonClient} from "../../../../service/salon-client.service";
 import {FormControl, Validators} from "@angular/forms";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import {ProvidedService} from "../../../interface/provided-service.interface";
+import {ProvidedService} from "../../../../interface/provided-service.interface";
 
 
 @Component({
   selector: 'salon-provided-service',
-  templateUrl: './provided-service.component.html',
-  styleUrl: './provided-service.component.scss'
+  templateUrl: './employee-services.component.html',
+  styleUrl: './employee-services.component.scss'
 })
-export class ProvidedServiceComponent implements AfterViewInit{
+export class EmployeeServicesComponent implements AfterViewInit {
 
   /**
    * state of view create service menu

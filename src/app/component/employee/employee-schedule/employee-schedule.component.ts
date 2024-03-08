@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {SalonClient} from "../../../service/salon-client.service";
+import {Appointment} from "../../../interface/appointment.interface";
 
 @Component({
   selector: 'salon-employee-schedule',
@@ -8,11 +9,11 @@ import {SalonClient} from "../../../service/salon-client.service";
   styleUrl: './employee-schedule.component.scss'
 })
 export class EmployeeScheduleComponent {
-  employeeSchedule$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[] | undefined>(undefined);
+  employeeSchedule$: BehaviorSubject<Appointment[] | undefined> = new BehaviorSubject<Appointment[] | undefined>(undefined);
 
   constructor(private salonClient: SalonClient) {
     salonClient.getEmployeeSchedule().subscribe({
-      next: (res:any[]) => this.employeeSchedule$.next(res)
+      next: (res:Appointment[]) => this.employeeSchedule$.next(res)
     });
   }
 

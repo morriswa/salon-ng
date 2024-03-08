@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, map, Observable, of, switchMap, tap} from 'rxjs';
 import {environment} from "../../environments/environment";
 import {UserAccount} from "../interface/user-account.interface";
-import {ClientInfo} from "../interface/profile.interface";
+import {ClientInfo, EmployeeInfo, EmployeeProfile} from "../interface/profile.interface";
 import {ProvidedService} from "../interface/provided-service.interface";
+import {Appointment} from "../interface/appointment.interface";
 
 
 /**
@@ -17,16 +18,28 @@ export class SalonClient {
 
   private SERVICE_URL = environment.webService.path;
 
-  clientProfile$: BehaviorSubject<ClientInfo|undefined> = new BehaviorSubject<ClientInfo | undefined>(undefined);
-  employeeProfile$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
+  clientProfile$!: BehaviorSubject<ClientInfo|undefined>;
+  employeeProfile$!: BehaviorSubject<EmployeeProfile|undefined>;
+  employeeServices$!: BehaviorSubject<ProvidedService[]|undefined>;
+  clientAppointments$!: BehaviorSubject<Appointment[]|undefined>;
+  employeeAppointments$!: BehaviorSubject<Appointment[]|undefined>;
 
-  employeeServices$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[]|undefined>(undefined);
+  constructor(private http: HttpClient) {
+    this.resetCache();
+  }
 
-  clientAppointments$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[]|undefined>(undefined);
-  employeeAppointments$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[]|undefined>(undefined);
+  resetCache() {
 
-  constructor(private http: HttpClient) { }
+    this.clientProfile$ = new BehaviorSubject<ClientInfo | undefined>(undefined);
 
+    this.employeeProfile$ = new BehaviorSubject<EmployeeProfile | undefined>(undefined);
+
+    this.employeeServices$ = new BehaviorSubject<ProvidedService[] | undefined>(undefined);
+
+    this.clientAppointments$ = new BehaviorSubject<any[] | undefined>(undefined);
+
+    this.employeeAppointments$ = new BehaviorSubject<any[] | undefined>(undefined);
+  }
 
   healthCheck() {
     return this.http.get(`${this.SERVICE_URL}/health`)
@@ -59,7 +72,7 @@ export class SalonClient {
     return this.http.get(`${this.SERVICE_URL}/client`)
     .pipe(
       map((res:any)=>{
-        const clientProfile: ClientInfo = {
+        let clientProfile: ClientInfo = {
           firstName: res.firstName,
           lastName: res.lastName,
           pronouns: res.pronouns,
@@ -67,7 +80,7 @@ export class SalonClient {
           phoneNumber: res.phoneNumber,
           email: res.email,
           contactPreference: res.contactPreference,
-          birthday: new Date(res.birthday)
+          birthday: res.birthday
         }
 
         return clientProfile;
@@ -93,14 +106,14 @@ export class SalonClient {
     return this.http.post(`${this.SERVICE_URL}/r2/profile`, params);
   }
 
-  refreshEmployeesProvidedServices(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.SERVICE_URL}/management/services`)
-      .pipe(tap((res:any[])=>this.employeeServices$.next(res)));
+  refreshEmployeesProvidedServices(): Observable<ProvidedService[]> {
+    return this.http.get<ProvidedService[]>(`${this.SERVICE_URL}/management/services`)
+      .pipe(tap((res:ProvidedService[])=>this.employeeServices$.next(res)));
   }
 
   getEmployeesProvidedServices(): Observable<ProvidedService[]> {
     return this.employeeServices$.asObservable()
-    .pipe(switchMap((res): Observable<any[]> => {
+    .pipe(switchMap((res): Observable<ProvidedService[]> => {
       if (res) return of(res);
       else return this.refreshEmployeesProvidedServices();
     }));
@@ -136,22 +149,22 @@ export class SalonClient {
     }));
   }
 
-  getEmployeeSchedule(): Observable<any[]> {
+  getEmployeeSchedule(): Observable<Appointment[]> {
     return this.employeeAppointments$.asObservable()
-    .pipe(switchMap((res): Observable<any[]> => {
+    .pipe(switchMap((res): Observable<Appointment[]> => {
       if (res) return of(res);
       else return this.refreshEmployeeSchedule();
     }));
   }
 
-  getAppointmentDetailsForClient(appointmentId: number): Observable<any> {
+  getAppointmentDetailsForClient(appointmentId: number): Observable<Appointment> {
     return this.clientAppointments$.asObservable()
     .pipe(
-      switchMap((res:any[]|undefined): Observable<any[]> => {
+      switchMap((res:Appointment[]|undefined): Observable<Appointment[]> => {
         if (!res) return this.refreshClientSchedule();
         else return of (res);
       }),
-      map((res:any[]): Observable<any> => {
+      map((res:Appointment[]): Appointment => {
         for (const apt of res) {
           if (Number(apt.appointmentId) === Number(appointmentId)) return apt;
         }
@@ -159,14 +172,14 @@ export class SalonClient {
       }));
   }
 
-  getAppointmentDetailsForEmployee(appointmentId: number): Observable<any> {
+  getAppointmentDetailsForEmployee(appointmentId: number): Observable<Appointment> {
     return this.employeeAppointments$.asObservable()
     .pipe(
-      switchMap((res:any[]|undefined): Observable<any[]> => {
+      switchMap((res:Appointment[]|undefined): Observable<Appointment[]> => {
         if (!res) return this.refreshEmployeeSchedule();
         else return of (res);
       }),
-      map((res:any[]): Observable<any> => {
+      map((res:Appointment[]): Appointment => {
         for (const apt of res) {
           if (Number(apt.appointmentId) === Number(appointmentId)) return apt;
         }
@@ -192,29 +205,21 @@ export class SalonClient {
     return this.http.patch(`${this.SERVICE_URL}/r2/access/client`, {})
   }
 
-  resetCache() {
-    this.clientProfile$ = new BehaviorSubject<ClientInfo | undefined>(undefined);
-    this.employeeProfile$ = new BehaviorSubject<any|undefined>(undefined);
-    this.employeeServices$ = new BehaviorSubject<any[]|undefined>(undefined);
-    this.clientAppointments$ = new BehaviorSubject<any[]|undefined>(undefined);
-    this.employeeAppointments$ = new BehaviorSubject<any[]|undefined>(undefined);
-  }
-
-  getEmployeeProfile(): Observable<any> {
+  getEmployeeProfile(): Observable<EmployeeProfile> {
     return this.employeeProfile$.asObservable()
-      .pipe(switchMap(res=>{
+      .pipe(switchMap((res: EmployeeProfile|undefined)=> {
         if (res) return of(res);
         else return this.refreshEmployeeProfile();
       }));
   }
 
-  refreshEmployeeProfile(): Observable<any> {
-    return this.http.get(`${this.SERVICE_URL}/management/employee`)
-      .pipe(tap(res=>this.employeeProfile$.next(res)));
+  refreshEmployeeProfile(): Observable<EmployeeProfile> {
+    return this.http.get<EmployeeProfile>(`${this.SERVICE_URL}/management/employee`)
+      .pipe(tap((res: EmployeeProfile)=>this.employeeProfile$.next(res)));
   }
 
-  getPublicEmployeeProfile(employeeId: number) {
-    return this.http.get(`${this.SERVICE_URL}/employee/${employeeId}`);
+  getPublicEmployeeProfile(employeeId: number): Observable<EmployeeProfile> {
+    return this.http.get<EmployeeProfile>(`${this.SERVICE_URL}/employee/${employeeId}`);
   }
 
   updateEmployeeProfile(params: any) {

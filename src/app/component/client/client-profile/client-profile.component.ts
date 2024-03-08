@@ -5,13 +5,15 @@ import {LoginService} from "../../../service/login.service";
 import {Router} from "@angular/router";
 import {ValidatorFactory} from "../../../validator-factory";
 import {ClientInfo} from "../../../interface/profile.interface";
+import {FormControl} from "@angular/forms";
+import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 
 @Component({
-  selector: 'salon-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.scss'
+  selector: 'salon-client-profile',
+  templateUrl: './client-profile.component.html',
+  styleUrl: './client-profile.component.scss'
 })
-export class UserProfileComponent {
+export class ClientProfileComponent {
 
 
   /**
@@ -29,10 +31,13 @@ export class UserProfileComponent {
   /**
    * state of user profile, and if it has been successfully loaded
    */
-  userProfile$: BehaviorSubject<ClientInfo|undefined> = new BehaviorSubject<ClientInfo | undefined>(undefined);
-
+  clientInfo$: BehaviorSubject<ClientInfo|undefined> = new BehaviorSubject<ClientInfo | undefined>(undefined);
 
   pronounSelector$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
+
+  selectedBirthday$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
+
+  contactMethodSelector$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
 
   updateFormErrors: string[] = [];
 
@@ -45,15 +50,17 @@ export class UserProfileComponent {
   cityForm = ValidatorFactory.getCityForm();
   stateForm = ValidatorFactory.getStateForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
+  birthdayForm = new FormControl('');
 
 
   pronounValue?:string;
+  contactMethodValue?: string;
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated) router.navigate(['/login']);
     else this.salonClient.getClientProfile().subscribe({
       next: res =>{
-        this.userProfile$ .next(res);
+        this.clientInfo$ .next(res);
         this.processingProfile$.next(false);
       },
       error: res=>{
@@ -71,15 +78,19 @@ export class UserProfileComponent {
     let params:any = {};
 
     // and fill with appropriate params based on user input
+    if (this.pronounSelector$.getValue()) params['pronouns'] = this.pronounSelector$.getValue();
+
     if (this.firstNameForm.value) params['firstName'] = this.firstNameForm.value;
 
     if (this.lastNameForm.value) params['lastName'] = this.lastNameForm.value;
 
-    if (this.pronounSelector$.getValue()) params['pronouns'] = this.pronounSelector$.getValue();
+    if (this.selectedBirthday$.getValue()) params['birthday'] = this.selectedBirthday$.getValue();
 
     if (this.emailForm.value) params['email'] = this.emailForm.value;
 
     if (this.phoneNumberForm.value) params['phoneNumber'] = this.phoneNumberForm.value;
+
+    if (this.contactMethodSelector$.getValue()) params['contactPreference'] = this.contactMethodSelector$.getValue();
 
     if (this.addressLineOneForm.value) params['addressLineOne'] = this.addressLineOneForm.value;
 
@@ -96,7 +107,7 @@ export class UserProfileComponent {
       .subscribe({
         next: (res:any) => { // if requests were successful
           this.updateFormErrors = []; // reset error messages
-          this.userProfile$.next(res); // cache updated profile
+          this.clientInfo$.next(res); // cache updated profile
           this.resetAllForms(); // reset update profile forms
           this.isUpdatingContactInfo$.next(false); // hide update profile form
           this.processingProfile$.next(false); // and mark component as available
@@ -113,6 +124,7 @@ export class UserProfileComponent {
   resetAllForms() {
     this.firstNameForm.reset();
     this.lastNameForm.reset();
+    this.pronounValue = undefined;
     this.phoneNumberForm.reset();
     this.emailForm.reset();
     this.addressLineOneForm.reset()
@@ -120,6 +132,7 @@ export class UserProfileComponent {
     this.cityForm.reset()
     this.stateForm.reset()
     this.zipCodeForm.reset()
+    this.birthdayForm.reset();
   }
 
 
@@ -136,5 +149,24 @@ export class UserProfileComponent {
   selectedPronouns($event: 'H'|'S'|'T') {
     this.pronounSelector$.next($event);
     this.pronounValue = $event;
+  }
+
+  selectedBirthday($event: MatDatepickerInputEvent<any, any>) {
+    let date = new Date($event.value);
+
+    let currentTime = new Date();
+
+    date.setHours(9)
+    date.setMinutes(0);
+    date.setSeconds(0);
+
+    const birthdayString = date.toISOString().substring(0, 10);
+
+    this.selectedBirthday$.next(birthdayString);
+  }
+
+  selectedContactMethod($event: string) {
+    this.contactMethodSelector$.next($event);
+    this.contactMethodValue = $event;
   }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {SalonClient} from "../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
+import {EmployeeInfo, EmployeeProfile} from "../../interface/profile.interface";
 
 @Component({
   selector: 'salon-public-profile',
@@ -11,14 +12,15 @@ import {BehaviorSubject} from "rxjs";
 export class PublicProfileComponent {
 
   employeeId: number;
-  employeeInfo$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
+
+  employeeInfo$: BehaviorSubject<EmployeeProfile|undefined> = new BehaviorSubject<EmployeeProfile|undefined>(undefined);
 
   constructor(active: ActivatedRoute, private salonClient: SalonClient, private router: Router) {
     this.employeeId = active.snapshot.params['employeeId'];
 
     salonClient.getPublicEmployeeProfile(this.employeeId)
       .subscribe({
-        next: res=>{
+        next: (res: EmployeeProfile)=>{
           this.employeeInfo$.next(res);
         },
         error: err => {

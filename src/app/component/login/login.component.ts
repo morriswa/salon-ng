@@ -65,7 +65,7 @@ export class LoginComponent {
         if (authenticationSuccessful) { // on successful authentication reset the forms
           this.usernameForm.reset();
           this.passwordForm.reset();
-          // and reroute to user-profile page
+          // and reroute to client-profile page
           this.router.navigate(['/user'])
         } else { // on authentication failure...
           // provided a helpful message

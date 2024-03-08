@@ -1,10 +1,4 @@
 
-@if (login.account$ | async; as account) {
-  <h2>Account Information</h2>
-  <h4>Username: {{ account.username }}</h4>
-  <h4>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</h4>
-  <h4>Permissions: {{ account.authorities }}</h4>
-}
 
 <br>
 
@@ -13,23 +7,30 @@
     <span class="visually-hidden">Loading...</span>
   </div>
 } @else {
-  @if (userProfile$ | async; as userProfile) {
+
+  @if (clientInfo$ | async; as clientInfo) {
+
     <h2>Contact Information</h2>
-    <h4>First name: {{ userProfile.firstName }}</h4>
-    <h4>Last name: {{ userProfile.lastName }}</h4>
-    <h4>Pronouns: {{userProfile.pronouns }}</h4>
-    <h4>Email: {{ userProfile.email }}</h4>
-    <h4>Phone: {{ userProfile.phoneNumber | americanPhoneNumber }}</h4>
-    <h4>Address: {{ userProfile.formattedAddress }}</h4>
-    <h4>Contact Preference: {{ userProfile.contactPreference }}</h4>
+    <h4>First name: {{ clientInfo.firstName }}</h4>
+    <h4>Last name: {{ clientInfo.lastName }}</h4>
+    <p *ngIf="clientInfo.birthday">**Rewards Member</p>
+    <h4 *ngIf="clientInfo.birthday">Birthday: {{ clientInfo.birthday | americanFormattedDate }}</h4>
+    <h4>Pronouns: {{clientInfo.pronouns }}</h4>
+    <h4>Email: {{ clientInfo.email }}</h4>
+    <h4>Phone: {{ clientInfo.phoneNumber | americanPhoneNumber }}</h4>
+    <h4>Address: {{ clientInfo.formattedAddress }}</h4>
+    <h4>Contact Preference: {{ clientInfo.contactPreference }}</h4>
 
     <br>
 
-    <h6
-      *ngIf="!login.hasAuthority('CLIENT')"
-      class="search-result-links"
-      (click)="requestClientAccess()"
-    >Click here if you are unable to access the client portal...</h6>
+    @if (login.account$ | async; as account) {
+      <h2>Account Information</h2>
+      <h4>Username: {{ account.username }}</h4>
+      <h4>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</h4>
+      <h4>Permissions: {{ account.authorities }}</h4>
+    }
+
+    <br>
 
     <button
       *ngIf="!(isUpdatingContactInfo$|async)"
@@ -56,6 +57,15 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field class="booking-fields">
+        <mat-label>Enter your birthday</mat-label>
+        <input matInput [matDatepicker]="picker" (dateChange)="selectedBirthday($event)">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <br>
+
       <div class="form-floating">
         <input
           type="text"
@@ -80,6 +90,8 @@
 
       <br>
 
+
+
       <div class="form-floating">
         <input
           type="text"
@@ -101,6 +113,19 @@
         <label>Update phone number: </label>
       </div>
       <br>
+
+      <mat-form-field class="booking-fields">
+        <mat-label>Select your preferred contact method: </mat-label>
+        <mat-select
+          [(value)]="contactMethodValue"
+          (valueChange)="selectedContactMethod($event)">
+
+          <mat-option value="PhoneCall">Phone Call</mat-option>
+          <mat-option value="TextMessage">Text Message</mat-option>
+          <mat-option value="Email">Email</mat-option>
+
+        </mat-select>
+      </mat-form-field>
 
       <div class="form-floating">
         <input
@@ -169,11 +194,6 @@
 
       <br><br>
 
-      <h6
-        *ngIf="!login.hasAuthority('EMPLOYEE')"
-        class="search-result-links"
-        [routerLink]="['/access','employee']"
-        >Click here if you have an employee access code...</h6>
     }
   }
 }

@@ -8,7 +8,7 @@ import {FormControl} from "@angular/forms";
 import {EmployeeProfile} from "../../../interface/profile.interface";
 
 @Component({
-  selector: 'salon-user-profile',
+  selector: 'salon-client-profile',
   templateUrl: './employee-profile.component.html',
   styleUrl: './employee-profile.component.scss'
 })
@@ -35,6 +35,10 @@ export class EmployeeProfileComponent {
 
   pronounSelector$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
 
+
+  contactMethodSelector$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
+
+
   updateFormErrors: string[] = [];
 
   firstNameForm = ValidatorFactory.getFirstNameForm();
@@ -50,6 +54,7 @@ export class EmployeeProfileComponent {
 
   pronounValue?:string;
   bioForm: FormControl = new FormControl('');
+  contactMethodValue?: string;
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated)
@@ -85,6 +90,8 @@ export class EmployeeProfileComponent {
     if (this.emailForm.value) params['email'] = this.emailForm.value;
 
     if (this.phoneNumberForm.value) params['phoneNumber'] = this.phoneNumberForm.value;
+
+    if (this.contactMethodSelector$.getValue()) params['contactPreference'] = this.contactMethodSelector$.getValue();
 
     if (this.addressLineOneForm.value) params['addressLineOne'] = this.addressLineOneForm.value;
 
@@ -131,5 +138,10 @@ export class EmployeeProfileComponent {
   selectedPronouns($event: 'H'|'S'|'T') {
     this.pronounSelector$.next($event);
     this.pronounValue = $event;
+  }
+
+  selectedContactMethod($event: string) {
+    this.contactMethodSelector$.next($event);
+    this.contactMethodValue = $event;
   }
 }

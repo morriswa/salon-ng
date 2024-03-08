@@ -10,7 +10,7 @@ export interface UserInfo {
 }
 
 export interface ClientInfo extends UserInfo {
-  birthday?: Date,
+  birthday?: string,
 }
 
 export interface EmployeeInfo extends UserInfo {

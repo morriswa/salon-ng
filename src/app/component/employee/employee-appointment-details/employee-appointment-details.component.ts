@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SalonClient} from "../../../service/salon-client.service";
+import {Appointment} from "../../../interface/appointment.interface";
 
 @Component({
   selector: 'salon-employee-appointment-details',
@@ -11,7 +12,7 @@ import {SalonClient} from "../../../service/salon-client.service";
 export class EmployeeAppointmentDetailsComponent {
 
   appointmentId: number;
-  appointmentDetails$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
+  appointmentDetails$: BehaviorSubject<Appointment|undefined> = new BehaviorSubject<Appointment|undefined>(undefined);
 
   constructor(active: ActivatedRoute, salonClient: SalonClient, private router: Router) {
 
@@ -19,7 +20,7 @@ export class EmployeeAppointmentDetailsComponent {
 
     salonClient.getAppointmentDetailsForEmployee(this.appointmentId)
       .subscribe({
-        next: appointment => {
+        next: (appointment:Appointment) => {
           this.appointmentDetails$.next(appointment)
         },
         error: () => this.router.navigate(['/employee'])

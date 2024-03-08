@@ -1,17 +1,18 @@
-@if (employeeInfo$ | async; as userProfile) {
-  <h2>Meet {{ userProfile.firstName }} {{ userProfile.lastName }}!</h2>
-  <h4>Pronouns: {{userProfile.pronouns }}</h4>
-  <h2>Bio</h2>
-  <p>{{ userProfile.bio }}</p>
+@if (employeeInfo$ | async; as employeeProfile) {
+
+  <h2>Meet {{ employeeProfile.firstName }} {{ employeeProfile.lastName }}!</h2>
+  <h4>Pronouns: {{employeeProfile.pronouns }}</h4>
+  <p>{{ employeeProfile.bio }}</p>
 
   <img
     style="max-height: 400px; max-width: 600px"
-    [src]="userProfile.profileImage">
+    [src]="employeeProfile.profileImage">
 
+  <br><br>
 
-  <h3>Contact Info</h3>
-  <h4>Contact Preference: {{ userProfile.contactPreference }}</h4>
-  <h4>Email: {{ userProfile.email }}</h4>
-  <h4>Phone: {{ userProfile.phoneNumber | americanPhoneNumber }}</h4>
+  <h2>Contact Info</h2>
+  <h4>Contact Preference: {{ employeeProfile.contactPreference }}</h4>
+  <h4>Email: {{ employeeProfile.email }}</h4>
+  <h4>Phone: {{ employeeProfile.phoneNumber | americanPhoneNumber }}</h4>
 
 }
