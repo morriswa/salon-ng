@@ -14,6 +14,16 @@ import {BehaviorSubject} from "rxjs";
 })
 export class HomeComponent {
 
+
+
+  myInterval = 5000;
+  activeSlideIndex = 0;
+  slides: {image: string; text?: string}[] = [
+    {image: 'assets/images/salon1.png'},
+    {image: 'assets/images/salon2.png'},
+    {image: 'assets/images/salon3.png'}
+  ];
+
   /**
    * controls template message displayed when service is accessed
    */

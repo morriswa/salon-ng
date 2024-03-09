@@ -73,7 +73,7 @@ import { EmployeeProfileComponent } from "./component/employee/employee-profile/
 import { EmployeeServicesComponent } from "./component/employee/employee-services/provided-service/employee-services.component";
 import { EmployeeScheduleComponent } from "./component/employee/employee-schedule/employee-schedule.component";
 
-
+import { CarouselModule } from 'ngx-bootstrap/carousel'
 
 @NgModule({
   declarations: [
@@ -134,6 +134,7 @@ import { EmployeeScheduleComponent } from "./component/employee/employee-schedul
     LocaleDatePipe,
     AmericanPhoneNumberPipe,
     AmericanFormattedDatePipe,
+    CarouselModule.forRoot(),
 
   ],
   providers: [
