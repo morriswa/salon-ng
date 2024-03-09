@@ -1,33 +1,38 @@
 
+<div id="salon-author-banner">
+  <h2>community salon by will, kevin, makenna</h2>
+</div>
+
+
 @if (ready$ | async) {
   <div class="menu-buttons">
     <button
-      class="salon-btn-primary"
+      class="salon-btn-fancy"
       [routerLink]="['']">Home</button>
 
     @if (loginService.authenticated$ | async){
       <button
-        class="salon-btn-primary"
+        class="salon-btn-fancy"
         *ngIf="loginService.hasAuthority('USER')"
         [routerLink]="['/user']"
       >User Menu</button>
       <button
-        class="salon-btn-primary"
+        class="salon-btn-fancy"
         *ngIf="loginService.hasAuthority('CLIENT')"
         [routerLink]="['/client']"
       >Client Portal</button>
       <button
-        class="salon-btn-primary"
+        class="salon-btn-fancy"
         *ngIf="loginService.hasAuthority('EMPLOYEE')"
         [routerLink]="['/employee']"
       >Employee Portal</button>
       <button
-        class="salon-btn-primary"
+        class="salon-btn-fancy"
         (click)="logout()"
       >Logout</button>
     } @else {
       <button
-        class="salon-btn-primary"
+        class="salon-btn-fancy"
         [routerLink]="['/login']"
       >Login</button>
     }
