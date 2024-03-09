@@ -38,6 +38,9 @@ export class EmployeeProfileComponent {
 
   contactMethodSelector$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
 
+  profilePhotoErrors$: BehaviorSubject<string> = new BehaviorSubject<string>("");
+
+  cachedProfileImage$: BehaviorSubject<File| undefined> = new BehaviorSubject<File| undefined>(undefined);
 
   updateFormErrors: string[] = [];
 
@@ -50,6 +53,7 @@ export class EmployeeProfileComponent {
   cityForm = ValidatorFactory.getCityForm();
   stateForm = ValidatorFactory.getStateForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
+  profilePhotoUploadForm: FormControl = new FormControl();
 
 
   pronounValue?:string;
@@ -143,5 +147,27 @@ export class EmployeeProfileComponent {
   selectedContactMethod($event: string) {
     this.contactMethodSelector$.next($event);
     this.contactMethodValue = $event;
+  }
+
+  uploadProfileImage() {
+
+    const image = this.cachedProfileImage$.getValue();
+
+    if (image)
+      this.salonClient.updateEmployeeProfileImage(image)
+        .subscribe({
+          next: (res:EmployeeProfile)=>{
+            this.employeeProfile$.next(res);
+            this.profilePhotoUploadForm.reset();
+          },
+          error: (err:any)=>this.profilePhotoErrors$.next(err.error.description)
+        });
+    else
+      this.profilePhotoErrors$.next("No image selected!");
+  }
+
+  cacheImageToUpload($event: any) {
+    let file:File = $event.target.files[0];
+    this.cachedProfileImage$.next(file);
   }
 }

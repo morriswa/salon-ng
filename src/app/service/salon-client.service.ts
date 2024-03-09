@@ -213,4 +213,12 @@ export class SalonClient {
     return this.http.patch(`${this.SERVICE_URL}/employee/profile`, params)
       .pipe(switchMap(()=>this.refreshEmployeeProfile()))
   }
+
+  updateEmployeeProfileImage(image: File): Observable<EmployeeProfile> {
+    let postBody = new FormData();
+    postBody.append("image",image);
+
+    return this.http.post(`${this.SERVICE_URL}/employee/profile/image`, postBody)
+      .pipe(switchMap(()=>this.refreshEmployeeProfile()))
+  }
 }

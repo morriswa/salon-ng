@@ -5,23 +5,36 @@
   </div>
 } @else {
 
-  @if (employeeProfile$ | async; as userProfile) {
+  @if (employeeProfile$ | async; as employee) {
 
     <img
       style="max-height: 400px; max-width: 600px"
-      [src]="userProfile.profileImage">
+      [src]="employee.profileImage">
+
+      <div class="input-group mb-3">
+        <input
+          type="file"
+          class="form-control"
+          [formControl]="this.profilePhotoUploadForm"
+          (change)="cacheImageToUpload($event)"
+        >
+        <label
+          class="input-group-text"
+          (click)="uploadProfileImage()">Upload</label>
+      </div>
+
     <h2>Bio</h2>
-    <p>{{ userProfile.bio }}</p>
+    <p>{{ employee.bio }}</p>
     <br>
 
     <h2>Contact Information</h2>
-    <h4>First name: {{ userProfile.firstName }}</h4>
-    <h4>Last name: {{ userProfile.lastName }}</h4>
-    <h4>Pronouns: {{userProfile.pronouns }}</h4>
-    <h4>Email: {{ userProfile.email }}</h4>
-    <h4>Phone: {{ userProfile.phoneNumber | americanPhoneNumber }}</h4>
-    <h4>Address: {{ userProfile.formattedAddress }}</h4>
-    <h4>Contact Preference: {{ userProfile.contactPreference }}</h4>
+    <h4>First name: {{ employee.firstName }}</h4>
+    <h4>Last name: {{ employee.lastName }}</h4>
+    <h4>Pronouns: {{employee.pronouns }}</h4>
+    <h4>Email: {{ employee.email }}</h4>
+    <h4>Phone: {{ employee.phoneNumber | americanPhoneNumber }}</h4>
+    <h4>Address: {{ employee.formattedAddress }}</h4>
+    <h4>Contact Preference: {{ employee.contactPreference }}</h4>
     <br>
   }
 
