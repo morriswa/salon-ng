@@ -1,6 +1,6 @@
 
-<h2>Please enter your contact information!</h2>
-<p><i>After entering your contact information, you should gain access to the client portal</i></p>
+<h2 style="text-align: center;">Please enter your contact information!</h2>
+<p style="text-align: center;"><i>After entering your contact information, you should gain access to the client portal</i></p>
 
 @for(error of createFormErrors; track error) {
   <br><h3>{{error}}</h3>
@@ -20,6 +20,7 @@
   </mat-select>
 </mat-form-field>
 
+<p><strong>First Name</strong></p>
 <div class="form-floating">
   <input
     required
@@ -30,8 +31,9 @@
   >
   <label>Enter your first name: </label>
 </div>
-<br>
 
+<br>
+<p><strong>Last Name</strong></p>
 <div class="form-floating">
   <input
     required
@@ -44,6 +46,7 @@
 </div>
 <br>
 
+<p><strong>Email</strong></p>
 <div class="form-floating">
   <input
     required
@@ -56,6 +59,7 @@
 </div>
 <br>
 
+<p><strong>Phone</strong></p>
 <div class="form-floating">
   <input
     required
@@ -68,6 +72,7 @@
 </div>
 <br>
 
+<p><strong>Street Address</strong></p>
 <div class="form-floating">
   <input
     required
@@ -80,6 +85,7 @@
 </div>
 <br>
 
+<p><strong>Street Address Line 2</strong><i> (Optional)</i></p>
 <div class="form-floating">
   <input
     type="text"
@@ -91,6 +97,7 @@
 </div>
 <br>
 
+<p><strong>City</strong></p>
 <div class="form-floating">
   <input
     required
@@ -99,10 +106,11 @@
     [formControl]="cityForm"
     placeholder="city..."
   >
-  <label>Enter your address (city): </label>
+  <label>Enter your city: </label>
 </div>
 <br>
 
+<p><strong>State</strong></p>
 <div class="form-floating">
   <input
     required
@@ -111,10 +119,11 @@
     [formControl]="stateForm"
     placeholder="state..."
   >
-  <label>Enter your address (state): </label>
+  <label>Enter your state (Postal): </label>
 </div>
 <br>
 
+<p><strong>Zip Code</strong></p>
 <div class="form-floating">
   <input
     required
@@ -123,7 +132,7 @@
     [formControl]="zipCodeForm"
     placeholder="zip code..."
   >
-  <label>Enter your address (zip code): </label>
+  <label>Enter your zip code: </label>
 </div>
 <br>
 
