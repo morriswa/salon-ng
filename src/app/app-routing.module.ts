@@ -6,7 +6,7 @@ import { ClientProfileComponent } from './component/client/client-profile/client
 import {HomeComponent} from "./component/home/home.component";
 import {RegisterUserComponent} from "./component/registration/register-user/register-user.component";
 import {LoginComponent} from "./component/login/login.component";
-import {EmployeeServicesComponent} from "./component/employee/employee-services/provided-service/employee-services.component";
+import {EmployeeServicesComponent} from "./component/employee/employee-services/employee-services.component";
 import {EmployeeScheduleComponent} from "./component/employee/employee-schedule/employee-schedule.component";
 import {
   ClientSearchServicesComponent

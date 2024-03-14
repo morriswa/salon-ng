@@ -22,10 +22,11 @@ import { MatSortModule } from "@angular/material/sort";
 import { AddTokenInterceptor } from './interceptor/AddTokenInterceptor';
 
 // Pipes
-import { LocaleDatePipe } from "./pipe/AsLocaleDate.pipe";
-import { LocaleTimePipe } from "./pipe/AsLocaleTime.pipe";
+import { LocaleDatePipe } from "./pipe/LocaleDate.pipe";
+import { LocaleTimePipe } from "./pipe/LocaleTime.pipe";
 import { AmericanPhoneNumberPipe } from "./pipe/AmericanPhoneNumber.pipe";
 import { AmericanFormattedDatePipe } from "./pipe/AmericanFormattedDate.pipe";
+import { MoneyPipe } from "./pipe/Money.pipe";
 
 // Application Services
 import { LoginService } from "./service/login.service";
@@ -70,7 +71,7 @@ import {
 // Employee Component
 import { EmployeeComponent } from './component/employee/employee.component';
 import { EmployeeProfileComponent } from "./component/employee/employee-profile/employee-profile.component";
-import { EmployeeServicesComponent } from "./component/employee/employee-services/provided-service/employee-services.component";
+import { EmployeeServicesComponent } from "./component/employee/employee-services/employee-services.component";
 import { EmployeeScheduleComponent } from "./component/employee/employee-schedule/employee-schedule.component";
 
 
@@ -134,6 +135,7 @@ import { EmployeeScheduleComponent } from "./component/employee/employee-schedul
     LocaleDatePipe,
     AmericanPhoneNumberPipe,
     AmericanFormattedDatePipe,
+    MoneyPipe,
 
   ],
   providers: [

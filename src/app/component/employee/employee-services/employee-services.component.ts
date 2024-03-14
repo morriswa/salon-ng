@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {SalonClient} from "../../../../service/salon-client.service";
+import {SalonClient} from "../../../service/salon-client.service";
 import {FormControl, Validators} from "@angular/forms";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import {ProvidedService} from "../../../../interface/provided-service.interface";
+import {ProvidedService} from "../../../interface/provided-service.interface";
 
 
 @Component({
