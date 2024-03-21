@@ -5,11 +5,13 @@
   </div>
 } @else {
 
-  @if (employeeProfile$ | async; as employee) {
+  @if (contactInfo$ | async; as contactInfo) {
 
-    <img
-      style="max-height: 400px; max-width: 600px"
-      [src]="employee.profileImage">
+    @if(employeeProfile$|async; as employee) {
+
+      <img
+        style="max-height: 400px; max-width: 600px"
+        [src]="employee.profileImage">
 
       <div class="input-group mb-3">
         <input
@@ -23,18 +25,24 @@
           (click)="uploadProfileImage()">Upload</label>
       </div>
 
-    <h2>Bio</h2>
-    <p>{{ employee.bio }}</p>
-    <br>
+      <h2>Bio</h2>
+      <p>{{ employee.bio }}</p>
+      <br>
+    }
 
     <h2>Contact Information</h2>
-    <h4>First name: {{ employee.firstName }}</h4>
-    <h4>Last name: {{ employee.lastName }}</h4>
-    <h4>Pronouns: {{employee.pronouns }}</h4>
-    <h4>Email: {{ employee.email }}</h4>
-    <h4>Phone: {{ employee.phoneNumber | americanPhoneNumber }}</h4>
-    <h4>Address: {{ employee.formattedAddress }}</h4>
-    <h4>Contact Preference: {{ employee.contactPreference }}</h4>
+    <h4>First name: {{ contactInfo.firstName }}</h4>
+    <h4>Last name: {{ contactInfo.lastName }}</h4>
+    <h4>Pronouns: {{contactInfo.pronouns }}</h4>
+    @if(clientProfile$|async; as client) {
+      <p *ngIf="client.birthday">**Rewards Member</p>
+      <h4 *ngIf="client.birthday">Birthday: {{ client.birthday | americanFormattedDate }}</h4>
+    }
+
+    <h4>Email: {{ contactInfo.email }}</h4>
+    <h4>Phone: {{ contactInfo.phoneNumber | americanPhoneNumber }}</h4>
+    <h4>Address: {{ contactInfo.formattedAddress }}</h4>
+    <h4>Contact Preference: {{ contactInfo.contactPreference }}</h4>
     <br>
   }
 
@@ -52,9 +60,9 @@
     (click)="this.isUpdatingContactInfo$.next(true)"
   >Update Info</button>
 
-  @if ((isUpdatingContactInfo$ | async) && (employeeProfile$|async)) {
+  @if ((isUpdatingContactInfo$ | async) && (contactInfo$|async)) {
 
-    @for(error of updateFormErrors; track error) {
+    @for(error of (updateFormErrors$|async); track error) {
       <br><h3>{{error}}</h3>
     }
 
@@ -71,15 +79,28 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="bioForm"
-        placeholder="Update your employee bio..."
-      >
-      <label>Update bio: </label>
-    </div>
+    @if(clientProfile$|async; as client) {
+      <mat-form-field class="booking-fields">
+        <mat-label>Enter your birthday</mat-label>
+        <input matInput [matDatepicker]="picker" (dateChange)="selectedBirthday($event)">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <br>
+    }
+
+    @if(employeeProfile$|async; as employee) {
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="bioForm"
+          placeholder="Update your employee bio..."
+        >
+        <label>Update bio: </label>
+      </div>
+    }
 
     <br>
     <div class="form-floating">

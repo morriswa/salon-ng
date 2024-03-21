@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EmployeeComponent } from './component/employee/employee.component';
 import { ClientComponent } from './component/client/client.component';
-import { ClientProfileComponent } from './component/client/client-profile/client-profile.component';
 import {HomeComponent} from "./component/home/home.component";
 import {RegisterUserComponent} from "./component/registration/register-user/register-user.component";
 import {LoginComponent} from "./component/login/login.component";
@@ -23,13 +22,13 @@ import {
 } from "./component/employee/employee-appointment-details/employee-appointment-details.component";
 import {AccessCodeComponent} from "./component/registration/access-code/access-code.component";
 import {CreateProfileComponentComponent} from "./component/registration/create-profile-component/create-profile-component.component";
-import {EmployeeProfileComponent} from "./component/employee/employee-profile/employee-profile.component";
-import {PublicProfileComponent} from "./component/public-profile/public-profile.component";
+import {PublicProfileComponent} from "./component/shared/public-profile/public-profile.component";
+import {ProfileComponent} from "./component/shared/profile/profile.component";
 
 const routes: Routes = [
   { path: 'employee', component: EmployeeComponent,
     children: [
-      { path: 'user', component: EmployeeProfileComponent },
+      { path: 'user', component: ProfileComponent },
       { path: 'services', component: EmployeeServicesComponent },
       { path: 'schedule', component: EmployeeScheduleComponent },
       { path: 'appointment/:appointmentId', component: EmployeeAppointmentDetailsComponent },
@@ -37,7 +36,7 @@ const routes: Routes = [
     ] },
   { path: 'client', component: ClientComponent,
     children: [
-      { path: 'user', component: ClientProfileComponent },
+      { path: 'user', component: ProfileComponent },
       { path: 'services', component: ClientSearchServicesComponent },
       { path: 'service/:serviceId', component: ClientServiceAndBookingComponent },
       { path: 'schedule', component: ClientScheduleComponent },

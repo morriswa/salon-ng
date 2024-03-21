@@ -84,7 +84,7 @@ export class SalonClient {
     }));
   }
 
-  updateClientProfile(params: any): Observable<ClientInfo> {
+  updateClientProfile(params: ClientInfo): Observable<ClientInfo> {
     return this.http.patch(`${this.SERVICE_URL}/client/profile`, params)
       .pipe(switchMap(()=>this.refreshClientProfile()));
   }
@@ -209,7 +209,7 @@ export class SalonClient {
     return this.http.get<EmployeeProfile>(`${this.SERVICE_URL}/shared/employee/${employeeId}`);
   }
 
-  updateEmployeeProfile(params: any): Observable<EmployeeProfile> {
+  updateEmployeeProfile(params: EmployeeProfile): Observable<EmployeeProfile> {
     return this.http.patch(`${this.SERVICE_URL}/employee/profile`, params)
       .pipe(switchMap(()=>this.refreshEmployeeProfile()))
   }

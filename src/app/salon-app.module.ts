@@ -49,11 +49,10 @@ import { AccessCodeComponent } from "./component/registration/access-code/access
 
 // Shared Components
 import { HomeComponent } from "./component/home/home.component";
-import { PublicProfileComponent } from "./component/public-profile/public-profile.component";
+import { PublicProfileComponent } from "./component/shared/public-profile/public-profile.component";
 
 // Client Component
 import { ClientComponent } from './component/client/client.component';
-import { ClientProfileComponent } from './component/client/client-profile/client-profile.component';
 import {
   ClientSearchServicesComponent
 } from "./component/client/client-search-services/client-search-services.component";
@@ -70,9 +69,9 @@ import {
 
 // Employee Component
 import { EmployeeComponent } from './component/employee/employee.component';
-import { EmployeeProfileComponent } from "./component/employee/employee-profile/employee-profile.component";
 import { EmployeeServicesComponent } from "./component/employee/employee-services/employee-services.component";
 import { EmployeeScheduleComponent } from "./component/employee/employee-schedule/employee-schedule.component";
+import {ProfileComponent} from "./component/shared/profile/profile.component";
 
 
 
@@ -90,10 +89,11 @@ import { EmployeeScheduleComponent } from "./component/employee/employee-schedul
     AccessCodeComponent,
     PublicProfileComponent,
 
+    // Shared Components
+    ProfileComponent,
 
     // Client Components
     ClientComponent,
-    ClientProfileComponent,
     ClientSearchServicesComponent,
     ClientServiceAndBookingComponent,
     ClientScheduleComponent,
@@ -104,7 +104,6 @@ import { EmployeeScheduleComponent } from "./component/employee/employee-schedul
     EmployeeServicesComponent,
     EmployeeScheduleComponent,
     EmployeeAppointmentDetailsComponent,
-    EmployeeProfileComponent,
 
   ],
   imports: [

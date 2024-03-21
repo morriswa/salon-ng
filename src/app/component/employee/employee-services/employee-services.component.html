@@ -10,7 +10,6 @@
       matSort
       class="mat-elevation-z8">
 
-      <!-- Position Column -->
       <ng-container matColumnDef="serviceId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ID">
           ID.
@@ -18,7 +17,6 @@
         <td mat-cell *matCellDef="let element">{{element.serviceId}}</td>
       </ng-container>
 
-      <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
           Name
@@ -26,7 +24,6 @@
         <td mat-cell *matCellDef="let element">{{element.name}}</td>
       </ng-container>
 
-      <!-- Weight Column -->
       <ng-container matColumnDef="length">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by length">
           Length
@@ -34,7 +31,6 @@
         <td mat-cell *matCellDef="let element">{{element.length}} min.</td>
       </ng-container>
 
-      <!-- Symbol Column -->
       <ng-container matColumnDef="cost">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cost">
           Cost
@@ -45,6 +41,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
     </table>
   }
   @else {
