@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import { Router } from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 import {LoginService} from "./service/login.service";
 import {BehaviorSubject} from "rxjs";
+import {CommonModule} from "@angular/common";
 
 
 /**
@@ -10,10 +11,16 @@ import {BehaviorSubject} from "rxjs";
  */
 @Component({
   selector: 'salon-application',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './salon-application.component.html',
+  styleUrls: ['./salon-application.component.scss'],
+  standalone: true,
+  imports: [
+    // Required Angular Modules
+    CommonModule,
+    RouterModule,
+  ]
 })
-export class AppComponent {
+export class SalonApplication {
 
   ready$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 

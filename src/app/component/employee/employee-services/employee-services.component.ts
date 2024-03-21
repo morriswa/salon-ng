@@ -1,16 +1,28 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {SalonClient} from "../../../service/salon-client.service";
-import {FormControl, Validators} from "@angular/forms";
-import {MatSort} from "@angular/material/sort";
-import {MatTableDataSource} from "@angular/material/table";
+import {FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
+import {MatSort, MatSortModule} from "@angular/material/sort";
+import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {ProvidedService} from "../../../interface/provided-service.interface";
+import {CommonModule} from "@angular/common";
+import {MoneyPipe} from "../../../pipe/Money.pipe";
 
 
 @Component({
   selector: 'salon-provided-service',
   templateUrl: './employee-services.component.html',
-  styleUrl: './employee-services.component.scss'
+  styleUrl: './employee-services.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+
+    MatTableModule,
+    MatSortModule,
+
+    MoneyPipe,
+  ]
 })
 export class EmployeeServicesComponent implements AfterViewInit {
 

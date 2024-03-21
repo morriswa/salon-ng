@@ -14,9 +14,7 @@ import {Appointment, AppointmentOpening} from "../interface/appointment.interfac
  * @author William A. Morris
  * @since 2024-02-06
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SalonClient {
 
   private SERVICE_URL = environment.webService.path;

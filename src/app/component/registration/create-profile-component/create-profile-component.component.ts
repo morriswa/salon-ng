@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject, switchMap} from "rxjs";
-import {ClientInfo} from "../../../interface/profile.interface";
 import {Router} from "@angular/router";
 import {LoginService} from "../../../service/login.service";
 import {SalonClient} from "../../../service/salon-client.service";
 import {ValidatorFactory} from "../../../validator-factory";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatSelectModule} from "@angular/material/select";
 
 @Component({
   selector: 'salon-create-profile-component',
   templateUrl: './create-profile-component.component.html',
-  styleUrl: './create-profile-component.component.scss'
+  styleUrl: './create-profile-component.component.scss',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatSelectModule,
+  ]
 })
 export class CreateProfileComponentComponent {
 

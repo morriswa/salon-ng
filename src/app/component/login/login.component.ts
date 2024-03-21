@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {LoginService} from "../../service/login.service";
-import {Router} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'salon-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+  ]
 })
 export class LoginComponent {
 

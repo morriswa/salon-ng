@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
-import {BehaviorSubject, map, Observable, of, retry, switchMap} from 'rxjs';
+import {BehaviorSubject, map, Observable, of, switchMap} from 'rxjs';
 import { SalonClient } from 'src/app/service/salon-client.service';
 import {LoginService} from "../../../service/login.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ValidatorFactory} from "../../../validator-factory";
-import {FormControl} from "@angular/forms";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {ClientInfo, EmployeeProfile, UserInfo} from "../../../interface/profile.interface";
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
+import {CommonModule} from "@angular/common";
+import {AmericanPhoneNumberPipe} from "../../../pipe/AmericanPhoneNumber.pipe";
+import { MatSelectModule} from "@angular/material/select";
+import {AmericanFormattedDatePipe} from "../../../pipe/AmericanFormattedDate.pipe";
 
 /**
  * shared component for clients and employees to manage their stored info
@@ -16,7 +20,18 @@ import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 @Component({
   selector: 'salon-profile',
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  styleUrl: './profile.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+
+    MatSelectModule,
+    MatDatepickerModule,
+
+    AmericanPhoneNumberPipe,
+    AmericanFormattedDatePipe,
+  ]
 })
 export class ProfileComponent {
 

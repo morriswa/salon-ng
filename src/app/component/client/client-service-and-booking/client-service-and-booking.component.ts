@@ -1,13 +1,26 @@
 import { Component } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {SalonClient} from "../../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
+import {CommonModule} from "@angular/common";
+import {MatSelectModule} from "@angular/material/select";
+import {MoneyPipe} from "../../../pipe/Money.pipe";
 
 @Component({
   selector: 'salon-client-service-and-booking',
   templateUrl: './client-service-and-booking.component.html',
-  styleUrl: './client-service-and-booking.component.scss'
+  styleUrl: './client-service-and-booking.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+
+    MatSelectModule,
+    MatDatepickerModule,
+
+    MoneyPipe,
+  ]
 })
 export class ClientServiceAndBookingComponent {
 

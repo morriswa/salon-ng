@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {SalonClient} from "../../../service/salon-client.service";
 import {LoginService} from "../../../service/login.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject, switchMap} from "rxjs";
+import {CommonModule} from "@angular/common";
 
 
 @Component({
   selector: 'salon-access-code',
   templateUrl: './access-code.component.html',
-  styleUrl: './access-code.component.scss'
+  styleUrl: './access-code.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+  ]
 })
 export class AccessCodeComponent {
   accessCodeForm: FormControl = new FormControl;

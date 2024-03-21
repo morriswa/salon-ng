@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {SalonClient} from "../../service/salon-client.service";
 import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
+import {CommonModule} from "@angular/common";
 
 
 /**
@@ -10,7 +11,11 @@ import {BehaviorSubject} from "rxjs";
 @Component({
   selector: 'salon-home',
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+  ]
 })
 export class HomeComponent {
 

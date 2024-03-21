@@ -1,12 +1,20 @@
 import { Component } from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {SalonClient} from "../../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
+import {CommonModule} from "@angular/common";
+import {RouterModule} from "@angular/router";
 
 @Component({
   selector: 'salon-client-search-services',
   templateUrl: './client-search-services.component.html',
-  styleUrl: './client-search-services.component.scss'
+  styleUrl: './client-search-services.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+  ]
 })
 export class ClientSearchServicesComponent {
 
