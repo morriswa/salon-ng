@@ -25,7 +25,6 @@ export class HomeComponent {
   message$: BehaviorSubject<string> = new BehaviorSubject<string>("");
 
 
-  // component dependencies
   constructor(private salonClient: SalonClient, router: Router) {
     // if the user got rerouted, make sure url segment is correct
     router.navigate(['/'])

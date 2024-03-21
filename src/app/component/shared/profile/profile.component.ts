@@ -11,6 +11,8 @@ import {CommonModule} from "@angular/common";
 import {AmericanPhoneNumberPipe} from "../../../pipe/AmericanPhoneNumber.pipe";
 import { MatSelectModule} from "@angular/material/select";
 import {AmericanFormattedDatePipe} from "../../../pipe/AmericanFormattedDate.pipe";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatInputModule} from "@angular/material/input";
 
 /**
  * shared component for clients and employees to manage their stored info
@@ -27,7 +29,9 @@ import {AmericanFormattedDatePipe} from "../../../pipe/AmericanFormattedDate.pip
     ReactiveFormsModule,
 
     MatSelectModule,
+    MatInputModule,
     MatDatepickerModule,
+    MatNativeDateModule,
 
     AmericanPhoneNumberPipe,
     AmericanFormattedDatePipe,
@@ -57,6 +61,7 @@ export class ProfileComponent {
 
   /**
    * state of user profile, and if it has been successfully loaded
+   * @private
    */
   private _profile$: BehaviorSubject<EmployeeProfile|ClientInfo|undefined>
     = new BehaviorSubject<EmployeeProfile | ClientInfo| undefined>(undefined);
@@ -120,8 +125,8 @@ export class ProfileComponent {
   cityForm = ValidatorFactory.getCityForm();
   stateForm = ValidatorFactory.getStateForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
-  profilePhotoUploadForm: FormControl = new FormControl();
-  bioForm: FormControl = new FormControl('');
+  profilePhotoUploadForm: FormControl = ValidatorFactory.getGenericForm();
+  bioForm: FormControl = ValidatorFactory.getGenericForm();
 
 
   constructor(route: ActivatedRoute, private router: Router, public login: LoginService, private salonClient: SalonClient) {
@@ -261,18 +266,8 @@ export class ProfileComponent {
     this.contactMethodSelector$.next(undefined);
   }
 
-  selectedPronouns($event: 'H'|'S'|'T') {
-    this.pronounSelector$.next($event);
-  }
-
-  selectedContactMethod($event: string) {
-    this.contactMethodSelector$.next($event);
-  }
-
   selectedBirthday($event: MatDatepickerInputEvent<any, any>) {
     let date = new Date($event.value);
-
-    let currentTime = new Date();
 
     date.setHours(9)
     date.setMinutes(0);

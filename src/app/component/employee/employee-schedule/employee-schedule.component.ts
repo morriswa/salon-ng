@@ -21,6 +21,8 @@ import {RouterModule} from "@angular/router";
   ]
 })
 export class EmployeeScheduleComponent {
+
+
   employeeSchedule$: BehaviorSubject<Appointment[] | undefined> = new BehaviorSubject<Appointment[] | undefined>(undefined);
 
   constructor(private salonClient: SalonClient) {

@@ -1,13 +1,19 @@
+// ng
 import {Component} from '@angular/core';
-import {Router, RouterModule} from '@angular/router';
-import {LoginService} from "./service/login.service";
-import {BehaviorSubject} from "rxjs";
 import {CommonModule} from "@angular/common";
+import {Router, RouterModule} from '@angular/router';
+// other
+import {BehaviorSubject} from "rxjs";
+// services
+import {LoginService} from "./service/login.service";
 
 
 /**
- * Core application component loaded before every other page
- * Provides login and routing capabilities to the user
+ * Core application component loaded before every other page.
+ * Provides login and routing capabilities to the user.
+ *
+ * @author William A. Morris
+ * @since 2024-02-02
  */
 @Component({
   selector: 'salon-application',
@@ -22,15 +28,17 @@ import {CommonModule} from "@angular/common";
 })
 export class SalonApplication {
 
+  /**
+   * state det. if application can be displayed
+   */
   ready$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  // component dependencies
+
   constructor(public loginService: LoginService,
               private router: Router) {
-    this.loginService.init().subscribe((isAuthenticated)=> {
-      console.log("Initialized login service with status " + (isAuthenticated ? "authenticated" : "not authenticated"));
-      this.ready$.next(true);
-    });
+    this.loginService.init() // initialize the login service
+      // application is ready after login service is initialized
+      .subscribe(()=>this.ready$.next(true));
   }
 
 

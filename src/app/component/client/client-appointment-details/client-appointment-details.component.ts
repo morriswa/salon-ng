@@ -24,18 +24,17 @@ import {LocaleTimePipe} from "../../../pipe/LocaleTime.pipe";
 })
 export class ClientAppointmentDetailsComponent {
 
-  appointmentId: number;
   appointmentDetails$: BehaviorSubject<Appointment|undefined> = new BehaviorSubject<Appointment|undefined>(undefined);
 
   constructor(active: ActivatedRoute, salonClient: SalonClient, router: Router) {
 
-    this.appointmentId = Number(active.snapshot.params['appointmentId']);
+    const appointmentId = Number(active.snapshot.params['appointmentId']);
 
-    salonClient.getAppointmentDetailsForClient(this.appointmentId)
+    salonClient.getAppointmentDetailsForClient(appointmentId)
     .subscribe({
       next: (appointment:Appointment) => this.appointmentDetails$.next(appointment),
       error: () => router.navigate(['/employee'])
-    })
+    });
 
   }
 }

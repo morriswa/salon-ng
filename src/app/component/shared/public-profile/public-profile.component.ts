@@ -19,14 +19,12 @@ import {CommonModule} from "@angular/common";
 })
 export class PublicProfileComponent {
 
-  employeeId: number;
-
   employeeInfo$: BehaviorSubject<EmployeeProfile|undefined> = new BehaviorSubject<EmployeeProfile|undefined>(undefined);
 
-  constructor(active: ActivatedRoute, private salonClient: SalonClient, private router: Router) {
-    this.employeeId = active.snapshot.params['employeeId'];
+  constructor(active: ActivatedRoute, salonClient: SalonClient, router: Router) {
+    const employeeId = active.snapshot.params['employeeId'];
 
-    salonClient.getPublicEmployeeProfile(this.employeeId)
+    salonClient.getPublicEmployeeProfile(employeeId)
       .subscribe({
         next: (res: EmployeeProfile)=>{
           this.employeeInfo$.next(res);

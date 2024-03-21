@@ -4,6 +4,7 @@ import {LoginService} from "../../service/login.service";
 import {Router, RouterModule} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import {CommonModule} from "@angular/common";
+import {ValidatorFactory} from "../../validator-factory";
 
 @Component({
   selector: 'salon-login',
@@ -31,19 +32,24 @@ export class LoginComponent {
   /**
    * provides username form access and manipulation on login page
    */
-  usernameForm: FormControl = new FormControl({value: '', disabled: true},{});
+  usernameForm: FormControl = ValidatorFactory.getUsernameForm();
 
   /**
    * provides password form access and manipulation on login page
    */
-  passwordForm:FormControl = new FormControl({value: '', disabled: true},{});
+  passwordForm:FormControl = ValidatorFactory.getPasswordForm();
 
 
-  // component dependencies
   constructor(public loginService: LoginService,
               private router: Router) {
-    // if the user is already authenticated, they should be re-routed to the User menu
-    if (loginService.authenticated) router.navigate(['/user'])
+    // if the user is already authenticated, they should be re-routed to the appropriate portal
+    if (loginService.authenticated) {
+      if (loginService.hasAuthority('EMPLOYEE'))
+        router.navigate(['/employee','user']);
+      else if (loginService.hasAuthority('CLIENT'))
+        router.navigate(['/client','user']);
+      else router.navigate(['/register2']);
+    }
 
     this.processingLogin$.asObservable().subscribe(locked=>{
       if (locked) { // if the component is processing a request
@@ -73,7 +79,11 @@ export class LoginComponent {
           this.usernameForm.reset();
           this.passwordForm.reset();
           // and reroute to client-profile page
-          this.router.navigate(['/user'])
+          if (this.loginService.hasAuthority('EMPLOYEE'))
+            this.router.navigate(['/employee']);
+          else if (this.loginService.hasAuthority('CLIENT'))
+            this.router.navigate(['/client']);
+          else this.router.navigate(['/register2']);
         } else { // on authentication failure...
           // provided a helpful message
           this.loginMessage$.next("Could not authenticate with provided credentials!");

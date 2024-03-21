@@ -70,7 +70,7 @@
       <mat-label>Select your pronouns</mat-label>
       <mat-select
         [(value)]="pronounValue"
-        (valueChange)="selectedPronouns($event)">
+        (valueChange)="this.pronounSelector$.next($event)">
 
       <mat-option value="H">He/Him/His</mat-option>
       <mat-option value="S">She/Her/Hers</mat-option>
@@ -153,7 +153,7 @@
       <mat-label>Select your preferred contact method: </mat-label>
       <mat-select
         [(value)]="contactMethodValue"
-        (valueChange)="selectedContactMethod($event)">
+        (valueChange)="this.contactMethodSelector$.next($event)">
 
         <mat-option value="PhoneCall">Phone Call</mat-option>
         <mat-option value="TextMessage">Text Message</mat-option>

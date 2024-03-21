@@ -4,6 +4,7 @@ import {SalonClient} from "../../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
+import {ValidatorFactory} from "../../../validator-factory";
 
 @Component({
   selector: 'salon-client-search-services',
@@ -18,12 +19,13 @@ import {RouterModule} from "@angular/router";
 })
 export class ClientSearchServicesComponent {
 
-  availableServiceSearchResults: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  availableServiceSearchResults$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
-  searchServiceForm: FormControl = new FormControl();
+  searchServiceForm: FormControl = ValidatorFactory.getGenericForm();
 
 
   constructor(private salonClient: SalonClient) { }
+
 
   searchAvailableServices($event: KeyboardEvent) {
 
@@ -31,7 +33,7 @@ export class ClientSearchServicesComponent {
     this.salonClient.searchAvailableServices(searchText)
       .subscribe({
         next: res=>{
-          this.availableServiceSearchResults.next(res);
+          this.availableServiceSearchResults$.next(res);
         }
       });
   }

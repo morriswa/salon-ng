@@ -5,6 +5,7 @@ import {LoginService} from "../../../service/login.service";
 import {BehaviorSubject, switchMap} from "rxjs";
 import {Router, RouterModule} from "@angular/router";
 import {CommonModule} from "@angular/common";
+import {ValidatorFactory} from "../../../validator-factory";
 
 @Component({
   selector: 'salon-register-user',
@@ -32,16 +33,23 @@ export class RegisterUserComponent {
   /**
    * controls username form
    */
-  usernameForm: FormControl = new FormControl({value: '', disabled: true});
+  usernameForm: FormControl = ValidatorFactory.getUsernameForm();
 
   /**
    * controls password form
    */
-  passwordForm: FormControl = new FormControl({value: '', disabled: true});
+  passwordForm: FormControl = ValidatorFactory.getPasswordForm();
 
 
   constructor(private router: Router, private salonClient: SalonClient, private login: LoginService) {
-    if (login.authenticated) router.navigate(['/user']);
+    // if the user is already authenticated, they should be re-routed to the appropriate portal
+    if (login.authenticated) {
+      if (login.hasAuthority('EMPLOYEE'))
+        router.navigate(['/employee','user']);
+      else if (login.hasAuthority('CLIENT'))
+        router.navigate(['/client','user']);
+      else router.navigate(['/register2']);
+    }
 
     this.processingRegistration$.asObservable().subscribe(locked=>{
       if (locked) { // disable forms if component is currently processing a request

@@ -23,14 +23,13 @@ import {LocaleTimePipe} from "../../../pipe/LocaleTime.pipe";
 })
 export class EmployeeAppointmentDetailsComponent {
 
-  appointmentId: number;
   appointmentDetails$: BehaviorSubject<Appointment|undefined> = new BehaviorSubject<Appointment|undefined>(undefined);
 
   constructor(active: ActivatedRoute, salonClient: SalonClient, private router: Router) {
 
-    this.appointmentId = Number(active.snapshot.params['appointmentId']);
+    const appointmentId = Number(active.snapshot.params['appointmentId']);
 
-    salonClient.getAppointmentDetailsForEmployee(this.appointmentId)
+    salonClient.getAppointmentDetailsForEmployee(appointmentId)
       .subscribe({
         next: (appointment:Appointment) => {
           this.appointmentDetails$.next(appointment)

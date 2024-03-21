@@ -5,6 +5,7 @@ import {LoginService} from "../../../service/login.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BehaviorSubject, switchMap} from "rxjs";
 import {CommonModule} from "@angular/common";
+import {ValidatorFactory} from "../../../validator-factory";
 
 
 @Component({
@@ -18,7 +19,6 @@ import {CommonModule} from "@angular/common";
   ]
 })
 export class AccessCodeComponent {
-  accessCodeForm: FormControl = new FormControl;
 
   accessCodeError$: BehaviorSubject<string> = new BehaviorSubject<string>("");
 
@@ -26,10 +26,14 @@ export class AccessCodeComponent {
 
   showClientRegistrationForm$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  accessCodeForm: FormControl = ValidatorFactory.getGenericForm();
+
+
   constructor(private salonClient: SalonClient, private login: LoginService, route: ActivatedRoute, private router: Router) {
     if (!login.hasAuthority('USER')) router.navigate(['/register2'])
     else if (!login.hasAuthority('NUSER')) router.navigate(['/'])
   }
+
 
   enterCode() {
     const enteredCode = this.accessCodeForm.value;

@@ -2,7 +2,7 @@
 <h2>Please enter your contact information!</h2>
 <p><i>After entering your contact information, you should gain access to the client portal</i></p>
 
-@for(error of createFormErrors; track error) {
+@for(error of (serviceErrors$|async); track error) {
   <br><h3>{{error}}</h3>
 }
 
@@ -12,7 +12,7 @@
   <mat-label>Select your pronouns</mat-label>
   <mat-select
     [(value)]="pronounValue"
-    (valueChange)="selectedPronouns($event)"
+    (valueChange)="this.pronounSelector$.next($event)"
   >
     <mat-option value="H">He/Him/His</mat-option>
     <mat-option value="S">She/Her/Hers</mat-option>
