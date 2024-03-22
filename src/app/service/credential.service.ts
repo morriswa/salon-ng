@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CredentialService {
 
   private _token$:BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);

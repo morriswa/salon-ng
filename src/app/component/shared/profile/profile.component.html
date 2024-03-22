@@ -5,23 +5,44 @@
   </div>
 } @else {
 
-  @if (employeeProfile$ | async; as userProfile) {
+  @if (contactInfo$ | async; as contactInfo) {
 
-    <img
-      style="max-height: 400px; max-width: 600px"
-      [src]="userProfile.profileImage">
-    <h2>Bio</h2>
-    <p>{{ userProfile.bio }}</p>
-    <br>
+    @if(employeeProfile$|async; as employee) {
+
+      <img
+        style="max-height: 400px; max-width: 600px"
+        [src]="employee.profileImage">
+
+      <div class="input-group mb-3">
+        <input
+          type="file"
+          class="form-control"
+          [formControl]="this.profilePhotoUploadForm"
+          (change)="cacheImageToUpload($event)"
+        >
+        <label
+          class="input-group-text"
+          (click)="uploadProfileImage()">Upload</label>
+      </div>
+
+      <h2>Bio</h2>
+      <p>{{ employee.bio }}</p>
+      <br>
+    }
 
     <h2>Contact Information</h2>
-    <h4>First name: {{ userProfile.firstName }}</h4>
-    <h4>Last name: {{ userProfile.lastName }}</h4>
-    <h4>Pronouns: {{userProfile.pronouns }}</h4>
-    <h4>Email: {{ userProfile.email }}</h4>
-    <h4>Phone: {{ userProfile.phoneNumber | americanPhoneNumber }}</h4>
-    <h4>Address: {{ userProfile.formattedAddress }}</h4>
-    <h4>Contact Preference: {{ userProfile.contactPreference }}</h4>
+    <h4>First name: {{ contactInfo.firstName }}</h4>
+    <h4>Last name: {{ contactInfo.lastName }}</h4>
+    <h4>Pronouns: {{contactInfo.pronouns }}</h4>
+    @if(clientProfile$|async; as client) {
+      <p *ngIf="client.birthday">**Rewards Member</p>
+      <h4 *ngIf="client.birthday">Birthday: {{ client.birthday | americanFormattedDate }}</h4>
+    }
+
+    <h4>Email: {{ contactInfo.email }}</h4>
+    <h4>Phone: {{ contactInfo.phoneNumber | americanPhoneNumber }}</h4>
+    <h4>Address: {{ contactInfo.formattedAddress }}</h4>
+    <h4>Contact Preference: {{ contactInfo.contactPreference }}</h4>
     <br>
   }
 
@@ -39,9 +60,9 @@
     (click)="this.isUpdatingContactInfo$.next(true)"
   >Update Info</button>
 
-  @if ((isUpdatingContactInfo$ | async) && (employeeProfile$|async)) {
+  @if ((isUpdatingContactInfo$ | async) && (contactInfo$|async)) {
 
-    @for(error of updateFormErrors; track error) {
+    @for(error of (updateFormErrors$|async); track error) {
       <br><h3>{{error}}</h3>
     }
 
@@ -49,7 +70,7 @@
       <mat-label>Select your pronouns</mat-label>
       <mat-select
         [(value)]="pronounValue"
-        (valueChange)="selectedPronouns($event)">
+        (valueChange)="this.pronounSelector$.next($event)">
 
       <mat-option value="H">He/Him/His</mat-option>
       <mat-option value="S">She/Her/Hers</mat-option>
@@ -58,15 +79,28 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="bioForm"
-        placeholder="Update your employee bio..."
-      >
-      <label>Update bio: </label>
-    </div>
+    @if(clientProfile$|async; as client) {
+      <mat-form-field class="booking-fields">
+        <mat-label>Enter your birthday</mat-label>
+        <input matInput [matDatepicker]="picker" (dateChange)="selectedBirthday($event)">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <br>
+    }
+
+    @if(employeeProfile$|async; as employee) {
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="bioForm"
+          placeholder="Update your employee bio..."
+        >
+        <label>Update bio: </label>
+      </div>
+    }
 
     <br>
     <div class="form-floating">
@@ -119,7 +153,7 @@
       <mat-label>Select your preferred contact method: </mat-label>
       <mat-select
         [(value)]="contactMethodValue"
-        (valueChange)="selectedContactMethod($event)">
+        (valueChange)="this.contactMethodSelector$.next($event)">
 
         <mat-option value="PhoneCall">Phone Call</mat-option>
         <mat-option value="TextMessage">Text Message</mat-option>

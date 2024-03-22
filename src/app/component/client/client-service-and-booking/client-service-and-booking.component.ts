@@ -1,17 +1,33 @@
 import { Component } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {SalonClient} from "../../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
+import {CommonModule} from "@angular/common";
+import {MatSelectModule} from "@angular/material/select";
+import {MoneyPipe} from "../../../pipe/Money.pipe";
+import {MatInput} from "@angular/material/input";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @Component({
   selector: 'salon-client-service-and-booking',
   templateUrl: './client-service-and-booking.component.html',
-  styleUrl: './client-service-and-booking.component.scss'
+  styleUrl: './client-service-and-booking.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+
+    MatSelectModule,
+    MatInput,
+    MatDatepickerModule,
+    MatNativeDateModule,
+
+    MoneyPipe,
+  ]
 })
 export class ClientServiceAndBookingComponent {
 
-  serviceId: number;
   serviceInfo$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
 
   availableTimes$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[] | undefined>(undefined);
@@ -23,9 +39,9 @@ export class ClientServiceAndBookingComponent {
   appointmentConfirmation$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
 
   constructor(active: ActivatedRoute, private salonClient: SalonClient, private router: Router) {
-    this.serviceId = active.snapshot.params['serviceId'];
+    const serviceId = active.snapshot.params['serviceId'];
 
-    salonClient.getProvidedServiceDetailsForClient(this.serviceId)
+    salonClient.getProvidedServiceDetailsForClient(serviceId)
       .subscribe({
         next: res=>{
           this.serviceInfo$.next(res);
@@ -84,7 +100,7 @@ export class ClientServiceAndBookingComponent {
 
     let request = {
       employeeId: currentService.employee.employeeId,
-      serviceId: this.serviceId,
+      serviceId: this.serviceInfo$.getValue().serviceId,
       time: dateTime.time
     };
 

@@ -1,15 +1,23 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject, switchMap} from "rxjs";
-import {ClientInfo} from "../../../interface/profile.interface";
 import {Router} from "@angular/router";
 import {LoginService} from "../../../service/login.service";
 import {SalonClient} from "../../../service/salon-client.service";
 import {ValidatorFactory} from "../../../validator-factory";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatSelectModule} from "@angular/material/select";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'salon-create-profile-component',
   templateUrl: './create-profile-component.component.html',
-  styleUrl: './create-profile-component.component.scss'
+  styleUrl: './create-profile-component.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+  ]
 })
 export class CreateProfileComponentComponent {
 
@@ -18,10 +26,21 @@ export class CreateProfileComponentComponent {
    */
   processingProfile$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
+  /**
+   * state for pronoun selection dropdown
+   */
+  pronounSelector$: BehaviorSubject<string|undefined>
+    = new BehaviorSubject<string | undefined>(undefined);
 
-  pronounSelector$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
+  /**
+   * two-way binding for pronouns selection dropdown
+   */
+  pronounValue?:string;
 
-  createFormErrors: string[] = [];
+  /**
+   * stores service errors encountered during http requests
+   */
+  serviceErrors$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
 
   firstNameForm = ValidatorFactory.getFirstNameForm();
@@ -34,11 +53,12 @@ export class CreateProfileComponentComponent {
   stateForm = ValidatorFactory.getStateForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
 
-  pronounValue?:string;
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated) router.navigate(['/login']);
     else if (login.hasAuthority('USER')) router.navigate(['/register2','access']);
+
+    this.pronounSelector$.subscribe(selection=>this.pronounValue = selection);
   }
 
 
@@ -57,6 +77,7 @@ export class CreateProfileComponentComponent {
       city: this.cityForm.value,
       stateCode: this.stateForm.value,
       zipCode: this.zipCodeForm.value,
+      // TODO contact pref during signup
       contactPreference: 'Email'
     };
 
@@ -71,21 +92,17 @@ export class CreateProfileComponentComponent {
       .subscribe({
         next: (res:any) => { // if requests were successful
           // this.account$ = this.login.account$; // get new login information
-          this.createFormErrors = []; // reset error messages
+          this.serviceErrors$.next([]); // reset error messages
           this.processingProfile$.next(false); // and mark component as available
           this.router.navigate(['/register2','access'])
         },
         error: (err:any) => { // if errors were encountered during profile creation
-          this.createFormErrors = []; // reset error messages
+          let errors:string[] = []; // reset error messages
           // cache all server error messages and display them to the user
-          err.error.additionalInfo.map((each:any)=>this.createFormErrors.push(each.message))
+          err.error.additionalInfo.map((each:any)=>errors.push(each.message));
+          this.serviceErrors$.next(errors);
           this.processingProfile$.next(false); // and mark component as available
         }
       });
-  }
-
-  selectedPronouns($event: 'H'|'S'|'T') {
-    this.pronounSelector$.next($event);
-    this.pronounValue = $event;
   }
 }

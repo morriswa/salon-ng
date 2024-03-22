@@ -1,16 +1,29 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {SalonClient} from "../../../../service/salon-client.service";
-import {FormControl, Validators} from "@angular/forms";
-import {MatSort} from "@angular/material/sort";
-import {MatTableDataSource} from "@angular/material/table";
-import {ProvidedService} from "../../../../interface/provided-service.interface";
+import {SalonClient} from "../../../service/salon-client.service";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {MatSort, MatSortModule} from "@angular/material/sort";
+import {MatTableDataSource, MatTableModule} from "@angular/material/table";
+import {ProvidedService} from "../../../interface/provided-service.interface";
+import {CommonModule} from "@angular/common";
+import {MoneyPipe} from "../../../pipe/Money.pipe";
+import {ValidatorFactory} from "../../../validator-factory";
 
 
 @Component({
   selector: 'salon-provided-service',
   templateUrl: './employee-services.component.html',
-  styleUrl: './employee-services.component.scss'
+  styleUrl: './employee-services.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+
+    MatTableModule,
+    MatSortModule,
+
+    MoneyPipe,
+  ]
 })
 export class EmployeeServicesComponent implements AfterViewInit {
 
@@ -35,29 +48,25 @@ export class EmployeeServicesComponent implements AfterViewInit {
   providedServices$: BehaviorSubject<ProvidedService[]|undefined> = new BehaviorSubject<ProvidedService[]|undefined>(undefined);
 
   // create service form controls
-  serviceNameForm: FormControl = new FormControl('',[
-    Validators.maxLength(128)
-  ]);
-  serviceCostForm: FormControl = new FormControl('',[
-    Validators.pattern('^[0-9]{1,3}(\.[0-9]{1,2})?$'),
-    Validators.min(0.01), Validators.max(999.99)
-  ]);
-  serviceLengthForm: FormControl = new FormControl('',[
-    Validators.pattern('^[0-9]{1,3}$'),
-    Validators.min(1), Validators.max(480)
-  ]);
+  serviceNameForm: FormControl = ValidatorFactory.getServiceNameForm();
+  serviceCostForm: FormControl = ValidatorFactory.getServiceCostForm();
+  serviceLengthForm: FormControl = ValidatorFactory.getServiceLengthForm();
 
-  displayedColumns: string[] = ['serviceId', 'name', 'length', 'cost'];
+  // required table controls
+  providedServiceData: MatTableDataSource<ProvidedService> = new MatTableDataSource<ProvidedService>([]);
+  providedServiceColumns: string[] = ['serviceId', 'name', 'length', 'cost'];
 
+  // magic code to make table work
   @ViewChild(MatSort) set mySorter(sort: MatSort) {
-    this.dataSource.sort = sort;
+    this.providedServiceData.sort = sort;
   }
 
-  dataSource: MatTableDataSource<ProvidedService> = new MatTableDataSource<ProvidedService>([]);
-
+  ngAfterViewInit(): void {
+    this.providedServiceData.sort = this.mySorter;
+  }
 
   constructor(private salonClient: SalonClient) {
-    this.dataSource.sortingDataAccessor = (item, property): any => {
+    this.providedServiceData.sortingDataAccessor = (item, property): any => {
       switch (property) {
         case 'serviceId': return Number(item.serviceId);
         case 'name': return item.name;
@@ -67,8 +76,8 @@ export class EmployeeServicesComponent implements AfterViewInit {
       }
     };
 
-    this.providedServices$.subscribe((res)=>{
-      if (res) this.dataSource.data = res;
+    this.providedServices$.asObservable().subscribe((res)=>{
+      if (res) this.providedServiceData.data = res;
     });
 
     // cache current services
@@ -78,9 +87,7 @@ export class EmployeeServicesComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.mySorter;
-  }
+
 
   createNewService() {
 

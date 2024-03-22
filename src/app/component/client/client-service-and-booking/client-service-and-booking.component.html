@@ -3,7 +3,7 @@
   <h3>{{ serviceInfo.name }}, provided by
     <a [routerLink]="['/profile', serviceInfo.employee.employeeId]">{{ serviceInfo.employee.firstName }} {{ serviceInfo.employee.lastName }}</a>
   </h3>
-  <h3>${{ serviceInfo.cost }} for {{ serviceInfo.length }} min.</h3>
+  <h3>{{ serviceInfo.cost | money }} for {{ serviceInfo.length }} min.</h3>
 
 
   @if (appointmentConfirmation$ | async; as appointmentConfirmation) {
