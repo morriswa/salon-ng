@@ -1,18 +1,31 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {SalonClient} from "../../../service/salon-client.service";
-import {FormControl} from "@angular/forms";
-import {MatSort} from "@angular/material/sort";
-import {MatTableDataSource} from "@angular/material/table";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {MatSort, MatSortModule} from "@angular/material/sort";
+import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {ProvidedService} from "../../../interface/provided-service.interface";
+import {CommonModule} from "@angular/common";
+import {MoneyPipe} from "../../../pipe/Money.pipe";
+import {ValidatorFactory} from "../../../validator-factory";
 
 
 @Component({
   selector: 'salon-provided-service',
-  templateUrl: './provided-service.component.html',
-  styleUrl: './provided-service.component.scss'
+  templateUrl: './employee-services.component.html',
+  styleUrl: './employee-services.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+
+    MatTableModule,
+    MatSortModule,
+
+    MoneyPipe,
+  ]
 })
-export class ProvidedServiceComponent implements AfterViewInit{
+export class EmployeeServicesComponent implements AfterViewInit {
 
   /**
    * state of view create service menu
@@ -35,32 +48,36 @@ export class ProvidedServiceComponent implements AfterViewInit{
   providedServices$: BehaviorSubject<ProvidedService[]|undefined> = new BehaviorSubject<ProvidedService[]|undefined>(undefined);
 
   // create service form controls
-  serviceNameForm: FormControl = new FormControl();
-  serviceCostForm: FormControl = new FormControl();
-  serviceLengthForm: FormControl = new FormControl();
+  serviceNameForm: FormControl = ValidatorFactory.getServiceNameForm();
+  serviceCostForm: FormControl = ValidatorFactory.getServiceCostForm();
+  serviceLengthForm: FormControl = ValidatorFactory.getServiceLengthForm();
 
-  displayedColumns: string[] = ['serviceId', 'name', 'defaultLength', 'defaultCost'];
+  // required table controls
+  providedServiceData: MatTableDataSource<ProvidedService> = new MatTableDataSource<ProvidedService>([]);
+  providedServiceColumns: string[] = ['serviceId', 'name', 'length', 'cost'];
 
+  // magic code to make table work
   @ViewChild(MatSort) set mySorter(sort: MatSort) {
-    this.dataSource.sort = sort;
+    this.providedServiceData.sort = sort;
   }
 
-  dataSource: MatTableDataSource<ProvidedService> = new MatTableDataSource<ProvidedService>([]);
-
+  ngAfterViewInit(): void {
+    this.providedServiceData.sort = this.mySorter;
+  }
 
   constructor(private salonClient: SalonClient) {
-    this.dataSource.sortingDataAccessor = (item, property) => {
+    this.providedServiceData.sortingDataAccessor = (item, property): any => {
       switch (property) {
         case 'serviceId': return Number(item.serviceId);
         case 'name': return item.name;
-        case 'defaultLength': return Number(item.defaultLength);
-        case 'defaultCost': return Number(item.defaultCost);
+        case 'length': return Number(item.length);
+        case 'cost': return Number(item.cost);
         default: return item.serviceId;
       }
     };
 
-    this.providedServices$.subscribe((res)=>{
-      if (res) this.dataSource.data = res;
+    this.providedServices$.asObservable().subscribe((res)=>{
+      if (res) this.providedServiceData.data = res;
     });
 
     // cache current services
@@ -70,9 +87,7 @@ export class ProvidedServiceComponent implements AfterViewInit{
     });
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.mySorter;
-  }
+
 
   createNewService() {
 
@@ -82,10 +97,10 @@ export class ProvidedServiceComponent implements AfterViewInit{
     let serviceCost:string = this.serviceCostForm.value;
     let serviceLength = this.serviceLengthForm.value;
 
-    let request = {
+    let request: ProvidedService = {
       name: serviceName,
-      defaultCost: serviceCost,
-      defaultLength: Math.ceil(serviceLength / 15)
+      cost: Number(serviceCost),
+      length: Math.ceil(serviceLength / 15)
     };
 
     this.salonClient.createProvidedService(request)

@@ -2,16 +2,16 @@
 <br>
 
 @if (appointmentDetails$ | async; as details) {
-  <h2>{{ details.service.name }}</h2>
+  <h2>{{ details.serviceName }}</h2>
   <h4>Scheduled for {{ details.time | localeDate }} at {{ details.time | localeTime }}</h4>
   <h4>${{ details.cost }} due on {{ details.paymentDueDate | localeDate }}</h4>
-  <h4>with {{ details.employee.firstName }} {{ details.employee.lastName }}</h4>
+  <h4>with <a [routerLink]="['/profile', details.employee!.userId]">{{ details.employee!.firstName }} {{ details.employee!.lastName }}</a></h4>
   <br>
   <h4>Appointment Contact Information: </h4>
-  <h4>&emsp;Phone: {{ details.employee.phoneNumber | americanPhoneNumber }}</h4>
+  <h4>&emsp;Phone: {{ details.employee!.phoneNumber | americanPhoneNumber }}</h4>
   <h4>
     <a>&emsp;Email: </a>
-    <a class="search-result-links" [href]="'mailto:'+details.employee.email">{{ details.employee.email }}</a>
+    <a class="search-result-links" [href]="'mailto:'+details.employee!.email">{{ details.employee!.email }}</a>
   </h4>
 } @else {
   <h3>Loading appointment details...</h3>

@@ -6,6 +6,12 @@
 
 <button
   class="salon-btn-secondary-outline"
+  [routerLink]="['user']"
+  [disabled]="currentPageIs('/employee/user')"
+  >Your Profile</button>
+
+<button
+  class="salon-btn-secondary-outline"
   [routerLink]="['schedule']"
   [disabled]="currentPageIs('/employee/schedule')"
   >View Schedule</button>
@@ -15,12 +21,6 @@
   [routerLink]="['services']"
   [disabled]="currentPageIs('/employee/services')"
   >Edit Services</button>
-
-<button
-  class="salon-btn-secondary-outline"
-  [routerLink]="['finance']"
-  [disabled]="currentPageIs('/employee/finance')"
->Access Finances</button>
 
 <div style="display: block; margin: 20px auto 0 auto;">
   <router-outlet></router-outlet>

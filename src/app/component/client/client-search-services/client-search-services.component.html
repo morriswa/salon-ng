@@ -10,7 +10,7 @@
 
 <br>
 
-@for (service of (availableServiceSearchResults|async); track service.serviceId) {
+@for (service of (availableServiceSearchResults$|async); track service.serviceId) {
   <h2
     class="search-result-links"
     [routerLink]="['/client','service',service.serviceId]">{{ service.name }}</h2>

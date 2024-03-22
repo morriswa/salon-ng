@@ -2,17 +2,17 @@
 <br>
 
 @if (appointmentDetails$ | async; as details) {
-  <h2>{{ details.service.name }}</h2>
+  <h2>{{ details.serviceName }}</h2>
   <h4>Scheduled for {{ details.time | localeDate }} at {{ details.time | localeTime }}</h4>
   <h4>${{ details.cost }} due on {{ details.paymentDueDate | localeDate }}</h4>
-  <h4>with {{ details.client.firstName }} {{ details.client.lastName }}</h4>
   <br>
   <h4>Client's Contact Information: </h4>
-  <p>Preferred method is {{ details.client.contactPreference }}</p>
-  <h4>&emsp;Phone: {{ details.client.phoneNumber | americanPhoneNumber }}</h4>
+  <h4>&emsp;{{ details.client!.firstName }} {{ details.client!.lastName }}</h4>
+  <p>Preferred method is {{ details.client!.contactPreference }}</p>
+  <h4>&emsp;Phone: {{ details.client!.phoneNumber! | americanPhoneNumber }}</h4>
   <h4>
     <a>&emsp;Email: </a>
-    <a class="search-result-links" [href]="'mailto:'+details.client.email">{{ details.client.email }}</a>
+    <a class="search-result-links" [href]="'mailto:'+details.client!.email">{{ details.client!.email }}</a>
   </h4>
 } @else {
   <h3>Loading appointment details...</h3>

@@ -5,9 +5,7 @@ import {BehaviorSubject, catchError, map, Observable, of} from "rxjs";
 import {USER_AUTHORITY} from "../type-declarations";
 import {UserAccount} from "../interface/user-account.interface";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LoginService {
 
   private _account$: BehaviorSubject<UserAccount|undefined> = new BehaviorSubject<UserAccount|undefined>(undefined);

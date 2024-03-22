@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
 import {LoginService} from "../../service/login.service";
-import {Router} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {SalonClient} from "../../service/salon-client.service";
 import {map, Observable} from "rxjs";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'salon-employee',
   templateUrl: './employee.component.html',
-  styleUrl: './employee.component.scss'
+  styleUrl: './employee.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+  ]
 })
 export class EmployeeComponent {
 
@@ -24,7 +30,7 @@ export class EmployeeComponent {
     else if (!login.hasAuthority('EMPLOYEE')) router.navigate(['/']);
 
     // retrieve first name
-    this.firstName$ = this.salonClient.getUserProfile().pipe(map((res:any)=>res.firstName))
+    this.firstName$ = this.salonClient.getEmployeeProfile().pipe(map((res:any)=>res.firstName))
   }
 
   currentPageIs(page: string) {
