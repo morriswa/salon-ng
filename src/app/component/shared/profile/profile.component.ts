@@ -9,11 +9,11 @@ import {ClientInfo, EmployeeProfile, UserInfo} from "../../../interface/profile.
 import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
 import {CommonModule} from "@angular/common";
 import {AmericanPhoneNumberPipe} from "../../../pipe/AmericanPhoneNumber.pipe";
-import { MatSelectModule} from "@angular/material/select";
 import {AmericanFormattedDatePipe} from "../../../pipe/AmericanFormattedDate.pipe";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import {SelectorComponent} from "../bootstrap-selector/selector.component";
+import {SelectorDeclarations} from "../../../selector-declarations";
 
 /**
  * shared component for clients and employees to manage their stored info
@@ -29,17 +29,19 @@ import {SelectorComponent} from "../bootstrap-selector/selector.component";
     CommonModule,
     ReactiveFormsModule,
 
-    MatSelectModule,
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
 
     AmericanPhoneNumberPipe,
     AmericanFormattedDatePipe,
+
     SelectorComponent,
   ]
 })
 export class ProfileComponent {
+
+  protected readonly SelectorDeclarations = SelectorDeclarations;
 
   /**
    * state for items that should not be visible if a user profile request is still processing
@@ -85,6 +87,9 @@ export class ProfileComponent {
   selectedBirthday$: BehaviorSubject<string|undefined>
     = new BehaviorSubject<string | undefined>(undefined);
 
+  stateSelector$: BehaviorSubject<string | undefined>
+    = new BehaviorSubject<string | undefined>(undefined);
+
   /**
    * currently cached profile image to upload
    */
@@ -113,21 +118,9 @@ export class ProfileComponent {
   addressLineOneForm = ValidatorFactory.getAddressLnOneForm();
   addressLineTwoForm = ValidatorFactory.getAddressLnTwoForm();
   cityForm = ValidatorFactory.getCityForm();
-  stateForm = ValidatorFactory.getStateForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
   profilePhotoUploadForm: FormControl = ValidatorFactory.getGenericForm();
   bioForm: FormControl = ValidatorFactory.getGenericForm();
-
-  pronounOptions: any = [
-    {val: 'H', title: 'He/Him/His'},
-    {val: 'S', title: 'She/Her/Hers'},
-    {val: 'T', title: 'They/Them/Theirs'},
-  ];
-  contactMethodOptions: any[] = [
-    {val: 'Email', title: 'Email'},
-    {val: 'PhoneCall', title: 'Phone Call'},
-    {val: 'TextMessage', title: 'Text Message'},
-  ];
 
 
   constructor(route: ActivatedRoute, private router: Router, public login: LoginService, private salonClient: SalonClient) {
@@ -219,7 +212,7 @@ export class ProfileComponent {
 
     if (this.cityForm.value) params['city'] = this.cityForm.value;
 
-    if (this.stateForm.value) params['stateCode'] = this.stateForm.value;
+    if (this.stateSelector$.value) params['stateCode'] = this.stateSelector$.value;
 
     if (this.zipCodeForm.value) params['zipCode'] = this.zipCodeForm.value;
 
@@ -259,7 +252,7 @@ export class ProfileComponent {
     this.addressLineOneForm.reset()
     this.addressLineTwoForm.reset()
     this.cityForm.reset()
-    this.stateForm.reset()
+    this.stateSelector$.next(undefined);
     this.zipCodeForm.reset()
     this.pronounSelector$.next(undefined);
     this.contactMethodSelector$.next(undefined);

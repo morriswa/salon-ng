@@ -68,7 +68,7 @@
 
     <salon-selector
       [selector$]="pronounSelector$"
-      [options]="pronounOptions"
+      [options]="SelectorDeclarations.pronounOptions"
       title="Pronouns"
       undefinedOption="Please select your pronouns..."
       ></salon-selector>
@@ -145,7 +145,7 @@
 
     <salon-selector
       [selector$]="contactMethodSelector$"
-      [options]="contactMethodOptions"
+      [options]="SelectorDeclarations.contactMethodOptions"
       title="Contact Preference"
       undefinedOption="Select your preferred contact method..."
     ></salon-selector>
@@ -184,16 +184,12 @@
     </div>
     <br>
 
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="stateForm"
-        placeholder="Update your state..."
-      >
-      <label>Update address (state): </label>
-    </div>
-    <br>
+    <salon-selector
+      [selector$]="stateSelector$"
+      [options]="SelectorDeclarations.stateOptions"
+      title="State"
+      undefinedOption="state..."
+      ></salon-selector>
 
     <div class="form-floating">
       <input

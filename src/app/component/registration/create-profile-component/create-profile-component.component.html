@@ -12,7 +12,7 @@
 
 <salon-selector
   [selector$]="pronounSelector$"
-  [options]="pronounOptions"
+  [options]="SelectorDeclarations.pronounOptions"
   title="Pronouns"
   undefinedOption="Please select your pronouns..."
 ></salon-selector>
@@ -48,7 +48,7 @@
 
     <salon-selector
       [selector$]="selectedState$"
-      [options]="stateOptions"
+      [options]="SelectorDeclarations.stateOptions"
       title="State"
       undefinedOption="Please select your state..."
     ></salon-selector>
