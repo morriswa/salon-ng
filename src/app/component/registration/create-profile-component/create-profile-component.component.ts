@@ -20,10 +20,7 @@ import {CommonModule} from "@angular/common";
   ]
 })
 export class CreateProfileComponentComponent {
-selectedState$: any;
-selectedState($event: Event) {
-console.log($event)
-}
+
 
   /**
    * state for items that should not be visible if a user profile request is still processing
@@ -36,10 +33,8 @@ console.log($event)
   pronounSelector$: BehaviorSubject<string|undefined>
     = new BehaviorSubject<string | undefined>(undefined);
 
-  /**
-   * two-way binding for pronouns selection dropdown
-   */
-  pronounValue?:string;
+
+  selectedState$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
 
   /**
    * stores service errors encountered during http requests
@@ -54,15 +49,12 @@ console.log($event)
   addressLineOneForm = ValidatorFactory.getAddressLnOneForm();
   addressLineTwoForm = ValidatorFactory.getAddressLnTwoForm();
   cityForm = ValidatorFactory.getCityForm();
-  stateForm = ValidatorFactory.getStateForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
 
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated) router.navigate(['/login']);
     else if (login.hasAuthority('USER')) router.navigate(['/register2','access']);
-
-    this.pronounSelector$.subscribe(selection=>this.pronounValue = selection);
   }
 
 
@@ -74,16 +66,18 @@ console.log($event)
     let params:any = {
       firstName: this.firstNameForm.value,
       lastName: this.lastNameForm.value,
-      pronouns: this.pronounSelector$.getValue(),
+      pronouns: this.pronounSelector$.value,
       email: this.emailForm.value,
       phoneNumber: this.phoneNumberForm.value,
       addressLineOne: this.addressLineOneForm.value,
       city: this.cityForm.value,
-      stateCode: this.stateForm.value,
+      stateCode: this.selectedState$.value,
       zipCode: this.zipCodeForm.value,
       // TODO contact pref during signup
       contactPreference: 'Email'
     };
+
+    console.log(params);
 
     if (this.addressLineTwoForm.value) params['addressLineTwo'] = this.addressLineTwoForm.value;
 
@@ -109,4 +103,6 @@ console.log($event)
         }
       });
   }
+
+
 }

@@ -8,20 +8,15 @@
 
 <br>
 
-<mat-form-field class="booking-fields">
-  <mat-label>Select your pronouns</mat-label>
-  <mat-select
-    [(value)]="pronounValue"
-    (valueChange)="this.pronounSelector$.next($event)"
-  >
-    <mat-option value="H">He/Him/His</mat-option>
-    <mat-option value="S">She/Her/Hers</mat-option>
-    <mat-option value="T">They/Them/Theirs</mat-option>
-  </mat-select>
-</mat-form-field>
-
-
 <p class="text-align = center;"><strong>Basic Info</strong></p>
+
+<label class="form-label">Pronouns</label>
+<select class="form-select" (change)="pronounSelector$.next($any($event).target.value)">
+  <option selected [value]="undefined">Please select your pronouns...</option>
+  <option value="H">He/Him/His</option>
+  <option value="S">She/Her/Hers</option>
+  <option value="T">They/Them/Theirs</option>
+</select>
 
 <div class="input-group">
   <span class="input-group-text">First and Last name</span>
@@ -31,30 +26,29 @@
 
 <form class="row g-3">
   <div class="col-md-6">
-    <label for="inputEmail4" class="form-label">Email</label>
-    <input required type="email" class="form-control" [formControl]="emailForm" placeholder="example@email.com">
+    <label class="form-label">Email</label>
+    <input required [formControl]="emailForm" class="form-control" placeholder="example@email.com">
   </div>
   <div class="col-md-6">
-    <label for="inputPassword4" class="form-label">Phone</label>
-    <input required type="text" class="form-control" [formControl]="phoneNumberForm" placeholder="5555555555">
+    <label class="form-label">Phone</label>
+    <input required [formControl]="phoneNumberForm" class="form-control" placeholder="5555555555">
   </div>
   <div class="col-md-6">
-    <label for="inputAddress" class="form-label">Address</label>
-    <input  [formControl]="addressLineOneForm" required type="text" class="form-control" placeholder="1234 Main St">
+    <label class="form-label">Address</label>
+    <input required [formControl]="addressLineOneForm" class="form-control" placeholder="1234 Main St">
   </div>
   <div class="col-md-6">
-    <label for="inputAddress2" class="form-label">Address 2 <i>(Optional)</i> </label>
-    <input type="text" class="form-control" [formControl]="addressLineTwoForm" placeholder="Apartment, studio, or floor">
+    <label class="form-label">Address 2 <i>(Optional)</i> </label>
+    <input [formControl]="addressLineTwoForm" class="form-control" placeholder="Apartment, studio, or floor">
   </div>
   <div class="col-md-6">
-    <label for="inputCity" class="form-label">City</label>
-    <input [formControl]="cityForm" required type="text" class="form-control" id="inputCity" placeholder="Jamestown">
+    <label class="form-label">City</label>
+    <input required [formControl]="cityForm" class="form-control" placeholder="Jamestown">
   </div>
   <div class="col-md-4">
     <label for="inputState" class="form-label">State</label>
-    <select id="inputState" class="form-select">
-      <!-- todo finish state selector -->
-      <option selected>Choose...</option>
+    <select id="inputState" class="form-select" (change)="selectedState$.next($any($event).target.value)">
+        <option selected [value]="undefined">Please select a state...</option>
         <option value="AL">Alabama</option>
         <option value="AK">Alaska</option>
         <option value="AZ">Arizona</option>
@@ -109,30 +103,14 @@
       </select>
   </div>
   <div class="col-md-2">
-    <label for="inputZip" class="form-label">Zip</label>
-    <input [formControl]="zipCodeForm" required type="text" class="form-control" id="inputZip">
+    <label class="form-label">Zip</label>
+    <input required [formControl]="zipCodeForm" class="form-control">
   </div>
-  
+
   <div class="col-12">
-    <button class="salon-btn-primary"
-            (click)="createUserProfile()" 
-            type="submit"
-            >Create Account</button>
+    <button type="button" class="salon-btn-primary" (click)="createUserProfile()">Create Account</button>
   </div>
 </form>
 
 
-
-<p><strong>State</strong></p>
-<div class="form-floating">
-  <input
-    required
-    type="text"
-    class="form-control"
-    [formControl]="stateForm"
-    placeholder="state..."
-  >
-  <label>Enter your state (Postal): </label>
-</div>
-<br>
 
