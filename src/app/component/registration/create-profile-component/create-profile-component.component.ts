@@ -20,6 +20,10 @@ import {CommonModule} from "@angular/common";
   ]
 })
 export class CreateProfileComponentComponent {
+selectedState$: any;
+selectedState($event: Event) {
+console.log($event)
+}
 
   /**
    * state for items that should not be visible if a user profile request is still processing

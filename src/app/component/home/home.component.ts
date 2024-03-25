@@ -3,6 +3,7 @@ import {SalonClient} from "../../service/salon-client.service";
 import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import {CommonModule} from "@angular/common";
+import {CarouselModule} from 'ngx-bootstrap/carousel'
 
 
 /**
@@ -15,6 +16,7 @@ import {CommonModule} from "@angular/common";
   standalone: true,
   imports: [
     CommonModule,
+    CarouselModule
   ]
 })
 export class HomeComponent {
