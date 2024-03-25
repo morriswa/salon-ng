@@ -13,6 +13,7 @@ import { MatSelectModule} from "@angular/material/select";
 import {AmericanFormattedDatePipe} from "../../../pipe/AmericanFormattedDate.pipe";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
+import {SelectorComponent} from "../bootstrap-selector/selector.component";
 
 /**
  * shared component for clients and employees to manage their stored info
@@ -35,6 +36,7 @@ import {MatInputModule} from "@angular/material/input";
 
     AmericanPhoneNumberPipe,
     AmericanFormattedDatePipe,
+    SelectorComponent,
   ]
 })
 export class ProfileComponent {
@@ -44,7 +46,6 @@ export class ProfileComponent {
    */
   processingProfile$: BehaviorSubject<boolean>
     = new BehaviorSubject<boolean>(true);
-
 
   /**
    * state for update contact info from
@@ -66,7 +67,6 @@ export class ProfileComponent {
   private _profile$: BehaviorSubject<EmployeeProfile|ClientInfo|undefined>
     = new BehaviorSubject<EmployeeProfile | ClientInfo| undefined>(undefined);
 
-
   /**
    * state for pronoun selection dropdown
    */
@@ -74,20 +74,10 @@ export class ProfileComponent {
     = new BehaviorSubject<string | undefined>(undefined);
 
   /**
-   * two-way binding for pronouns selection dropdown
-   */
-  pronounValue?:string;
-
-  /**
    * state for contact method selection dropdown
    */
   contactMethodSelector$: BehaviorSubject<string|undefined>
     = new BehaviorSubject<string | undefined>(undefined);
-
-  /**
-   * two-way binding for contact method selection dropdown
-   */
-  contactMethodValue?: string;
 
   /**
    * state for birthday selector
@@ -128,6 +118,17 @@ export class ProfileComponent {
   profilePhotoUploadForm: FormControl = ValidatorFactory.getGenericForm();
   bioForm: FormControl = ValidatorFactory.getGenericForm();
 
+  pronounOptions: any = [
+    {val: 'H', title: 'He/Him/His'},
+    {val: 'S', title: 'She/Her/Hers'},
+    {val: 'T', title: 'They/Them/Theirs'},
+  ];
+  contactMethodOptions: any[] = [
+    {val: 'Email', title: 'Email'},
+    {val: 'PhoneCall', title: 'Phone Call'},
+    {val: 'TextMessage', title: 'Text Message'},
+  ];
+
 
   constructor(route: ActivatedRoute, private router: Router, public login: LoginService, private salonClient: SalonClient) {
 
@@ -136,8 +137,6 @@ export class ProfileComponent {
       this._profileType.next(userType as 'client' | 'employee');
     else router.navigate(['/']);
 
-    this.pronounSelector$.subscribe(selection=>this.pronounValue = selection);
-    this.contactMethodSelector$.subscribe(selection=>this.contactMethodValue = selection);
 
     if (!login.authenticated)
       router.navigate(['/login']);

@@ -66,18 +66,12 @@
       <br><h3>{{error}}</h3>
     }
 
-    <mat-form-field class="booking-fields">
-      <mat-label>Select your pronouns</mat-label>
-      <mat-select
-        [(value)]="pronounValue"
-        (valueChange)="this.pronounSelector$.next($event)">
-
-      <mat-option value="H">He/Him/His</mat-option>
-      <mat-option value="S">She/Her/Hers</mat-option>
-      <mat-option value="T">They/Them/Theirs</mat-option>
-
-      </mat-select>
-    </mat-form-field>
+    <salon-selector
+      [selector$]="pronounSelector$"
+      [options]="pronounOptions"
+      title="Pronouns"
+      undefinedOption="Please select your pronouns..."
+      ></salon-selector>
 
     @if(clientProfile$|async; as client) {
       <mat-form-field class="booking-fields">
@@ -149,18 +143,12 @@
     </div>
     <br>
 
-    <mat-form-field class="booking-fields">
-      <mat-label>Select your preferred contact method: </mat-label>
-      <mat-select
-        [(value)]="contactMethodValue"
-        (valueChange)="this.contactMethodSelector$.next($event)">
-
-        <mat-option value="PhoneCall">Phone Call</mat-option>
-        <mat-option value="TextMessage">Text Message</mat-option>
-        <mat-option value="Email">Email</mat-option>
-
-      </mat-select>
-    </mat-form-field>
+    <salon-selector
+      [selector$]="contactMethodSelector$"
+      [options]="contactMethodOptions"
+      title="Contact Preference"
+      undefinedOption="Select your preferred contact method..."
+    ></salon-selector>
 
     <div class="form-floating">
       <input
