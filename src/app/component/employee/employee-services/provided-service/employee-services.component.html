@@ -1,0 +1,113 @@
+
+
+@if (providedServices$ | async; as providedService) {
+
+  @if (providedService.length > 0) {
+    <h3>Your provided services: </h3>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      class="mat-elevation-z8">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="serviceId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ID">
+          ID.
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.serviceId}}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+          Name
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="length">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by length">
+          Length
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.length}} min.</td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="cost">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cost">
+          Cost
+        </th>
+        <td mat-cell *matCellDef="let element">${{element.cost}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  }
+  @else {
+    <h3>You have not created any services!</h3>
+    <p>Click below to add a service and begin scheduling appointments!</p>
+  }
+
+  <br>
+
+}
+
+@if (!(processingCreateService$ | async)) {
+
+  @if (showCreateServiceMenu$ | async) {
+
+    @for (error of (createServiceErrors$|async); track error) {
+      <h3 style="color: red">{{error}}</h3>
+    }
+
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        class="form-control"
+        [formControl]="serviceNameForm"
+      >
+      <label>Enter a name for your new service! </label>
+    </div>
+    <br>
+
+    <div class="form-floating">
+      <input
+        required
+        type="text"
+        pattern="^[0-9]{1,3}(\.[0-9]{1,2})?$"
+        class="form-control"
+        [formControl]="serviceCostForm"
+      >
+      <label>How much will your service cost? </label>
+    </div>
+    <br>
+
+    <div class="form-floating">
+      <input
+        required
+        type="number"
+        class="form-control"
+        [formControl]="serviceLengthForm"
+      >
+      <label>How many minutes will you need to complete your service? </label>
+    </div>
+    <br>
+
+    <button
+      [disabled]="serviceLengthForm.invalid || serviceCostForm.invalid || serviceNameForm.invalid"
+      (click)="createNewService()"
+      class="salon-btn-primary"
+    >Create Service!</button>
+
+  }
+
+  <button
+    (click)="this.showCreateServiceMenu$.next(!this.showCreateServiceMenu$.getValue())"
+    class="salon-btn-primary-outline"
+  >{{ (this.showCreateServiceMenu$ | async)? "Cancel" : "Create a Service" }}</button>
+}

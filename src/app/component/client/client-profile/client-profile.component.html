@@ -1,0 +1,199 @@
+
+
+<br>
+
+@if (processingProfile$ | async) {
+  <div class="spinner-border m-5" role="status" style="width: 5rem; height: 5rem;">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+} @else {
+
+  @if (clientInfo$ | async; as clientInfo) {
+
+    <h2>Contact Information</h2>
+    <h4>First name: {{ clientInfo.firstName }}</h4>
+    <h4>Last name: {{ clientInfo.lastName }}</h4>
+    <p *ngIf="clientInfo.birthday">**Rewards Member</p>
+    <h4 *ngIf="clientInfo.birthday">Birthday: {{ clientInfo.birthday | americanFormattedDate }}</h4>
+    <h4>Pronouns: {{clientInfo.pronouns }}</h4>
+    <h4>Email: {{ clientInfo.email }}</h4>
+    <h4>Phone: {{ clientInfo.phoneNumber | americanPhoneNumber }}</h4>
+    <h4>Address: {{ clientInfo.formattedAddress }}</h4>
+    <h4>Contact Preference: {{ clientInfo.contactPreference }}</h4>
+
+    <br>
+
+    @if (login.account$ | async; as account) {
+      <h2>Account Information</h2>
+      <h4>Username: {{ account.username }}</h4>
+      <h4>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</h4>
+      <h4>Permissions: {{ account.authorities }}</h4>
+    }
+
+    <br>
+
+    <button
+      *ngIf="!(isUpdatingContactInfo$|async)"
+      class="salon-btn-primary"
+      (click)="this.isUpdatingContactInfo$.next(true)"
+    >Update Info</button>
+
+    @if (isUpdatingContactInfo$ | async) {
+
+      @for(error of updateFormErrors; track error) {
+        <br><h3>{{error}}</h3>
+      }
+
+      <mat-form-field class="booking-fields">
+        <mat-label>Select your pronouns</mat-label>
+        <mat-select
+          [(value)]="pronounValue"
+          (valueChange)="selectedPronouns($event)">
+
+        <mat-option value="H">He/Him/His</mat-option>
+        <mat-option value="S">She/Her/Hers</mat-option>
+        <mat-option value="T">They/Them/Theirs</mat-option>
+
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="booking-fields">
+        <mat-label>Enter your birthday</mat-label>
+        <input matInput [matDatepicker]="picker" (dateChange)="selectedBirthday($event)">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <br>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="firstNameForm"
+          placeholder="Update your first name..."
+          >
+        <label>Update first name: </label>
+      </div>
+
+      <br>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="lastNameForm"
+          placeholder="Update your last name..."
+        >
+        <label>Update last name: </label>
+      </div>
+
+      <br>
+
+
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="emailForm"
+          placeholder="Update your email..."
+        >
+        <label>Update email: </label>
+      </div>
+      <br>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="phoneNumberForm"
+          placeholder="Update your phone number..."
+        >
+        <label>Update phone number: </label>
+      </div>
+      <br>
+
+      <mat-form-field class="booking-fields">
+        <mat-label>Select your preferred contact method: </mat-label>
+        <mat-select
+          [(value)]="contactMethodValue"
+          (valueChange)="selectedContactMethod($event)">
+
+          <mat-option value="PhoneCall">Phone Call</mat-option>
+          <mat-option value="TextMessage">Text Message</mat-option>
+          <mat-option value="Email">Email</mat-option>
+
+        </mat-select>
+      </mat-form-field>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="addressLineOneForm"
+          placeholder="Update your address..."
+        >
+        <label>Update address (line 1): </label>
+      </div>
+      <br>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="addressLineTwoForm"
+          placeholder="Update your address..."
+        >
+        <label>Update address (line 2): </label>
+      </div>
+      <br>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="cityForm"
+          placeholder="Update your city..."
+        >
+        <label>Update address (city): </label>
+
+      </div>
+      <br>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="stateForm"
+          placeholder="Update your state..."
+        >
+        <label>Update address (state): </label>
+      </div>
+      <br>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="zipCodeForm"
+          placeholder="Update your zip code..."
+        >
+        <label>Update address (zip code): </label>
+      </div>
+      <br>
+
+      <button
+        class="salon-btn-primary"
+        (click)="updateContactInfo()">Confirm</button>
+
+      <button
+        class="salon-btn-primary"
+        (click)="this.isUpdatingContactInfo$.next(false)"
+      >Cancel</button>
+
+      <br><br>
+
+    }
+  }
+}
