@@ -11,19 +11,18 @@ import {enableProdMode} from '@angular/core';
 import {bootstrapApplication} from "@angular/platform-browser";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideRouter, Routes} from "@angular/router";
-import {
-  HTTP_INTERCEPTORS,
-  provideHttpClient,
-  withInterceptorsFromDi
-} from "@angular/common/http";
+import {provideHttpClient, withInterceptors} from "@angular/common/http";
 
 // Application Environment
-import { environment } from './environments/environment';
+import {environment} from 'src/environments/environment';
+
+// Http Interceptor
+import {add_token_interceptor} from "src/add-token-interceptor";
 
 // Salon Application
-import {SalonApplication} from "./app/salon-application.component";
-import {LoginComponent} from "./app/component/login/login.component";
-import {HomeComponent} from "./app/component/home/home.component";
+import {SalonApplication} from "src/app/salon-application.component";
+import {LoginComponent} from "src/app/component/login/login.component";
+import {HomeComponent} from "src/app/component/home/home.component";
 
 // Salon Portal Components
 
@@ -63,7 +62,6 @@ import {HomeComponent} from "./app/component/home/home.component";
 import {LoginService} from "./app/service/login.service";
 import {CredentialService} from "./app/service/credential.service";
 import {SalonClient} from "./app/service/salon-client.service";
-import {AddTokenInterceptor} from "./app/interceptor/AddTokenInterceptor";
 
 
 // Define application routes
@@ -102,12 +100,7 @@ bootstrapApplication(SalonApplication,{
     // with angular animation, router, and http client
     provideAnimations(),
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()),
-    { // using custom http interceptor for authentication
-      provide: HTTP_INTERCEPTORS,
-      useClass: AddTokenInterceptor,
-      multi: true,
-    },
+    provideHttpClient(withInterceptors([add_token_interceptor])),
     // provide essential application services
     CredentialService,
     LoginService,

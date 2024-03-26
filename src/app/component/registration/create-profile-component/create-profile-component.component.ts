@@ -80,8 +80,6 @@ export class CreateProfileComponentComponent {
       contactPreference: 'Email'
     };
 
-    console.log(params);
-
     if (this.addressLineTwoForm.value) params['addressLineTwo'] = this.addressLineTwoForm.value;
 
     // after response body has been created, call create user profile endpoint with constructed params

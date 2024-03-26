@@ -7,7 +7,7 @@ export class SelectorDeclarations {
     {val: 'H', title: 'He/Him/His'},
     {val: 'S', title: 'She/Her/Hers'},
     {val: 'T', title: 'They/Them/Theirs'},
-    {val: 'O', title: 'Prefer not to say'} //TODO: Update the backend
+    {val: 'N', title: 'Prefer not to say'}
   ];
 
   public static contactMethodOptions: SelectorOptions[] = [
