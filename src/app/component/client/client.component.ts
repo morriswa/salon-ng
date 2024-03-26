@@ -19,7 +19,7 @@ export class ClientComponent {
     // if the user has the proper authorities, they may proceed
     // else route them appropriately
     if (!login.authenticated) router.navigate(['/login']);
-    else if (!login.hasAuthority('CLIENT')) router.navigate(['/user']);
+    else if (!login.hasAuthority('CLIENT')) router.navigate(['/login']);
   }
 
   currentPageIs(page: string) {
