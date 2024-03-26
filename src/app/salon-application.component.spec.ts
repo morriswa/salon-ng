@@ -1,12 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { SalonApplication } from './salon-application.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     imports: [
-        RouterTestingModule,
         SalonApplication
     ],
 }).compileComponents();
@@ -18,10 +16,9 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', () => {
+  it('should call login init', () => {
     const fixture = TestBed.createComponent(SalonApplication);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('eecs447-project-ng app is running!');
+    const app = fixture.componentInstance;
+    expect(app.loginService.init).toHaveBeenCalledOnceWith();
   });
 });
