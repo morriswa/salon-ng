@@ -1,5 +1,5 @@
 // ng
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {Router, RouterModule} from '@angular/router';
 // other
@@ -26,19 +26,24 @@ import {LoginService} from "./service/login.service";
     RouterModule,
   ]
 })
-export class SalonApplication {
+export class SalonApplication implements OnInit {
 
   /**
    * state det. if application can be displayed
    */
-  ready$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  ready$: BehaviorSubject<boolean>;
 
 
   constructor(public loginService: LoginService,
               private router: Router) {
+    this.ready$ = new BehaviorSubject<boolean>(false);
+  }
+
+
+  ngOnInit(): void {
     this.loginService.init() // initialize the login service
       // application is ready after login service is initialized
-      .subscribe(()=>this.ready$.next(true));
+      .subscribe(() => this.ready$.next(true));
   }
 
 

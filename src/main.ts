@@ -65,7 +65,7 @@ import {SalonClient} from "./app/service/salon-client.service";
 
 
 // Define application routes
-const routes: Routes = [
+export const salon_application_routes: Routes = [
   { path: 'employee', component: EmployeeComponent,
     children: [
       { path: 'user', component: ProfileComponent },
@@ -99,7 +99,7 @@ bootstrapApplication(SalonApplication,{
   providers: [
     // with angular animation, router, and http client
     provideAnimations(),
-    provideRouter(routes),
+    provideRouter(salon_application_routes),
     provideHttpClient(withInterceptors([add_token_interceptor])),
     // provide essential application services
     CredentialService,

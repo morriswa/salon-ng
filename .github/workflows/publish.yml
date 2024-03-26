@@ -17,6 +17,10 @@ jobs:
       id: package-version
       uses: martinbeentjes/npm-get-version-action@main
 
+    - name: Test Angular Application
+      run: |
+        npm run test:prod
+
     - name: Login to Docker
       uses: docker/login-action@v2
       with:
