@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {LoginService} from "../../service/login.service";
 import {Router, RouterModule} from "@angular/router";
@@ -17,7 +17,7 @@ import {ValidatorFactory} from "../../validator-factory";
     RouterModule,
   ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   /**
    * indicates whether the component is in a loading state
@@ -50,8 +50,11 @@ export class LoginComponent {
         router.navigate(['/client','user']);
       else router.navigate(['/register2']);
     }
+  }
 
-    this.processingLogin$.asObservable().subscribe(locked=>{
+
+  ngOnInit(): void {
+    this.processingLogin$.asObservable().subscribe(locked => {
       if (locked) { // if the component is processing a request
         // disable relevant components
         this.usernameForm.disable();
@@ -60,7 +63,7 @@ export class LoginComponent {
         this.usernameForm.enable();
         this.passwordForm.enable();
       }
-    })
+    });
   }
 
 
