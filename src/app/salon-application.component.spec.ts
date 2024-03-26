@@ -37,7 +37,7 @@ describe('SalonApplication', () => {
   it('should create the app', () => {
     const fixture = TestBed.createComponent(SalonApplication);
     const app = fixture.componentInstance;
-    expect(app).toBeNaN();
+    expect(app).toBeTruthy();
   });
 
   it('should initialize after authentication', () => {

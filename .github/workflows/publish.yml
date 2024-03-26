@@ -19,6 +19,7 @@ jobs:
 
     - name: Test Angular Application
       run: |
+        npm i
         npm run test:prod
 
     - name: Login to Docker
