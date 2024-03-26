@@ -9,20 +9,22 @@
 <br>
 
 <p style="text-align:center;"><strong>Personal Info</strong></p>
-
+<div class="h-25 d-inline-block" style="width: 350px;">
 <salon-selector
   [selector$]="pronounSelector$"
   [options]="SelectorDeclarations.pronounOptions"
   title="Pronouns"
   undefinedOption="Please select your pronouns..."
 ></salon-selector>
-
+</div>
+<br>
+<br>
 <div class="input-group">
   <span class="input-group-text">First and Last name</span>
   <input required [formControl]="firstNameForm" type="text" aria-label="First name" class="form-control" placeholder="Enter First Name">
   <input required [formControl]="lastNameForm" type="text" aria-label="Last name" class="form-control" placeholder="Enter Last Name">
 </div>
-
+<br>
 <form class="row g-3">
   <div class="col-md-6">
     <label class="form-label">Email</label>
@@ -56,10 +58,9 @@
   </div>
   <div class="col-md-2">
     <label class="form-label">Zip</label>
-    <input required [formControl]="zipCodeForm" class="form-control">
+    <input required [formControl]="zipCodeForm" class="form-control" placeholder="55555">
   </div>
-
-  <div class="col-12">
+  <div class="col-12 d-flex justify-content-center">
     <button type="button" class="salon-btn-primary" (click)="createUserProfile()">Create Account</button>
   </div>
 </form>
