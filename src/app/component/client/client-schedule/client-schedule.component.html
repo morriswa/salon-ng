@@ -2,7 +2,7 @@
 @if (clientSchedule$ | async; as schedule) {
 
   @if (schedule.length > 0) {
-    <h2 style="text-align: center;">Upcoming Appointments </h2>
+    <h2 style="text-align: center; color: rgb(133,176,85);">Upcoming Appointments </h2>
     <br>
   } @else {
     <h2 style="text-align: center;">You have no scheduled appointments!</h2>
@@ -13,13 +13,11 @@
     <div style="
     color: rgb(133,176,85);
     margin: auto; 
-    width: 50%; 
+    width: 75%; 
     text-align: center;
     border-radius: 25px;
     border: 2px solid rgb(133,176,85);
-    padding: 20px; 
-    width: 500px;
-    height: 150px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     
     ">
     <h3
