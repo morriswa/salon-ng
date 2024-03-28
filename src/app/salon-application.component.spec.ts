@@ -17,9 +17,6 @@ describe('SalonApplication', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-          SalonApplication
-      ],
       providers: [
         CredentialService,
         SalonClient,
