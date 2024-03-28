@@ -1,7 +1,7 @@
 import {inject} from '@angular/core';
 import {HttpInterceptorFn} from '@angular/common/http';
-import { CredentialService } from './app/service/credential.service';
-import {environment} from "./environments/environment";
+import { CredentialService } from './service/credential.service';
+import {environment} from "../environments/environment";
 
 /**
  * determines whether a request needs credentials to be sent
