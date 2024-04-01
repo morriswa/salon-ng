@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import {SalonClient} from "../../service/salon-client.service";
 import {Router} from "@angular/router";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {CarouselModule} from 'ngx-bootstrap/carousel'
+import {EmployeeProfile} from "../../interface/profile.interface";
 
 
 /**
@@ -37,10 +38,13 @@ export class HomeComponent {
    */
   message$: BehaviorSubject<string> = new BehaviorSubject<string>("");
 
+  featuredEmployees$: Observable<EmployeeProfile[]>;
 
   constructor(private salonClient: SalonClient, router: Router) {
     // if the user got rerouted, make sure url segment is correct
-    router.navigate(['/'])
+    router.navigate(['/']);
+
+    this.featuredEmployees$ = salonClient.getFeaturedEmployees();
   }
 
 

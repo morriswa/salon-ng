@@ -83,36 +83,26 @@
 .employee-content {
   width: 100%;
   display: flex;
-  flex-direction: row;
   align-items: center;
+
+  &-left {
+    flex-direction: row;
+  }
+
+  &-right {
+    flex-direction: row-reverse;
+  }
 }
 
 .employee-content-text {
   display: flex;
   flex-direction: column;
   padding: 10px;
-
-  &.left {
-    order: 1;
-  }
-
-  &.right {
-    order: 0;
-    text-align: right;
-  }
 }
 
 .employee-image-bubble {
-  height: 300px;
   transition: transform .2s;
-
-  &.left {
-    order: 0;
-  }
-
-  &.right {
-    order: 1;
-  }
+  object-fit: cover;
 }
 
 .employee-content-title {

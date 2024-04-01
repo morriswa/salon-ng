@@ -37,16 +37,16 @@
   <!-- meet the team section -->
   <h2 class="home-subheaders"> MEET THE TEAM </h2>
 
-  @for (employee of employees; track employee.title; let idx = $index) {
-    <div class="employee-content">
+  @for (employee of (featuredEmployees$ | async); track employee.email; let idx = $index) {
+    <div class="employee-content"
+         [ngClass]="idx%2==0? 'employee-content-left': 'employee-content-right'">
       <img
-        [ngClass]="idx%2==0? 'left': 'right'"
-        class="employee-image-bubble"  style="border-radius: 50%" [src]="employee.image">
+        class="employee-image-bubble" style="border-radius: 50%" [ngSrc]="employee.profileImage"
+        height="300" width="300" alt="">
       <div
-        [ngClass]="idx%2==0? 'left': 'right'"
         class="employee-content-text">
-        <p class='employee-content-title'>{{ employee.title }}</p>
-        <p>{{ employee.desc }}</p>
+        <p class='employee-content-title'>{{ employee.firstName + " " + employee.lastName }}</p>
+        <p>{{ employee.bio }}</p>
       </div>
     </div>
   }
