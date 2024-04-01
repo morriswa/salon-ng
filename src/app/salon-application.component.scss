@@ -1,10 +1,35 @@
-.menu-buttons {
-  width: 100vw;
-  display: block;
-  padding: 10px;
-  position: static;
 
+#header-buffer {
+  height: 50px;
+  width: 100vw;
+}
+
+#header {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  position: fixed;
+  justify-content: space-between;
+  background-color: var(--bs-body-bg) !important;
+  z-index: 10;
+}
+
+#menu-buttons {
   > button {
     margin-right: 5px;
+  }
+}
+
+#social-icons {
+  text-align: right;
+}
+
+.social-icon {
+  height: 25px;
+  width: 25px;
+  margin-right: 10px;
+  &:hover {
+    transform: scale(1.2);
   }
 }

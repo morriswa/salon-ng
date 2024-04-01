@@ -1,38 +1,47 @@
 
 @if (ready$ | async) {
-  <div class="menu-buttons">
-    <button
-      class="salon-btn-fancy"
-      [routerLink]="['']">Home</button>
+  <div id="header">
+    <div id="menu-buttons">
+      <button
+        class="salon-btn-fancy"
+        [routerLink]="['']">Home</button>
 
-    @if (loginService.authenticated$ | async){
-      <button
-        class="salon-btn-fancy"
-        *ngIf="loginService.hasAuthority('NUSER')"
-        [routerLink]="['/register2']"
-      >Finish Account Setup</button>
-      <button
-        class="salon-btn-fancy"
-        *ngIf="loginService.hasAuthority('CLIENT')"
-        [routerLink]="['/client']"
-      >Client Portal</button>
-      <button
-        class="salon-btn-fancy"
-        *ngIf="loginService.hasAuthority('EMPLOYEE')"
-        [routerLink]="['/employee']"
-      >Employee Portal</button>
-      <button
-        class="salon-btn-fancy"
-        (click)="logout()"
-      >Logout</button>
-    } @else {
-      <button
-        class="salon-btn-fancy"
-        [routerLink]="['/login']"
-      >Login</button>
-    }
+      @if (loginService.authenticated$ | async){
+        <button
+          class="salon-btn-fancy"
+          *ngIf="loginService.hasAuthority('NUSER')"
+          [routerLink]="['/register2']"
+        >Finish Account Setup</button>
+        <button
+          class="salon-btn-fancy"
+          *ngIf="loginService.hasAuthority('CLIENT')"
+          [routerLink]="['/client']"
+        >Portal</button>
+        <button
+          class="salon-btn-fancy"
+          *ngIf="loginService.hasAuthority('EMPLOYEE')"
+          [routerLink]="['/employee']"
+        >Portal</button>
+        <button
+          class="salon-btn-fancy"
+          (click)="logout()"
+        >Logout</button>
+      } @else {
+        <button
+          class="salon-btn-fancy"
+          [routerLink]="['/login']"
+        >Login</button>
+      }
+    </div>
+
+    <!-- social media logos -->
+    <div id="social-icons">
+      <img class="social-icon" src="assets/logo-black.png">
+      <img class="social-icon" src="assets/Instagram_Glyph_Black.png">
+      <img class="social-icon" src="assets/tiktok_logo.png">
+    </div>
   </div>
-
+  <div id="header-buffer"></div>
   <div style="display: block; width: 95vw; margin: 20px auto;">
     <router-outlet></router-outlet>
   </div>
