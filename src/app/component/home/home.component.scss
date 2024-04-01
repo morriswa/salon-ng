@@ -1,4 +1,10 @@
 //load animation
+
+#home {
+  margin: 0 auto;
+  width: 80vw;
+}
+
 @keyframes loadingAnimation{
     from {
         opacity: 0;
@@ -12,231 +18,93 @@
 }
 
 //hover on images animation
-img:hover {
-    transform: scale(1.05);
+.home-main-image {
+    transition: transform .2s;
+    animation: loadingAnimation 1.5s;
+    height: 400px;
+    width: 400px;
+
+    &:hover {
+      transform: scale(1.05);
+    }
 }
 
-//banner
-.navbar {
-    overflow: hidden;
-    background-color: rgb(133, 176, 85);
-    position: fixed;
-    top: 0;
-    left: 0px;
-    width: 100%;
-    z-index: 2;
-    opacity: 100%;
-    display: flex; /* Use flexbox */
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
+#home-main-images {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.navbar a {
-    color: #f2f2f2;
-    text-decoration: none;
-    font-size: 20px;
-    font-family: "Roboto Mono", monospace;
-    padding: 14px 16px;
-}
-.book-now-button {
-    background: none;
-    border: none;
-    font-family: "Roboto Mono", monospace;
-    color: white;
-}
-.book-now-button:hover {
-    text-decoration: underline;
+.home-main-image-caption {
+  padding-top: 10px;
 }
 
 // heading
-h1 {
-    animation: loadingAnimation 1.5s;
+#home-header {
+  animation: loadingAnimation 1.5s;
+  color: rgb(32, 32, 32);
+  font-size: 130px;
+  font-family: "Italiana", sans-serif;
+  font-weight: 800;
+  text-align: center;
 }
-    #home-header {
-        color: rgb(32, 32, 32);
-        font-size: 130px;
-        font-family: "Italiana", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 800;
-        font-style: normal;
-        text-align: center;
-        position: absolute;
-        top: 80px;
-        left: 335px;
-        // text-shadow: -4px 0px rgb(133, 176, 85);
-    }
 
 // titles
-h2 {
+.home-subheaders {
     color: rgb(133, 176, 85);
     font-size: 100px;
     font-family: "Italiana", sans-serif;
     font-weight: 800;
 }
 
-    #about-us {
-        position: absolute;
-        top: 780px;
-        left: 100px;
-    }
-    #meet-the-team {
-        position: absolute;
-        top: 1200px;
-        left: 100px;
-    }
-
 //small text
-p {
+.home-plaintext {
     color: rgb(32, 32, 32);
     font-family: "Roboto Mono", monospace;
     font-size: 20px;
     animation: loadingAnimation 1.5s;
 }
 
-    .about-us-text {
-        position:absolute;
-        top: 930px;
-        font-size: 20px;
-        left: 100px;
-        right: 100px;
-    }
+.employee-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
-    .makenna-image {
-        height: 300px;
-        position: absolute;
-        top: 1350px;
-        left: 100px;
-        transition: transform .2s;
-    }
-    .makenna-title {
-        position: absolute;
-        top: 1400px;
-        left: 420px;
-        font-weight: 700;
-        font-size: 30px;
-    }
-    .makenna-text {
-        height: 300px;
-        position: absolute;
-        top: 1450px;
-        left: 420px;
-        right: 100px;
-    }
-    .will-image {
-        height: 300px;
-        position: absolute;
-        top: 1600px;
-        right: 100px;
-        transition: transform .2s;
-    }
-    .will-title {
-        position: absolute;
-        top: 1650px;
-        right: 420px;
-        font-weight: 700;
-        font-size: 30px;
-    }
-    .will-text {
-        height: 300px;
-        position: absolute;
-        top: 1700px;
-        right: 420px;
-        left: 100px;
-    }
-    .kevin-image {
-        height: 300px;
-        position: absolute;
-        top: 1850px;
-        left: 100px;
-        transition: transform .2s;
-    }
-    .kevin-title {
-        position: absolute;
-        top: 1900px;
-        left: 420px;
-        font-weight: 700;
-        font-size: 30px;
-    }
-    .kevin-text {
-        height: 300px;
-        position: absolute;
-        top: 1950px;
-        left: 420px;
-        right: 100px;
-    }
+.employee-content-text {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
 
-//images
-    .middle-image {
-        height: 400px;
-        width: 400px;
-        position: absolute;
-        top: 280px;
-        left: 520px;
-        animation: loadingAnimation 1.5s;
-        transition: transform .2s;
-    }
-    .left-image {
-        position: absolute;
-        top: 280px;
-        left: 100px;
-        width: 400px;
-        height: 400px;
-        animation: loadingAnimation 1.5s;
-        transition: transform .2s;
-    }
-    .right-image {
-        position: absolute;
-        top: 280px;
-        right: 100px;
-        width: 400px;
-        height: 400px;
-        animation: loadingAnimation 1.5s;
-        transition: transform .2s;
-    }
+  &.left {
+    order: 1;
+  }
 
-//image captions
-    .middle-image-caption {
-        position: absolute;
-        top: 700px;
-        left: 630px;
-        color: rgb(32, 32, 32);
-        font-size: 20px;
-        font-family: "Roboto Mono", monospace;
-    }
-    .left-image-caption {
-        position: absolute;
-        top: 700px;
-        left: 150px;
-        color: rgb(32, 32, 32);
-        font-size: 20px;
-        font-family: "Roboto Mono", monospace;
-    }
-    .right-image-caption {
-        position: absolute;
-        top: 700px;
-        right: 250px;
-        color: rgb(32, 32, 32);
-        font-size: 20px;
-        font-family: "Roboto Mono", monospace;
-    }
+  &.right {
+    order: 0;
+    text-align: right;
+  }
+}
 
-//social media logos
-    .twitter {
-        height: 27px;
-        position: absolute;
-        top: 82px; // was 15
-        right: 110px;
-    }
-    .instagram {
-        height: 30px;
-        position: absolute;
-        top: 80px; // was 15
-        right: 65px;
-    }
-    .tiktok {
-        color: black;
-        height: 31px;
-        position: absolute;
-        top: 79px; // was 14
-        right: 18px;
-    }
+.employee-image-bubble {
+  height: 300px;
+  transition: transform .2s;
+
+  &.left {
+    order: 0;
+  }
+
+  &.right {
+    order: 1;
+  }
+}
+
+.employee-content-title {
+    font-weight: 700;
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+}

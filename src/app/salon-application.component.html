@@ -1,9 +1,4 @@
 
-<!-- <div id="salon-author-banner">
-  <h2 style="text-decoration: underline">BOOK NOW</h2>
-</div> -->
-
-
 @if (ready$ | async) {
   <div class="menu-buttons">
     <button
@@ -12,7 +7,7 @@
 
     @if (loginService.authenticated$ | async){
       <button
-        class="salon-btn-primary"
+        class="salon-btn-fancy"
         *ngIf="loginService.hasAuthority('NUSER')"
         [routerLink]="['/register2']"
       >Finish Account Setup</button>

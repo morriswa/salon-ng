@@ -21,15 +21,14 @@ import {CarouselModule} from 'ngx-bootstrap/carousel'
 })
 export class HomeComponent {
 
-
-
-  myInterval = 5000;
-  activeSlideIndex = 0;
-  slides: {image: string; text?: string}[] = [
-    {image: 'assets/images/salon1.png'},
-    {image: 'assets/images/salon2.png'},
-    {image: 'assets/images/salon3.png'}
-  ];
+  employees: any[] = [
+    { title: 'Makenna Loewenherz', desc: 'dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text.',
+      image: 'assets/makenna_image.jpeg', },
+    { title: 'William Morris', desc: 'dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text.',
+      image: 'assets/will_image.jpeg', },
+    { title: 'Kevin Rivers', desc: 'dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text.',
+      image: 'assets/kevin_image.jpeg', },
+  ]
 
   /**
    * controls template message displayed when service is accessed

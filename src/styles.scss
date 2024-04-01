@@ -1,6 +1,6 @@
 
 // OVERRIDING BOOTSTRAP GLOBALS
-$primary: #e12fc6;
+$primary: rgb(133, 176, 85);
 $secondary: #343434;
 $body-bg: rgb(255,253,246);
 $font-family-base: "Roboto Mono", monospace;
@@ -72,16 +72,12 @@ body {
   width: 100vw;
   padding: 0;
   margin: 0;
-  background-color: rgb(255, 253, 246);
-  color: rgb(0, 0, 0);
 }
-
-
 
 // defn global classes
 .salon-btn-primary {
   @extend .btn;
-  background-color: blue;
+  background-color: $primary;
   color: white;
   margin-right: 5px;
 }
@@ -92,18 +88,18 @@ body {
 }
 
 .salon-btn-fancy {
-  border: none;
+    border: none;
     background: none;
-    color: rgb(133, 176, 85);
+    color: $primary;
     font-family: "Roboto Mono", monospace;
-    font-optical-sizing: auto;
     font-weight: 500;
-    font-style: normal;
     font-size: 25px;
 }
+
 .salon-btn-fancy:hover {
   text-decoration: underline;
 }
+
 .salon-btn-fancy:focus {
   text-decoration: underline;
   color: rgb(32, 32, 32);
