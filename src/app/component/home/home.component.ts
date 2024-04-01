@@ -25,11 +25,11 @@ export class HomeComponent {
 
   employees: any[] = [
     { title: 'Makenna Loewenherz', desc: 'dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text.',
-      image: 'assets/makenna_image.jpeg', },
+      image: 'assets/temp/makenna_image.jpeg', },
     { title: 'William Morris', desc: 'dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text.',
-      image: 'assets/will_image.jpeg', },
+      image: 'assets/temp/will_image.jpeg', },
     { title: 'Kevin Rivers', desc: 'dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text.',
-      image: 'assets/kevin_image.jpeg', },
+      image: 'assets/temp/kevin_image.jpeg', },
   ]
 
   /**

@@ -1,6 +1,6 @@
 // ng
-import {Component, OnInit} from '@angular/core';
-import {CommonModule} from "@angular/common";
+import {Component, HostListener, OnInit} from '@angular/core';
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {Router, RouterModule} from '@angular/router';
 // other
 import {BehaviorSubject} from "rxjs";
@@ -24,6 +24,7 @@ import {LoginService} from "./service/login.service";
     // Required Angular Modules
     CommonModule,
     RouterModule,
+    NgOptimizedImage,
   ]
 })
 export class SalonApplication implements OnInit {
@@ -33,12 +34,18 @@ export class SalonApplication implements OnInit {
    */
   ready$: BehaviorSubject<boolean>;
 
+  displayHeader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(public loginService: LoginService,
               private router: Router) {
     this.ready$ = new BehaviorSubject<boolean>(false);
   }
 
+  @HostListener("window:scroll", [])
+  changeHeaderColor() {
+    const number = document.documentElement.scrollTop || document.body.scrollTop || 0;
+    this.displayHeader$.next(number > 10);
+  }
 
   ngOnInit(): void {
     this.loginService.init() // initialize the login service
