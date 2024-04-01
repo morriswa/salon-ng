@@ -68,8 +68,8 @@ body {
   width: 100vw;
   padding: 0;
   margin: 0;
-  background-color: rgb(10, 10, 10);
-  color: white;
+  background-color: rgb(255, 253, 246);
+  color: rgb(0, 0, 0);
 }
 
 
@@ -85,6 +85,24 @@ body {
 .salon-btn-primary:hover {
   background-color: lighten($primary, 10%);
   color: white;
+}
+
+.salon-btn-fancy {
+  border: none;
+    background: none;
+    color: rgb(133, 176, 85);
+    font-family: "Roboto Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 25px;
+}
+.salon-btn-fancy:hover {
+  text-decoration: underline;
+}
+.salon-btn-fancy:focus {
+  text-decoration: underline;
+  color: rgb(32, 32, 32);
 }
 
 .salon-btn-primary-outline,
@@ -114,49 +132,4 @@ body {
 .salon-btn-secondary-outline:hover {
   background-color: $primary;
   color: $body-bg;
-}
-
-.salon-btn-fancy {
-  font-family: "Roboto Mono", monospace;
-  --b: 3px;   /* border thickness */
-  --s: .45em; /* size of the corner */
-  --color: rgb(164, 164, 164);
-  opacity: .85;
-
-  padding: calc(.5em + var(--s)) calc(.9em + var(--s));
-  color: var(--color);
-  --_p: var(--s);
-  background:
-      conic-gradient(from 90deg at var(--b) var(--b),#0000 90deg,var(--color) 0)
-      var(--_p) var(--_p)/calc(100% - var(--b) - 2*var(--_p)) calc(100% - var(--b) - 2*var(--_p));
-  transition: .3s linear, color 0s, background-color 0s;
-  outline: var(--b) solid #0000;
-  outline-offset: .6em;
-  font-size: 16px;
-
-  border: 0;
-
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
-
-.salon-btn-fancy:hover,
-.salon-btn-fancy:focus-visible{
-  --_p: 0px;
-  outline-color: var(--color);
-  outline-offset: .05em;
-}
-
-.salon-btn-fancy:active {
-  background: var(--color);
-  color: #fff;
-}
-
-.search-result-links {
-  text-decoration: underline;
-}
-
-.search-result-links:hover {
-  color: var(--bs-primary);
 }
