@@ -4,22 +4,26 @@
     <div id="menu-buttons">
       <button
         class="salon-btn-fancy"
+        [disabled]="currentPageIsRoot()"
         [routerLink]="['']">Home</button>
 
       @if (loginService.authenticated$ | async){
         <button
           class="salon-btn-fancy"
           *ngIf="loginService.hasAuthority('NUSER')"
+          [disabled]="currentPageStartsWith('/register2')"
           [routerLink]="['/register2']"
         >Finish Account Setup</button>
         <button
           class="salon-btn-fancy"
           *ngIf="loginService.hasAuthority('CLIENT')"
+          [disabled]="currentPageStartsWith('/client')"
           [routerLink]="['/client']"
         >Portal</button>
         <button
           class="salon-btn-fancy"
           *ngIf="loginService.hasAuthority('EMPLOYEE')"
+          [disabled]="currentPageStartsWith('/employee')"
           [routerLink]="['/employee']"
         >Portal</button>
         <button
@@ -29,6 +33,7 @@
       } @else {
         <button
           class="salon-btn-fancy"
+          [disabled]="currentPageStartsWith('/login')"
           [routerLink]="['/login']"
         >Login</button>
       }

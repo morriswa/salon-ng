@@ -100,7 +100,8 @@ body {
   text-decoration: underline;
 }
 
-.salon-btn-fancy:focus {
+.salon-btn-fancy:focus,
+.salon-btn-fancy:disabled {
   text-decoration: underline;
   color: rgb(32, 32, 32);
 }

@@ -31,14 +31,14 @@
 
   <button
     [disabled]="processingRegistration$|async"
-    class="btn salon-btn-primary"
+    class="salon-btn-primary"
     (click)="registerUser()"
-  >Register!</button>
+  >Register</button>
 
   <button
     [disabled]="processingRegistration$|async"
-    class="btn salon-btn-primary"
+    class="salon-btn-secondary-outline"
     [routerLink]="['/login']"
-  >Cancel!</button>
+  >Cancel</button>
 
 </div>
