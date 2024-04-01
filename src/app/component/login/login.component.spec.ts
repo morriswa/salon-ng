@@ -5,7 +5,7 @@ import {CredentialService} from "../../service/credential.service";
 import {SalonClient} from "../../service/salon-client.service";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideHttpClient} from "@angular/common/http";
-import {salon_application_routes} from "../../../main";
+import {salon_application_routes} from "src/app/routes";
 import {LoginComponent} from "./login.component";
 import {of} from "rxjs";
 

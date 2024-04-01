@@ -22,12 +22,12 @@ jobs:
 
     - name: Test and Build Angular Application
       run: |
-        npm i
+        npm ci
         npm run test:prod
         npm run build:prod
 
     - name: Login to Docker
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         username: morriswa
         password: ${{ secrets.DOCKERPASSWORD }}

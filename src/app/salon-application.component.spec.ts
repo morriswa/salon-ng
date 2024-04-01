@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import { SalonApplication } from './salon-application.component';
 import {LoginService} from "./service/login.service";
 import {CredentialService} from "./service/credential.service";
@@ -7,7 +7,7 @@ import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideHttpClient} from "@angular/common/http";
 import {of} from "rxjs";
 import {provideRouter, Router} from "@angular/router";
-import {salon_application_routes} from "../main";
+import {salon_application_routes} from "src/app/routes";
 
 
 describe('SalonApplication', () => {
@@ -15,11 +15,8 @@ describe('SalonApplication', () => {
   let loginService: LoginService;
   let testRouter: Router;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-          SalonApplication
-      ],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       providers: [
         CredentialService,
         SalonClient,
@@ -28,7 +25,7 @@ describe('SalonApplication', () => {
         provideHttpClient(),
         provideRouter(salon_application_routes)
       ]
-    }).compileComponents();
+    });
 
     loginService = TestBed.inject(LoginService);
     testRouter = TestBed.inject(Router);

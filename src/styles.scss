@@ -74,8 +74,6 @@ body {
   margin: 0;
 }
 
-
-
 // defn global classes
 .salon-btn-primary {
   @extend .btn;
@@ -87,6 +85,24 @@ body {
 .salon-btn-primary:hover {
   background-color: lighten($primary, 10%);
   color: white;
+}
+
+.salon-btn-fancy {
+    border: none;
+    background: none;
+    color: $primary;
+    font-family: "Roboto Mono", monospace;
+    font-weight: 500;
+    font-size: 25px;
+}
+
+.salon-btn-fancy:hover {
+  text-decoration: underline;
+}
+
+.salon-btn-fancy:focus {
+  text-decoration: underline;
+  color: rgb(32, 32, 32);
 }
 
 .salon-btn-primary-outline,
