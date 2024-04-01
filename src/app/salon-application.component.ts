@@ -57,4 +57,11 @@ export class SalonApplication implements OnInit {
     this.loginService.logout();
   }
 
+  currentPageStartsWith(page: string) {
+    return this.router.routerState.snapshot.url.startsWith(page);
+  }
+
+  currentPageIsRoot() {
+    return this.router.routerState.snapshot.url==='/';
+  }
 }

@@ -21,8 +21,21 @@
 .home-main-image {
     transition: transform .2s;
     animation: loadingAnimation 1.5s;
-    height: 400px;
-    width: 400px;
+
+    @media (width >= 1400px) {
+      height: 350px;
+      width: 350px;
+    }
+
+    @media (width < 1400px) {
+      height: 300px;
+      width: 300px;
+    }
+
+    @media (width < 1200px) {
+      height: 250px;
+      width: 250px;
+    }
 
     &:hover {
       transform: scale(1.05);
@@ -33,7 +46,7 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 
