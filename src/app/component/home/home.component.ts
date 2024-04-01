@@ -24,15 +24,6 @@ import {EmployeeProfile} from "../../interface/profile.interface";
 })
 export class HomeComponent {
 
-  employees: any[] = [
-    { title: 'Makenna Loewenherz', desc: 'dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text.',
-      image: 'assets/temp/makenna_image.jpeg', },
-    { title: 'William Morris', desc: 'dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text.',
-      image: 'assets/temp/will_image.jpeg', },
-    { title: 'Kevin Rivers', desc: 'dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text. dummy text dummy text dummy text.',
-      image: 'assets/temp/kevin_image.jpeg', },
-  ]
-
   /**
    * controls template message displayed when service is accessed
    */
