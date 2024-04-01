@@ -11,8 +11,15 @@
   padding: 10px;
   position: fixed;
   justify-content: space-between;
-  background-color: var(--bs-primary) !important;
+  background-color: var(--bs-body-bg) !important;
   z-index: 10;
+  transition: 0.5s;
+
+  &.scrolled {
+    background-color: var(--bs-primary) !important;
+    color: white;
+    transition: 1s;
+  }
 }
 
 #menu-buttons {

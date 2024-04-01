@@ -88,12 +88,19 @@ body {
 }
 
 .salon-btn-fancy {
-    border: none;
-    background: none;
+  border: none;
+  background: none;
+  font-family: "Roboto Mono", monospace;
+  font-weight: 500;
+  font-size: 25px;
+
+  &-header {
     color: white;
-    font-family: "Roboto Mono", monospace;
-    font-weight: 500;
-    font-size: 25px;
+  }
+
+  &-bg {
+    color: $primary;
+  }
 }
 
 .salon-btn-fancy:hover {
