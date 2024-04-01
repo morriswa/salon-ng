@@ -20,17 +20,17 @@ export class EmployeeComponent {
   /**
    * displays authenticated user's first name on template
    */
-  firstName$: Observable<string>;
+  firstName$?: Observable<string>;
 
   // component dependencies
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
-    // if the user has the proper authorities, they may proceed
-    // else route them appropriately
+    // route unauthorized users appropriately
     if (!login.authenticated) router.navigate(['/login']);
     else if (!login.hasAuthority('EMPLOYEE')) router.navigate(['/']);
-
-    // retrieve first name
-    this.firstName$ = this.salonClient.getEmployeeProfile().pipe(map((res:any)=>res.firstName))
+    else { // if the user has the proper authorities, they may proceed
+      // retrieve first name
+      this.firstName$ = this.salonClient.getEmployeeProfile().pipe(map((res:any)=>res.firstName));
+    }
   }
 
   currentPageIs(page: string) {

@@ -7,6 +7,8 @@ import {ValidatorFactory} from "../../../validator-factory";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {CommonModule} from "@angular/common";
+import {SelectorComponent} from "../../shared/bootstrap-selector/selector.component";
+import {SelectorDeclarations} from "../../../selector-declarations";
 
 @Component({
   selector: 'salon-create-profile-component',
@@ -17,9 +19,12 @@ import {CommonModule} from "@angular/common";
     CommonModule,
     ReactiveFormsModule,
     MatSelectModule,
+    SelectorComponent,
   ]
 })
 export class CreateProfileComponentComponent {
+
+  protected readonly SelectorDeclarations = SelectorDeclarations;
 
   /**
    * state for items that should not be visible if a user profile request is still processing
@@ -32,10 +37,8 @@ export class CreateProfileComponentComponent {
   pronounSelector$: BehaviorSubject<string|undefined>
     = new BehaviorSubject<string | undefined>(undefined);
 
-  /**
-   * two-way binding for pronouns selection dropdown
-   */
-  pronounValue?:string;
+
+  selectedState$: BehaviorSubject<string|undefined> = new BehaviorSubject<string | undefined>(undefined);
 
   /**
    * stores service errors encountered during http requests
@@ -50,15 +53,11 @@ export class CreateProfileComponentComponent {
   addressLineOneForm = ValidatorFactory.getAddressLnOneForm();
   addressLineTwoForm = ValidatorFactory.getAddressLnTwoForm();
   cityForm = ValidatorFactory.getCityForm();
-  stateForm = ValidatorFactory.getStateForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
-
 
   constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
     if (!login.authenticated) router.navigate(['/login']);
     else if (login.hasAuthority('USER')) router.navigate(['/register2','access']);
-
-    this.pronounSelector$.subscribe(selection=>this.pronounValue = selection);
   }
 
 
@@ -70,12 +69,12 @@ export class CreateProfileComponentComponent {
     let params:any = {
       firstName: this.firstNameForm.value,
       lastName: this.lastNameForm.value,
-      pronouns: this.pronounSelector$.getValue(),
+      pronouns: this.pronounSelector$.value,
       email: this.emailForm.value,
       phoneNumber: this.phoneNumberForm.value,
       addressLineOne: this.addressLineOneForm.value,
       city: this.cityForm.value,
-      stateCode: this.stateForm.value,
+      stateCode: this.selectedState$.value,
       zipCode: this.zipCodeForm.value,
       // TODO contact pref during signup
       contactPreference: 'Email'

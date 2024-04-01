@@ -3,6 +3,7 @@ import {SalonClient} from "../../service/salon-client.service";
 import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import {CommonModule} from "@angular/common";
+import {CarouselModule} from 'ngx-bootstrap/carousel'
 
 
 /**
@@ -15,9 +16,20 @@ import {CommonModule} from "@angular/common";
   standalone: true,
   imports: [
     CommonModule,
+    CarouselModule
   ]
 })
 export class HomeComponent {
+
+
+
+  myInterval = 5000;
+  activeSlideIndex = 0;
+  slides: {image: string; text?: string}[] = [
+    {image: 'assets/images/salon1.png'},
+    {image: 'assets/images/salon2.png'},
+    {image: 'assets/images/salon3.png'}
+  ];
 
   /**
    * controls template message displayed when service is accessed

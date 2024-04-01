@@ -14,15 +14,15 @@ export class LoginService {
 
   // defn necessary getters for private attributes
   public get account$(): Observable<UserAccount|undefined> {
-    return this._account$;
+    return this._account$.asObservable();
   }
 
   public get authenticated(): boolean {
-    return this._authenticated$.getValue();
+    return this._authenticated$.value;
   }
 
   public get authenticated$(): Observable<boolean> {
-    return this._authenticated$;
+    return this._authenticated$.asObservable();
   }
 
   constructor(private creds: CredentialService, private salonService: SalonClient) { }
@@ -56,7 +56,7 @@ export class LoginService {
   }
 
   public hasAuthority(authority:USER_AUTHORITY): boolean {
-    let account = this._account$.getValue();
+    let account = this._account$.value;
     if (!account) return false;
     return account.authorities.includes(authority);
   }

@@ -1,0 +1,10 @@
+
+<label class="form-label">{{ title }}</label>
+<select class="form-select" (change)="update($event)">
+  <option [selected]="selector$.value===undefined" [value]="undefined">{{ undefinedOption }}</option>
+
+  @for (opt of options; track opt) {
+    <option [selected]="selector$.value===opt.val" [value]="opt.val">{{ opt.title }}</option>
+  }
+</select>
+

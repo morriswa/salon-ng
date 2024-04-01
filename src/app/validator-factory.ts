@@ -49,14 +49,6 @@ export class ValidatorFactory {
     return new FormControl('', Validators.maxLength(50));
   }
 
-  public static getStateForm = () => {
-    return new FormControl('', [
-      Validators.minLength(2),
-      Validators.maxLength(2),
-      Validators.pattern("^[A-Z]{2}$")
-    ]);
-  }
-
   public static getZipCodeForm = () => {
     return new FormControl('', [
       Validators.minLength(10),
