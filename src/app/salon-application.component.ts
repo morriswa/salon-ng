@@ -1,6 +1,6 @@
 // ng
 import {Component, HostListener, OnInit} from '@angular/core';
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {Router, RouterModule} from '@angular/router';
 // other
 import {BehaviorSubject} from "rxjs";
@@ -24,6 +24,7 @@ import {LoginService} from "./service/login.service";
     // Required Angular Modules
     CommonModule,
     RouterModule,
+    NgOptimizedImage,
   ]
 })
 export class SalonApplication implements OnInit {
