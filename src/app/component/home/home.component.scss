@@ -39,7 +39,10 @@
 
     &:hover {
       transform: scale(1.05);
+      border: 5px solid var(--bs-primary);
     }
+
+
 }
 
 #home-main-images {
@@ -57,7 +60,7 @@
 // heading
 #home-header {
   animation: loadingAnimation 1.5s;
-  color: rgb(32, 32, 32);
+  color: var(--bs-primary);
   font-size: 130px;
   font-family: "Italiana", sans-serif;
   font-weight: 800;
@@ -66,7 +69,7 @@
 
 // titles
 .home-subheaders {
-    color: rgb(133, 176, 85);
+    color: var(--bs-primary);
     font-size: 100px;
     font-family: "Italiana", sans-serif;
     font-weight: 800;
@@ -113,7 +116,13 @@
   &.right {
     order: 1;
   }
+
+  &:hover {
+    transform: scale(1.05);
+    border: 5px solid var(--bs-primary);
+  }
 }
+
 
 .employee-content-title {
     font-weight: 700;
@@ -121,3 +130,23 @@
     margin: 0;
     padding: 0;
 }
+
+#contact-info-wrapper{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}
+
+#contact-info{
+  color: var(--bs-primary);
+}
+
+// .footer{
+//   margin-top: 35px;
+//   border: 5px solid rgb(133, 176, 85);
+//   color: rgb(133, 176, 85);
+//   font-family: "Italiana", sans-serif;
+//   font-weight: 800;
+//   text-align: center;
+//}
