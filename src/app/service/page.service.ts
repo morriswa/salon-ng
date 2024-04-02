@@ -49,6 +49,7 @@ export class PageService {
 
   getUrlForNav(): string[] {
     let url_arr = this.getUrl();
+    if (url_arr.length==0) return ['/'];
     url_arr[0] = "/"+url_arr[0];
     return url_arr;
   }
