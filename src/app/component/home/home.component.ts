@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import {SalonClient} from "../../service/salon-client.service";
-import {Router} from "@angular/router";
 import {BehaviorSubject, Observable} from "rxjs";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {CarouselModule} from 'ngx-bootstrap/carousel'
 import {EmployeeProfile} from "../../interface/profile.interface";
+import {PageService} from "../../service/page.service";
 
 
 /**
@@ -31,9 +31,9 @@ export class HomeComponent {
 
   featuredEmployees$: Observable<EmployeeProfile[]>;
 
-  constructor(private salonClient: SalonClient, router: Router) {
+  constructor(private salonClient: SalonClient, page: PageService) {
     // if the user got rerouted, make sure url segment is correct
-    router.navigate(['/']);
+    page.goHome();
 
     this.featuredEmployees$ = salonClient.getFeaturedEmployees();
   }

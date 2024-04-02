@@ -22,21 +22,23 @@
   }
 }
 
-#menu-buttons {
+#header-buttons {
   > button {
     margin-right: 5px;
   }
 }
 
-#social-icons {
-  text-align: right;
-}
-
-.social-icon {
+.header-social-icon {
   height: 25px;
   width: 25px;
   margin-right: 10px;
   &:hover {
     transform: scale(1.2);
   }
+}
+
+#salon-router-outlet {
+  display: block;
+  width: 95vw;
+  margin: 20px auto;
 }

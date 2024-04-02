@@ -7,19 +7,19 @@
 <button
   class="salon-btn-secondary-outline"
   [routerLink]="['user']"
-  [disabled]="currentPageIs('/employee/user')"
+  [disabled]="page.is('/employee/user')"
   >Your Profile</button>
 
 <button
   class="salon-btn-secondary-outline"
   [routerLink]="['schedule']"
-  [disabled]="currentPageIs('/employee/schedule')"
+  [disabled]="page.is('/employee/schedule')"
   >View Schedule</button>
 
 <button
   class="salon-btn-secondary-outline"
   [routerLink]="['services']"
-  [disabled]="currentPageIs('/employee/services')"
+  [disabled]="page.is('/employee/services')"
   >Edit Services</button>
 
 <div style="display: block; margin: 20px auto 0 auto;">

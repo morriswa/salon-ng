@@ -5,6 +5,7 @@ import {Router, RouterModule} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {ValidatorFactory} from "../../validator-factory";
+import {PageService} from "../../service/page.service";
 
 @Component({
   selector: 'salon-login',
@@ -41,14 +42,14 @@ export class LoginComponent implements OnInit {
 
 
   constructor(public loginService: LoginService,
-              private router: Router) {
+              private page: PageService) {
     // if the user is already authenticated, they should be re-routed to the appropriate portal
     if (loginService.authenticated) {
       if (loginService.hasAuthority('EMPLOYEE'))
-        router.navigate(['/employee','user']);
+        page.change(['/employee','user']);
       else if (loginService.hasAuthority('CLIENT'))
-        router.navigate(['/client','user']);
-      else router.navigate(['/register2']);
+        page.change(['/client','user']);
+      else page.change(['/register2']);
     }
   }
 
@@ -83,10 +84,10 @@ export class LoginComponent implements OnInit {
           this.passwordForm.reset();
           // and reroute to client-profile page
           if (this.loginService.hasAuthority('EMPLOYEE'))
-            this.router.navigate(['/employee']);
+            this.page.change(['/employee']);
           else if (this.loginService.hasAuthority('CLIENT'))
-            this.router.navigate(['/client']);
-          else this.router.navigate(['/register2']);
+            this.page.change(['/client']);
+          else this.page.change(['/register2']);
         } else { // on authentication failure...
           // provided a helpful message
           this.loginMessage$.next("Could not authenticate with provided credentials!");

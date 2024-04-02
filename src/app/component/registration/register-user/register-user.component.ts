@@ -3,9 +3,10 @@ import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {SalonClient} from "../../../service/salon-client.service";
 import {LoginService} from "../../../service/login.service";
 import {BehaviorSubject, switchMap} from "rxjs";
-import {Router, RouterModule} from "@angular/router";
+import {RouterModule} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {ValidatorFactory} from "../../../validator-factory";
+import {PageService} from "../../../service/page.service";
 
 @Component({
   selector: 'salon-register-user',
@@ -41,14 +42,14 @@ export class RegisterUserComponent {
   passwordForm: FormControl = ValidatorFactory.getPasswordForm();
 
 
-  constructor(private router: Router, private salonClient: SalonClient, private login: LoginService) {
+  constructor(private page: PageService, private salonClient: SalonClient, private login: LoginService) {
     // if the user is already authenticated, they should be re-routed to the appropriate portal
     if (login.authenticated) {
       if (login.hasAuthority('EMPLOYEE'))
-        router.navigate(['/employee','user']);
+        page.change(['/employee','user']);
       else if (login.hasAuthority('CLIENT'))
-        router.navigate(['/client','user']);
-      else router.navigate(['/register2']);
+        page.change(['/client','user']);
+      else page.change(['/register2']);
     }
 
     this.processingRegistration$.asObservable().subscribe(locked=>{
@@ -76,7 +77,7 @@ export class RegisterUserComponent {
         this.registerUserErrors$.next([]); // reset error messages
         this.usernameForm.reset(); // reset profile forms
         this.passwordForm.reset(); // reset profile forms
-        this.router.navigate(['/register2']);
+        this.page.change(['/register2']);
         this.processingRegistration$.next(false);
       },
       error: (err:any) => { // if errors were encountered during profile creation

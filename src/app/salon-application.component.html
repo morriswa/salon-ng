@@ -1,11 +1,11 @@
 
 @if (ready$ | async) {
   <div id="header" [ngClass]="(displayHeader$|async)? 'scrolled' : ''">
-    <div id="menu-buttons">
+    <div id="header-buttons">
       <button
         class="salon-btn-fancy"
         [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
-        [disabled]="currentPageIsRoot()"
+        [disabled]="page.isRoot()"
         [routerLink]="['']">Home</button>
 
       @if (loginService.authenticated$ | async){
@@ -13,21 +13,21 @@
           class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('NUSER')"
-          [disabled]="currentPageStartsWith('/register2')"
+          [disabled]="page.isOrSubpageOf('/register2')"
           [routerLink]="['/register2']"
         >Finish Account Setup</button>
         <button
           class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('CLIENT')"
-          [disabled]="currentPageStartsWith('/client')"
+          [disabled]="page.isOrSubpageOf('/client')"
           [routerLink]="['/client']"
         >Portal</button>
         <button
           class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('EMPLOYEE')"
-          [disabled]="currentPageStartsWith('/employee')"
+          [disabled]="page.isOrSubpageOf('/employee')"
           [routerLink]="['/employee']"
         >Portal</button>
         <button
@@ -39,7 +39,7 @@
         <button
           class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
-          [disabled]="currentPageStartsWith('/login')"
+          [disabled]="page.isOrSubpageOf('/login')"
           [routerLink]="['/login']"
         >Login</button>
       }
@@ -47,13 +47,13 @@
 
     <!-- social media logos -->
     <div id="social-icons">
-      <img class="social-icon" ngSrc="../assets/social-icons/x.png" height="100" width="100" alt="">
-      <img class="social-icon" ngSrc="../assets/social-icons/instagram.png" height="100" width="100" alt="">
-      <img class="social-icon" ngSrc="../assets/social-icons/tiktok.png" height="100" width="100" alt="">
+      <img class="header-social-icon" ngSrc="assets/social-icons/x.png" height="100" width="100" alt="">
+      <img class="header-social-icon" ngSrc="assets/social-icons/instagram.png" height="100" width="100" alt="">
+      <img class="header-social-icon" ngSrc="assets/social-icons/tiktok.png" height="100" width="100" alt="">
     </div>
   </div>
   <div id="header-buffer"></div>
-  <div style="display: block; width: 95vw; margin: 20px auto;">
+  <div id="salon-router-outlet">
     <router-outlet></router-outlet>
   </div>
 } @else {

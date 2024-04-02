@@ -1,11 +1,12 @@
 // ng
 import {Component, HostListener, OnInit} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Router, RouterModule} from '@angular/router';
+import {RouterModule} from '@angular/router';
 // other
 import {BehaviorSubject} from "rxjs";
 // services
 import {LoginService} from "./service/login.service";
+import {PageService} from "./service/page.service";
 
 
 /**
@@ -37,7 +38,7 @@ export class SalonApplication implements OnInit {
   displayHeader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(public loginService: LoginService,
-              private router: Router) {
+              public page: PageService) {
     this.ready$ = new BehaviorSubject<boolean>(false);
   }
 
@@ -59,16 +60,9 @@ export class SalonApplication implements OnInit {
    */
   logout(): void { // when user clicks logout
     // navigate back to start
-    this.router.navigate(['/'])
+    this.page.goHome();
     // initiate logout via service
     this.loginService.logout();
   }
 
-  currentPageStartsWith(page: string) {
-    return this.router.routerState.snapshot.url.startsWith(page);
-  }
-
-  currentPageIsRoot() {
-    return this.router.routerState.snapshot.url==='/';
-  }
 }

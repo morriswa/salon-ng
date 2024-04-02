@@ -1,5 +1,5 @@
 import {LoginService} from "../../service/login.service";
-import {provideRouter, Router} from "@angular/router";
+import {provideRouter} from "@angular/router";
 import {TestBed} from "@angular/core/testing";
 import {CredentialService} from "../../service/credential.service";
 import {SalonClient} from "../../service/salon-client.service";
@@ -8,11 +8,12 @@ import {provideHttpClient} from "@angular/common/http";
 import {salon_application_routes} from "src/app/routes";
 import {LoginComponent} from "./login.component";
 import {of} from "rxjs";
+import {PageService} from "../../service/page.service";
 
 
 describe('LoginComponent', () => {
 
-  let router: Router;
+  let page: PageService;
   let loginService: LoginService;
 
   beforeEach(async () => {
@@ -24,13 +25,14 @@ describe('LoginComponent', () => {
         CredentialService,
         SalonClient,
         LoginService,
+        PageService,
         provideHttpClientTesting(),
         provideHttpClient(),
         provideRouter(salon_application_routes)
       ]
     }).compileComponents();
 
-    router = TestBed.inject(Router);
+    page = TestBed.inject(PageService);
     loginService = TestBed.inject(LoginService);
   });
 
@@ -57,7 +59,7 @@ describe('LoginComponent', () => {
 
   it('should re-route authorized employees', () => {
 
-    let spyReroute = spyOn(router, 'navigate');
+    let spyReroute = spyOn(page, 'change');
     let spyAuthenticated
       = spyOnProperty(loginService, 'authenticated', 'get').and.returnValue(true);
     let spyIsEmployee
@@ -73,7 +75,7 @@ describe('LoginComponent', () => {
 
   it('should re-route authorized clients', () => {
 
-    let spyReroute = spyOn(router, 'navigate');
+    let spyReroute = spyOn(page, 'change');
     let spyAuthenticated
       = spyOnProperty(loginService, 'authenticated', 'get').and.returnValue(true);
     let spyHasAuthority
@@ -91,7 +93,7 @@ describe('LoginComponent', () => {
 
   it('should re-route new users', () => {
 
-    let spyReroute = spyOn(router, 'navigate');
+    let spyReroute = spyOn(page, 'change');
     let spyAuthenticated
       = spyOnProperty(loginService, 'authenticated', 'get').and.returnValue(true);
     let spyHasAuthority
@@ -109,7 +111,7 @@ describe('LoginComponent', () => {
 
   it('should NOT re-route unauthenticated users', () => {
 
-    let spyReroute = spyOn(router, 'navigate');
+    let spyReroute = spyOn(page, 'change');
     let spyAuthenticated
       = spyOnProperty(loginService, 'authenticated', 'get').and.returnValue(false);
     let spyHasAuthority
@@ -188,7 +190,7 @@ describe('LoginComponent', () => {
     spyOn(loginService, 'login').and.returnValue(of(true));
     spyOn(loginService, 'hasAuthority').and.returnValue(true);
 
-    let spyRouter = spyOn(router, 'navigate');
+    let spyRouter = spyOn(page, 'change');
 
     const fixture = TestBed.createComponent(LoginComponent);
     const component = fixture.componentInstance;
@@ -214,7 +216,7 @@ describe('LoginComponent', () => {
     spyOn(loginService, 'login').and.returnValue(of(true));
     spyOn(loginService, 'hasAuthority').and.returnValues(false, true);
 
-    let spyRouter = spyOn(router, 'navigate');
+    let spyRouter = spyOn(page, 'change');
 
     const fixture = TestBed.createComponent(LoginComponent);
     const component = fixture.componentInstance;
@@ -240,7 +242,7 @@ describe('LoginComponent', () => {
     spyOn(loginService, 'login').and.returnValue(of(true));
     spyOn(loginService, 'hasAuthority').and.returnValues(false, false);
 
-    let spyRouter = spyOn(router, 'navigate');
+    let spyRouter = spyOn(page, 'change');
 
     const fixture = TestBed.createComponent(LoginComponent);
     const component = fixture.componentInstance;
