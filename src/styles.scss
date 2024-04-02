@@ -87,30 +87,32 @@ body {
   color: white;
 }
 
-.salon-btn-fancy {
+.salon-btn-fancy,
+.salon-btn-fancy-header,
+.salon-btn-fancy-bg {
   border: none;
   background: none;
   font-family: "Roboto Mono", monospace;
   font-weight: 500;
   font-size: 25px;
 
-  &-header {
-    color: white;
+  &:hover {
+    text-decoration: underline;
   }
 
-  &-bg {
-    color: $primary;
+  &:focus, &:disabled {
+    text-decoration: underline;
+    color: rgb(32, 32, 32);
   }
 }
 
-.salon-btn-fancy:hover {
-  text-decoration: underline;
+.salon-btn-fancy-header{
+  color: white;
 }
 
-.salon-btn-fancy:focus,
-.salon-btn-fancy:disabled {
-  text-decoration: underline;
-  color: rgb(32, 32, 32);
+.salon-btn-fancy,
+.salon-btn-fancy-bg{
+  color: $primary;
 }
 
 .salon-btn-primary-outline,
