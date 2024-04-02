@@ -11,19 +11,19 @@
         <button
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('NUSER')"
-          [disabled]="page.isOrSubpageOf('/register2')"
+          [disabled]="page.hasRoot('/register2')"
           (click)="page.change(['/register2'])"
         >Finish Account Setup</button>
         <button
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('CLIENT')"
-          [disabled]="page.isOrSubpageOf('/client')"
+          [disabled]="page.hasRoot('/client')"
           (click)="page.change(['/client'])"
         >Portal</button>
         <button
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('EMPLOYEE')"
-          [disabled]="page.isOrSubpageOf('/employee')"
+          [disabled]="page.hasRoot('/employee')"
           (click)="page.change(['/employee'])"
         >Portal</button>
         <button
@@ -33,7 +33,7 @@
       } @else {
         <button
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
-          [disabled]="page.isOrSubpageOf('/login')"
+          [disabled]="page.hasRoot('/login')"
           (click)="page.change(['/login'])"
         >Login</button>
       }

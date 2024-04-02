@@ -38,7 +38,7 @@ export class ClientServiceAndBookingComponent {
   appointmentConfirmation$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
 
   constructor(private salonClient: SalonClient, public page: PageService) {
-    const serviceId = page.getUrlAt(2);
+    const serviceId = Number(page.getUrlAt(2));
 
     salonClient.getProvidedServiceDetailsForClient(serviceId)
       .subscribe({
