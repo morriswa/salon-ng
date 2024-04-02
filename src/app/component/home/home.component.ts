@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {SalonClient} from "../../service/salon-client.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {CarouselModule} from 'ngx-bootstrap/carousel'
 import {EmployeeProfile} from "../../interface/profile.interface";
 import {PageService} from "../../service/page.service";
 
@@ -17,7 +16,6 @@ import {PageService} from "../../service/page.service";
   standalone: true,
   imports: [
     CommonModule,
-    CarouselModule,
 
     NgOptimizedImage
   ]

@@ -6,7 +6,7 @@
         class="salon-btn-fancy"
         [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
         [disabled]="page.isRoot()"
-        [routerLink]="['']">Home</button>
+        (click)="page.goHome()">Home</button>
 
       @if (loginService.authenticated$ | async){
         <button
@@ -14,21 +14,21 @@
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('NUSER')"
           [disabled]="page.isOrSubpageOf('/register2')"
-          [routerLink]="['/register2']"
+          (click)="page.change(['/register2'])"
         >Finish Account Setup</button>
         <button
           class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('CLIENT')"
           [disabled]="page.isOrSubpageOf('/client')"
-          [routerLink]="['/client']"
+          (click)="page.change(['/client'])"
         >Portal</button>
         <button
           class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('EMPLOYEE')"
           [disabled]="page.isOrSubpageOf('/employee')"
-          [routerLink]="['/employee']"
+          (click)="page.change(['/employee'])"
         >Portal</button>
         <button
           class="salon-btn-fancy"
@@ -40,7 +40,7 @@
           class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           [disabled]="page.isOrSubpageOf('/login')"
-          [routerLink]="['/login']"
+          (click)="page.change(['/login'])"
         >Login</button>
       }
     </div>

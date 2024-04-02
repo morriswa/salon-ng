@@ -11,7 +11,7 @@
 
     <h3
       class="search-result-links"
-      [routerLink]="['/employee', 'appointment', appointment.appointmentId]"
+      (click)="page.change(['/employee', 'appointment', appointment.appointmentId.toString()])"
     >{{ appointment.serviceName }}</h3>
     <h5>on {{ appointment.time | localeDate }} at {{ appointment.time | localeTime }}</h5>
     <h5>with {{ appointment.client!.firstName }} {{ appointment.client!.lastName }}</h5>

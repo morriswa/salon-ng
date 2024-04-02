@@ -1,5 +1,7 @@
 @if (employeeInfo$ | async; as employeeProfile) {
 
+  <button class="salon-btn-secondary-outline" (click)="page.goBack()">Back</button>
+
   <h2>Meet {{ employeeProfile.firstName }} {{ employeeProfile.lastName }}!</h2>
   <h4>Pronouns: {{employeeProfile.pronouns }}</h4>
   <p>{{ employeeProfile.bio }}</p>

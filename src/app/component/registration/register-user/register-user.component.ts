@@ -3,7 +3,6 @@ import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {SalonClient} from "../../../service/salon-client.service";
 import {LoginService} from "../../../service/login.service";
 import {BehaviorSubject, switchMap} from "rxjs";
-import {RouterModule} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {ValidatorFactory} from "../../../validator-factory";
 import {PageService} from "../../../service/page.service";
@@ -16,7 +15,6 @@ import {PageService} from "../../../service/page.service";
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule,
   ]
 })
 export class RegisterUserComponent {
@@ -42,7 +40,7 @@ export class RegisterUserComponent {
   passwordForm: FormControl = ValidatorFactory.getPasswordForm();
 
 
-  constructor(private page: PageService, private salonClient: SalonClient, private login: LoginService) {
+  constructor(public page: PageService, private salonClient: SalonClient, private login: LoginService) {
     // if the user is already authenticated, they should be re-routed to the appropriate portal
     if (login.authenticated) {
       if (login.hasAuthority('EMPLOYEE'))

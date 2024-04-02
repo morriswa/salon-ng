@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {RouterModule} from "@angular/router";
 import {SalonClient} from "../../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
 import {Appointment} from "../../../interface/appointment.interface";
@@ -16,7 +15,6 @@ import {PageService} from "../../../service/page.service";
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
 
     AmericanPhoneNumberPipe,
     LocaleDatePipe,
@@ -27,7 +25,7 @@ export class ClientAppointmentDetailsComponent {
 
   appointmentDetails$: BehaviorSubject<Appointment|undefined> = new BehaviorSubject<Appointment|undefined>(undefined);
 
-  constructor(salonClient: SalonClient, page: PageService) {
+  constructor(salonClient: SalonClient, public page: PageService) {
 
     const appointmentId = Number(page.getUrlAt(2));
 

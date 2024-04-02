@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import {LoginService} from "../../service/login.service";
-import {RouterModule} from "@angular/router";
 import {SalonClient} from "../../service/salon-client.service";
 import {map, Observable} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {PageService} from "../../service/page.service";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'salon-employee',
@@ -13,7 +13,7 @@ import {PageService} from "../../service/page.service";
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
+    RouterOutlet
   ]
 })
 export class EmployeeComponent {

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {SalonClient} from "../../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
 import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
@@ -17,7 +16,6 @@ import {PageService} from "../../../service/page.service";
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
 
     MatSelectModule,
     MatInput,
@@ -39,7 +37,7 @@ export class ClientServiceAndBookingComponent {
 
   appointmentConfirmation$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
 
-  constructor(private salonClient: SalonClient, page: PageService) {
+  constructor(private salonClient: SalonClient, public page: PageService) {
     const serviceId = page.getUrlAt(2);
 
     salonClient.getProvidedServiceDetailsForClient(serviceId)

@@ -21,7 +21,7 @@ export class PublicProfileComponent {
 
   employeeInfo$: BehaviorSubject<EmployeeProfile|undefined> = new BehaviorSubject<EmployeeProfile|undefined>(undefined);
 
-  constructor(salonClient: SalonClient, page: PageService) {
+  constructor(salonClient: SalonClient, public page: PageService) {
     const employeeId = page.getUrlAt(1);
 
     salonClient.getPublicEmployeeProfile(employeeId)

@@ -5,7 +5,12 @@
   <h2>{{ details.serviceName }}</h2>
   <h4>Scheduled for {{ details.time | localeDate }} at {{ details.time | localeTime }}, {{ details.length }}min. appointment</h4>
   <h4>${{ details.cost }} due on {{ details.paymentDueDate | localeDate }}</h4>
-  <h4>with <a [routerLink]="['/profile', details.employee!.userId]">{{ details.employee!.firstName }} {{ details.employee!.lastName }}</a></h4>
+  <h4>with
+    <a
+      class="search-result-links"
+      (click)="page.change(['/profile', details.employee!.userId.toString()])"
+    >{{ details.employee!.firstName }} {{ details.employee!.lastName }}</a>
+  </h4>
   <br>
   <h4>Appointment Contact Information: </h4>
   <h4>&emsp;Phone: {{ details.employee!.phoneNumber | americanPhoneNumber }}</h4>

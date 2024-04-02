@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {LoginService} from "../../service/login.service";
-import {Router, RouterModule} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {ValidatorFactory} from "../../validator-factory";
@@ -15,7 +14,6 @@ import {PageService} from "../../service/page.service";
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule,
   ]
 })
 export class LoginComponent implements OnInit {
@@ -42,7 +40,7 @@ export class LoginComponent implements OnInit {
 
 
   constructor(public loginService: LoginService,
-              private page: PageService) {
+              public page: PageService) {
     // if the user is already authenticated, they should be re-routed to the appropriate portal
     if (loginService.authenticated) {
       if (loginService.hasAuthority('EMPLOYEE'))

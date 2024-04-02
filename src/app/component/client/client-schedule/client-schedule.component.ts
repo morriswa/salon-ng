@@ -4,7 +4,7 @@ import {BehaviorSubject} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {LocaleTimePipe} from "../../../pipe/LocaleTime.pipe";
 import {LocaleDatePipe} from "../../../pipe/LocaleDate.pipe";
-import {RouterModule} from "@angular/router";
+import {PageService} from "../../../service/page.service";
 
 @Component({
   selector: 'salon-client-schedule',
@@ -13,7 +13,6 @@ import {RouterModule} from "@angular/router";
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
 
     LocaleTimePipe,
     LocaleDatePipe,
@@ -23,7 +22,7 @@ export class ClientScheduleComponent {
 
   clientSchedule$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[]|undefined>(undefined);
 
-  constructor(salonClient: SalonClient) {
+  constructor(salonClient: SalonClient, public page: PageService) {
     salonClient.getClientSchedule().subscribe({
       next: (res:any[]) => this.clientSchedule$.next(res)
     });
