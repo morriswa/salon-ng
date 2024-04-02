@@ -7,9 +7,7 @@ export class PageService {
 
   lastPage$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(['/']);
 
-  constructor(private router: Router) {
-    this.lastPage$.asObservable().subscribe((res)=>console.log(res));
-  }
+  constructor(private router: Router) { }
 
   // move
   goHome() {
