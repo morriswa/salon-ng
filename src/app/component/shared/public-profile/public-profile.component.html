@@ -2,16 +2,25 @@
 
   <button class="salon-btn-secondary-outline" (click)="page.goBack()">Back</button>
 
-  <h2>Meet {{ employeeProfile.firstName }} {{ employeeProfile.lastName }}!</h2>
-  <h4>Pronouns: {{employeeProfile.pronouns }}</h4>
-  <p>{{ employeeProfile.bio }}</p>
-
+  <h1 style="text-align: center;">{{ employeeProfile.firstName }} {{ employeeProfile.lastName }}</h1>
+  <div style="background-color: white;">
+    <div style="text-align: center;">
+      <h2 id = "bio-wrapper">Biography</h2>
+      </div>
+  <div id = "bio-card-wrapper">
+  <div id="bio-card-image">
+    
   <img
     style="max-height: 400px; max-width: 600px"
     [src]="employeeProfile.profileImage">
+    <h4>Pronouns: {{employeeProfile.pronouns }}</h4>
+  </div>
 
-  <br><br>
-
+  <div id ="bio-info">
+    <p id = "emply-wrapper">{{ employeeProfile.bio }}</p>
+  </div>
+  </div>
+</div>
   <h2>Contact Info</h2>
   <h4>Contact Preference: {{ employeeProfile.contactPreference }}</h4>
   <h4>Email: {{ employeeProfile.email }}</h4>
