@@ -1,6 +1,6 @@
 {
   "name": "salon-ng",
-  "version": "0.1.4",
+  "version": "0.1.5-SNAPSHOT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
