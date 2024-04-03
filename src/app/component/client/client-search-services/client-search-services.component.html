@@ -13,7 +13,7 @@
 @for (service of (availableServiceSearchResults$|async); track service.serviceId) {
   <h2
     class="search-result-links"
-    [routerLink]="['/client','service',service.serviceId]">{{ service.name }}</h2>
+    (click)="page.change(['/client','service',service.serviceId])">{{ service.name }}</h2>
   <p>With {{ service.employee.firstName }} {{service.employee.lastName }}</p>
 } @empty {
   @if (searchServiceForm.value) {

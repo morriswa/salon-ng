@@ -8,7 +8,8 @@ export const environment = {
     path: '//127.0.0.1:8080',
     publicUrls : [
       '/register',
-      '/health'
+      '/health',
+      '/public/featuredEmployees'
     ]
   },
 

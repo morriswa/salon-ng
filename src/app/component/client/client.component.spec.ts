@@ -7,11 +7,12 @@ import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideHttpClient} from "@angular/common/http";
 import {salon_application_routes} from "src/app/routes";
 import {ClientComponent} from "./client.component";
+import {PageService} from "../../service/page.service";
 
 
 describe('ClientComponent', () => {
 
-  let router: Router;
+  let page: PageService;
   let loginService: LoginService;
 
   beforeEach(async () => {
@@ -23,13 +24,14 @@ describe('ClientComponent', () => {
         CredentialService,
         SalonClient,
         LoginService,
+        PageService,
         provideHttpClientTesting(),
         provideHttpClient(),
         provideRouter(salon_application_routes)
       ]
     }).compileComponents();
 
-    router = TestBed.inject(Router);
+    page = TestBed.inject(PageService);
     loginService = TestBed.inject(LoginService);
   });
 
@@ -43,7 +45,7 @@ describe('ClientComponent', () => {
 
     let spyAuthenticated
       = spyOnProperty(loginService, 'authenticated', 'get').and.returnValue(false);
-    let spyReroute = spyOn(router, 'navigate');
+    let spyReroute = spyOn(page, 'change');
     let spyIsClient
       = spyOn(loginService, 'hasAuthority').and.returnValue(false);
 
@@ -62,7 +64,7 @@ describe('ClientComponent', () => {
     let spyIsClient
       = spyOn(loginService, 'hasAuthority').and.returnValue(false);
 
-    let spyReroute = spyOn(router, 'navigate');
+    let spyReroute = spyOn(page, 'change');
 
     TestBed.createComponent(ClientComponent);
 

@@ -8,11 +8,12 @@ import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideHttpClient} from "@angular/common/http";
 import {salon_application_routes} from "src/app/routes";
 import {of} from "rxjs";
+import {PageService} from "../../service/page.service";
 
 
 describe('EmployeeComponent', () => {
 
-  let router: Router;
+  let page: PageService;
   let loginService: LoginService;
   let salonClient: SalonClient;
 
@@ -25,13 +26,14 @@ describe('EmployeeComponent', () => {
         CredentialService,
         SalonClient,
         LoginService,
+        PageService,
         provideHttpClientTesting(),
         provideHttpClient(),
         provideRouter(salon_application_routes)
       ]
     }).compileComponents();
 
-    router = TestBed.inject(Router);
+    page = TestBed.inject(PageService);
     loginService = TestBed.inject(LoginService);
     salonClient = TestBed.inject(SalonClient);
   });
@@ -46,7 +48,7 @@ describe('EmployeeComponent', () => {
 
     let spyAuthenticated
       = spyOnProperty(loginService, 'authenticated', 'get').and.returnValue(false);
-    let spyReroute = spyOn(router, 'navigate');
+    let spyReroute = spyOn(page, 'change');
     let spyIsEmployee
       = spyOn(loginService, 'hasAuthority').and.returnValue(false);
 
@@ -65,7 +67,7 @@ describe('EmployeeComponent', () => {
     let spyIsEmployee
       = spyOn(loginService, 'hasAuthority').and.returnValue(false);
 
-    let spyReroute = spyOn(router, 'navigate');
+    let spyReroute = spyOn(page, 'goHome');
 
     let fixture = TestBed.createComponent(EmployeeComponent);
     let component = fixture.componentInstance;
@@ -74,7 +76,7 @@ describe('EmployeeComponent', () => {
 
     expect(spyAuthenticated).toHaveBeenCalledOnceWith();
     expect(spyIsEmployee).toHaveBeenCalledOnceWith('EMPLOYEE');
-    expect(spyReroute).toHaveBeenCalledOnceWith(['/']);
+    expect(spyReroute).toHaveBeenCalledOnceWith();
     expect()
   });
 
@@ -85,7 +87,7 @@ describe('EmployeeComponent', () => {
     let spyIsEmployee
       = spyOn(loginService, 'hasAuthority').and.returnValue(true);
 
-    let spyReroute = spyOn(router, 'navigate');
+    let spyReroute = spyOn(page, "change");
 
     let fixture = TestBed.createComponent(EmployeeComponent);
     let component = fixture.componentInstance;
@@ -105,7 +107,7 @@ describe('EmployeeComponent', () => {
       = spyOnProperty(loginService, 'authenticated', 'get').and.returnValue(true);
     let spyIsEmployee
       = spyOn(loginService, 'hasAuthority').and.returnValue(true);
-    let spyReroute = spyOn(router, 'navigate');
+    let spyReroute = spyOn(page, 'change');
     let spyGetEmployeeProfile
       = spyOn(salonClient, 'getEmployeeProfile').and.returnValue(of(
       {

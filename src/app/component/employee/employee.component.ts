@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import {LoginService} from "../../service/login.service";
-import {Router, RouterModule} from "@angular/router";
 import {SalonClient} from "../../service/salon-client.service";
 import {map, Observable} from "rxjs";
 import {CommonModule} from "@angular/common";
+import {PageService} from "../../service/page.service";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'salon-employee',
@@ -12,7 +13,7 @@ import {CommonModule} from "@angular/common";
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
+    RouterOutlet
   ]
 })
 export class EmployeeComponent {
@@ -23,18 +24,17 @@ export class EmployeeComponent {
   firstName$?: Observable<string>;
 
   // component dependencies
-  constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
+  constructor(
+    public login: LoginService,
+    private salonClient: SalonClient,
+    public page: PageService) {
     // route unauthorized users appropriately
-    if (!login.authenticated) router.navigate(['/login']);
-    else if (!login.hasAuthority('EMPLOYEE')) router.navigate(['/']);
+    if (!login.authenticated) page.change(['/login']);
+    else if (!login.hasAuthority('EMPLOYEE')) page.goHome();
     else { // if the user has the proper authorities, they may proceed
       // retrieve first name
       this.firstName$ = this.salonClient.getEmployeeProfile().pipe(map((res:any)=>res.firstName));
     }
-  }
-
-  currentPageIs(page: string) {
-    return this.router.routerState.snapshot.url===page;
   }
 
 }

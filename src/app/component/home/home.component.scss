@@ -86,8 +86,16 @@
 .employee-content {
   width: 100%;
   display: flex;
-  flex-direction: row;
   align-items: center;
+
+  &-left {
+    flex-direction: row;
+  }
+
+  &-right {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
 }
 
 .employee-content-text {
@@ -108,6 +116,7 @@
 .employee-image-bubble {
   height: 300px;
   transition: transform .2s;
+  object-fit: cover;
 
   &.left {
     order: 0;

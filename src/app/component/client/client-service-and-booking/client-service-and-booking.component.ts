@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {SalonClient} from "../../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
 import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
@@ -8,6 +7,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MoneyPipe} from "../../../pipe/Money.pipe";
 import {MatInput} from "@angular/material/input";
 import {MatNativeDateModule} from "@angular/material/core";
+import {PageService} from "../../../service/page.service";
 
 @Component({
   selector: 'salon-client-service-and-booking',
@@ -16,7 +16,6 @@ import {MatNativeDateModule} from "@angular/material/core";
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
 
     MatSelectModule,
     MatInput,
@@ -38,8 +37,8 @@ export class ClientServiceAndBookingComponent {
 
   appointmentConfirmation$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
 
-  constructor(active: ActivatedRoute, private salonClient: SalonClient, private router: Router) {
-    const serviceId = active.snapshot.params['serviceId'];
+  constructor(private salonClient: SalonClient, public page: PageService) {
+    const serviceId = Number(page.getUrlAt(2));
 
     salonClient.getProvidedServiceDetailsForClient(serviceId)
       .subscribe({
@@ -47,7 +46,7 @@ export class ClientServiceAndBookingComponent {
           this.serviceInfo$.next(res);
         },
         error: err => {
-          router.navigate(['/client','services'])
+          page.change(['/client','services'])
         }
       });
   }

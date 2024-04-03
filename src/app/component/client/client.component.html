@@ -5,23 +5,22 @@
 
 <button
   class="salon-btn-secondary-outline"
-  [routerLink]="['user']"
-  [disabled]="currentPageIs('/client/user')"
-  
+  (click)="page.change(['/client','user'])"
+  [disabled]="page.is('/client/user')"
 >Your Profile</button>
 
 <button
   *ngIf="login.hasAuthority('CLIENT')"
   class="salon-btn-secondary-outline"
-  [routerLink]="['schedule']"
-  [disabled]="currentPageIs('/client/schedule')"
+  (click)="page.change(['/client','schedule'])"
+  [disabled]="page.is('/client/schedule')"
 >View Schedule</button>
 
 <button
   *ngIf="login.hasAuthority('CLIENT')"
   class="salon-btn-secondary-outline"
-  [routerLink]="['services']"
-  [disabled]="currentPageIs('/client/services')"
+  (click)="page.change(['/client','services'])"
+  [disabled]="page.is('/client/services')"
 >Search for Services</button>
 
 <div style="display: block; margin: 20px auto 0 auto;">

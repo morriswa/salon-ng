@@ -6,14 +6,15 @@ import {SalonClient} from "./service/salon-client.service";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideHttpClient} from "@angular/common/http";
 import {of} from "rxjs";
-import {provideRouter, Router} from "@angular/router";
+import {provideRouter} from "@angular/router";
 import {salon_application_routes} from "src/app/routes";
+import {PageService} from "./service/page.service";
 
 
 describe('SalonApplication', () => {
 
   let loginService: LoginService;
-  let testRouter: Router;
+  let page: PageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,6 +22,7 @@ describe('SalonApplication', () => {
         CredentialService,
         SalonClient,
         LoginService,
+        PageService,
         provideHttpClientTesting(),
         provideHttpClient(),
         provideRouter(salon_application_routes)
@@ -28,7 +30,7 @@ describe('SalonApplication', () => {
     });
 
     loginService = TestBed.inject(LoginService);
-    testRouter = TestBed.inject(Router);
+    page = TestBed.inject(PageService);
   });
 
   it('should create the app', () => {
@@ -72,7 +74,7 @@ describe('SalonApplication', () => {
   it('should clear cache on logout', () => {
 
     let logoutSpy = spyOn(loginService, 'logout');
-    let routingSpy = spyOn(testRouter, 'navigate');
+    let routingSpy = spyOn(page, 'goHome');
 
     const fixture = TestBed.createComponent(SalonApplication);
     const app = fixture.componentInstance;
@@ -87,6 +89,6 @@ describe('SalonApplication', () => {
     fixture.detectChanges();
 
     expect(logoutSpy).toHaveBeenCalledOnceWith();
-    expect(routingSpy).toHaveBeenCalledOnceWith(['/']);
+    expect(routingSpy).toHaveBeenCalledOnceWith();
   });
 });

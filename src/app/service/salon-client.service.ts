@@ -21,6 +21,7 @@ export class SalonClient {
 
   clientProfile$!: BehaviorSubject<ClientInfo|undefined>;
   employeeProfile$!: BehaviorSubject<EmployeeProfile|undefined>;
+  featuredEmployeeProfiles$!: BehaviorSubject<EmployeeProfile[]|undefined>;
   employeeServices$!: BehaviorSubject<ProvidedService[]|undefined>;
   clientAppointments$!: BehaviorSubject<Appointment[]|undefined>;
   employeeAppointments$!: BehaviorSubject<Appointment[]|undefined>;
@@ -34,6 +35,8 @@ export class SalonClient {
     this.clientProfile$ = new BehaviorSubject<ClientInfo | undefined>(undefined);
 
     this.employeeProfile$ = new BehaviorSubject<EmployeeProfile | undefined>(undefined);
+
+    this.featuredEmployeeProfiles$ = new BehaviorSubject<EmployeeProfile[] | undefined>(undefined);
 
     this.employeeServices$ = new BehaviorSubject<ProvidedService[] | undefined>(undefined);
 
@@ -218,5 +221,13 @@ export class SalonClient {
 
     return this.http.post(`${this.SERVICE_URL}/employee/profile/image`, postBody)
       .pipe(switchMap(()=>this.refreshEmployeeProfile()))
+  }
+
+  getFeaturedEmployees(): Observable<EmployeeProfile[]> {
+    return this.featuredEmployeeProfiles$.asObservable().pipe(switchMap((res)=>{
+      if (res) return of(res);
+      else return this.http.get<EmployeeProfile[]>(`${this.SERVICE_URL}/public/featuredEmployees`);
+    }));
+
   }
 }

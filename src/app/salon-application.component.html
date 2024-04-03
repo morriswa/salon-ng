@@ -1,46 +1,40 @@
 
 @if (ready$ | async) {
   <div id="header" [ngClass]="(displayHeader$|async)? 'scrolled' : ''">
-    <div id="menu-buttons">
+    <div id="header-buttons">
       <button
-        class="salon-btn-fancy"
         [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
-        [disabled]="currentPageIsRoot()"
-        [routerLink]="['']">Home</button>
+        [disabled]="page.isRoot()"
+        (click)="page.goHome()">Home</button>
 
       @if (loginService.authenticated$ | async){
         <button
-          class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('NUSER')"
-          [disabled]="currentPageStartsWith('/register2')"
-          [routerLink]="['/register2']"
+          [disabled]="page.hasRoot('/register2')"
+          (click)="page.change(['/register2'])"
         >Finish Account Setup</button>
         <button
-          class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('CLIENT')"
-          [disabled]="currentPageStartsWith('/client')"
-          [routerLink]="['/client']"
+          [disabled]="page.hasRoot('/client')"
+          (click)="page.change(['/client'])"
         >Portal</button>
         <button
-          class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('EMPLOYEE')"
-          [disabled]="currentPageStartsWith('/employee')"
-          [routerLink]="['/employee']"
+          [disabled]="page.hasRoot('/employee')"
+          (click)="page.change(['/employee'])"
         >Portal</button>
         <button
-          class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           (click)="logout()"
         >Logout</button>
       } @else {
         <button
-          class="salon-btn-fancy"
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
-          [disabled]="currentPageStartsWith('/login')"
-          [routerLink]="['/login']"
+          [disabled]="page.hasRoot('/login')"
+          (click)="page.change(['/login'])"
         >Login</button>
       }
     </div>
@@ -48,14 +42,13 @@
     <!-- social media logos -->
     <div id="social-icons">
       Follow us on Social Media!
-      <img class="social-icon" ngSrc="../assets/social-icons/x.png" height="100" width="100" alt="">
-      <img class="social-icon" ngSrc="../assets/social-icons/instagram.png" height="100" width="100" alt="">
-      <img class="social-icon" ngSrc="../assets/social-icons/tiktok.png" height="100" width="100" alt="">
-      <img class="social-icon" ngSrc="../assets/social-icons/facebook-logo.png" height="100" width="100" alt="">
+      <img class="header-social-icon" ngSrc="assets/social-icons/x.png" height="100" width="100" alt="">
+      <img class="header-social-icon" ngSrc="assets/social-icons/instagram.png" height="100" width="100" alt="">
+      <img class="header-social-icon" ngSrc="assets/social-icons/tiktok.png" height="100" width="100" alt="">
     </div>
   </div>
   <div id="header-buffer"></div>
-  <div style="display: block; width: 95vw; margin: 20px auto;">
+  <div id="salon-router-outlet">
     <router-outlet></router-outlet>
   </div>
 } @else {

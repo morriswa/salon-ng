@@ -3,8 +3,8 @@ import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {SalonClient} from "../../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
 import {CommonModule} from "@angular/common";
-import {RouterModule} from "@angular/router";
 import {ValidatorFactory} from "../../../validator-factory";
+import {PageService} from "../../../service/page.service";
 
 @Component({
   selector: 'salon-client-search-services',
@@ -14,7 +14,6 @@ import {ValidatorFactory} from "../../../validator-factory";
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule,
   ]
 })
 export class ClientSearchServicesComponent {
@@ -24,7 +23,7 @@ export class ClientSearchServicesComponent {
   searchServiceForm: FormControl = ValidatorFactory.getGenericForm();
 
 
-  constructor(private salonClient: SalonClient) { }
+  constructor(private salonClient: SalonClient, public page: PageService) { }
 
 
   searchAvailableServices($event: KeyboardEvent) {

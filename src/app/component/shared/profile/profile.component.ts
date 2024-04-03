@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {BehaviorSubject, map, Observable, of, switchMap} from 'rxjs';
 import { SalonClient } from 'src/app/service/salon-client.service';
 import {LoginService} from "../../../service/login.service";
-import {ActivatedRoute, Router} from "@angular/router";
 import {ValidatorFactory} from "../../../validator-factory";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {ClientInfo, EmployeeProfile, UserInfo} from "../../../interface/profile.interface";
@@ -14,6 +13,7 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import {SelectorComponent} from "../bootstrap-selector/selector.component";
 import {SelectorDeclarations} from "../../../selector-declarations";
+import {PageService} from "../../../service/page.service";
 
 /**
  * shared component for clients and employees to manage their stored info
@@ -123,16 +123,17 @@ export class ProfileComponent {
   bioForm: FormControl = ValidatorFactory.getGenericForm();
 
 
-  constructor(route: ActivatedRoute, private router: Router, public login: LoginService, private salonClient: SalonClient) {
+  constructor(page: PageService, public login: LoginService, private salonClient: SalonClient) {
 
-    const userType = route.parent?.snapshot.url.toString();
+    const userType = page.getRootRoute();
+
     if (userType)
       this._profileType.next(userType as 'client' | 'employee');
-    else router.navigate(['/']);
+    else page.goHome();
 
 
     if (!login.authenticated)
-      router.navigate(['/login']);
+      page.change(['/login']);
     else {
       of('Begin load profile pipe')
         .pipe(

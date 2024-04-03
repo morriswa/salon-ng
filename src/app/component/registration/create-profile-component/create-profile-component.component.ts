@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject, switchMap} from "rxjs";
-import {Router} from "@angular/router";
 import {LoginService} from "../../../service/login.service";
 import {SalonClient} from "../../../service/salon-client.service";
 import {ValidatorFactory} from "../../../validator-factory";
@@ -9,6 +8,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {CommonModule} from "@angular/common";
 import {SelectorComponent} from "../../shared/bootstrap-selector/selector.component";
 import {SelectorDeclarations} from "../../../selector-declarations";
+import {PageService} from "../../../service/page.service";
 
 @Component({
   selector: 'salon-create-profile-component',
@@ -55,9 +55,9 @@ export class CreateProfileComponentComponent {
   cityForm = ValidatorFactory.getCityForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
 
-  constructor(private router: Router, public login: LoginService, private salonClient: SalonClient) {
-    if (!login.authenticated) router.navigate(['/login']);
-    else if (login.hasAuthority('USER')) router.navigate(['/register2','access']);
+  constructor(private page: PageService, public login: LoginService, private salonClient: SalonClient) {
+    if (!login.authenticated) page.change(['/login']);
+    else if (login.hasAuthority('USER')) page.change(['/register2','access']);
   }
 
 
@@ -93,7 +93,7 @@ export class CreateProfileComponentComponent {
           // this.account$ = this.login.account$; // get new login information
           this.serviceErrors$.next([]); // reset error messages
           this.processingProfile$.next(false); // and mark component as available
-          this.router.navigate(['/register2','access'])
+          this.page.change(['/register2','access'])
         },
         error: (err:any) => { // if errors were encountered during profile creation
           let errors:string[] = []; // reset error messages

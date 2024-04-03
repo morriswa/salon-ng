@@ -38,7 +38,7 @@
   <button
     [disabled]="processingRegistration$|async"
     class="salon-btn-secondary-outline"
-    [routerLink]="['/login']"
+    (click)="page.change(['/login'])"
   >Cancel</button>
 
 </div>

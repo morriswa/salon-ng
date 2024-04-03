@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {SalonClient} from "../../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
 import {Appointment} from "../../../interface/appointment.interface";
@@ -7,6 +6,7 @@ import {CommonModule} from "@angular/common";
 import {AmericanPhoneNumberPipe} from "../../../pipe/AmericanPhoneNumber.pipe";
 import {LocaleDatePipe} from "../../../pipe/LocaleDate.pipe";
 import {LocaleTimePipe} from "../../../pipe/LocaleTime.pipe";
+import {PageService} from "../../../service/page.service";
 
 @Component({
   selector: 'salon-client-appointment-details',
@@ -15,7 +15,6 @@ import {LocaleTimePipe} from "../../../pipe/LocaleTime.pipe";
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
 
     AmericanPhoneNumberPipe,
     LocaleDatePipe,
@@ -26,14 +25,14 @@ export class ClientAppointmentDetailsComponent {
 
   appointmentDetails$: BehaviorSubject<Appointment|undefined> = new BehaviorSubject<Appointment|undefined>(undefined);
 
-  constructor(active: ActivatedRoute, salonClient: SalonClient, router: Router) {
+  constructor(salonClient: SalonClient, public page: PageService) {
 
-    const appointmentId = Number(active.snapshot.params['appointmentId']);
+    const appointmentId = Number(page.getUrlAt(2));
 
     salonClient.getAppointmentDetailsForClient(appointmentId)
     .subscribe({
       next: (appointment:Appointment) => this.appointmentDetails$.next(appointment),
-      error: () => router.navigate(['/employee'])
+      error: () => page.change(['/employee'])
     });
 
   }

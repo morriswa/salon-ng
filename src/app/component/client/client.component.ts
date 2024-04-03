@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {LoginService} from "../../service/login.service";
-import {Router, RouterModule} from "@angular/router";
+import {RouterOutlet} from "@angular/router";
 import {CommonModule} from "@angular/common";
+import {PageService} from "../../service/page.service";
 
 @Component({
   selector: 'salon-client',
@@ -10,19 +11,15 @@ import {CommonModule} from "@angular/common";
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
+    RouterOutlet,
   ]
 })
 export class ClientComponent {
 
-  constructor(public login: LoginService, public router: Router) {
+  constructor(public login: LoginService, public page: PageService) {
     // if the user has the proper authorities, they may proceed
     // else route them appropriately
-    if (!login.authenticated) router.navigate(['/login']);
-    else if (!login.hasAuthority('CLIENT')) router.navigate(['/login']);
-  }
-
-  currentPageIs(page: string) {
-    return this.router.routerState.snapshot.url===page;
+    if (!login.authenticated) page.change(['/login']);
+    else if (!login.hasAuthority('CLIENT')) page.change(['/login']);
   }
 }
