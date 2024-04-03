@@ -23,16 +23,16 @@
   <!-- about the salon section -->
   <h2 class="home-subheaders"> ABOUT US </h2>
   <p class="home-plaintext">
-    At Floral Flair Studio, we believe that every individual possesses their own unique beauty, 
-    just like the diverse array of flowers in a flourishing garden. Our mission is to enhance and celebrate your natural beauty while providing you with an 
+    At Floral Flair Studio, we believe that every individual possesses their own unique beauty,
+    just like the diverse array of flowers in a flourishing garden. Our mission is to enhance and celebrate your natural beauty while providing you with an
     unforgettable salon experience.
     <br><br>
-    Nestled in the heart of Lawrence, KS our studio is a tranquil oasis where you can escape the hustle and bustle of everyday 
-    life and indulge in a pampering session tailored just for you. 
-    Our team of skilled stylists and beauty experts are passionate about their craft, 
+    Nestled in the heart of Lawrence, KS our studio is a tranquil oasis where you can escape the hustle and bustle of everyday
+    life and indulge in a pampering session tailored just for you.
+    Our team of skilled stylists and beauty experts are passionate about their craft,
     staying abreast of the latest trends and techniques to ensure that you receive top-notch service every time you visit us.
     <br><br>
-    At Floral Flair Studio, we're not just a salon; we're a community of beauty enthusiasts dedicated to helping you look and feel your absolute best. 
+    At Floral Flair Studio, we're not just a salon; we're a community of beauty enthusiasts dedicated to helping you look and feel your absolute best.
     Come join us and let your beauty bloom at Floral Flair Studio!
   </p>
 
@@ -43,6 +43,7 @@
     <div class="employee-content"
          [ngClass]="idx%2==0? 'employee-content-left': 'employee-content-right'">
       <img
+        (click)="page.change(['/profile', employee.employeeId.toString()])"
         class="employee-image-bubble" style="border-radius: 50%" [ngSrc]="employee.profileImage"
         height="300" width="300" alt="">
       <div
@@ -69,10 +70,10 @@
         </p>
       </div>
 
-  
+
       <div id="contact-info-map" style="text-align: right;">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3102.5163072449454!2d-95.25580003881434!3d38.95787714301573!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87bf68d51e197273%3A0xef64f4e9545d6739!2sKU%20School%20of%20Engineering!5e0!3m2!1sen!2sus!4v1712010432613!5m2!1sen!2sus" 
-          width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" 
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3102.5163072449454!2d-95.25580003881434!3d38.95787714301573!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87bf68d51e197273%3A0xef64f4e9545d6739!2sKU%20School%20of%20Engineering!5e0!3m2!1sen!2sus!4v1712010432613!5m2!1sen!2sus"
+          width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
       </div>

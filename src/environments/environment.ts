@@ -9,7 +9,8 @@ export const environment = {
     publicUrls : [
       '/register',
       '/health',
-      '/public/featuredEmployees'
+      '/public/featuredEmployees',
+      '/public/profile/**',
     ]
   },
 

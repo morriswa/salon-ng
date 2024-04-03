@@ -9,9 +9,18 @@ import {environment} from "../environments/environment";
  */
 export const is_public_req = (url:string): boolean  => {
   let publicRequest = false;
-
-  for (const requestMatcher of environment.webService.publicUrls)
-    publicRequest = publicRequest || (url === `${environment.webService.path}${requestMatcher}`);
+  for (const requestMatcher of environment.webService.publicUrls) {
+    const testPath = `${environment.webService.path}${requestMatcher}`
+    console.log(testPath)
+    publicRequest =
+      publicRequest
+      || (url===testPath)
+      || (
+        url.startsWith(testPath.substring(0, testPath.lastIndexOf('/')))
+        &&
+        testPath.endsWith('**')
+      );
+  }
 
   return publicRequest;
 }
