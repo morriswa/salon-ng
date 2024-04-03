@@ -111,6 +111,7 @@ describe('EmployeeComponent', () => {
     let spyGetEmployeeProfile
       = spyOn(salonClient, 'getEmployeeProfile').and.returnValue(of(
       {
+        employeeId: 1,
         firstName: firstName,
         lastName: "",
         pronouns: "",
@@ -118,7 +119,7 @@ describe('EmployeeComponent', () => {
         phoneNumber: "",
         email: "",
         contactPreference: "",
-        profileImage: ""
+        profileImage: "",
       }
     ));
 

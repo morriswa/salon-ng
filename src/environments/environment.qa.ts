@@ -5,7 +5,9 @@ export const environment = {
     path: 'https://api.salon.morriswa.org',
     publicUrls : [
       '/register',
-      '/health'
+      '/health',
+      '/public/featuredEmployees',
+      '/public/profile/**',
     ]
   }
 };

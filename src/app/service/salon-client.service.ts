@@ -207,7 +207,7 @@ export class SalonClient {
   }
 
   getPublicEmployeeProfile(employeeId: number): Observable<EmployeeProfile> {
-    return this.http.get<EmployeeProfile>(`${this.SERVICE_URL}/shared/employee/${employeeId}`);
+    return this.http.get<EmployeeProfile>(`${this.SERVICE_URL}/public/profile/${employeeId}`);
   }
 
   updateEmployeeProfile(params: EmployeeProfile): Observable<EmployeeProfile> {

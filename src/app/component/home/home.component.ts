@@ -29,7 +29,7 @@ export class HomeComponent {
 
   featuredEmployees$: Observable<EmployeeProfile[]>;
 
-  constructor(private salonClient: SalonClient, page: PageService) {
+  constructor(private salonClient: SalonClient, public page: PageService) {
     // if the user got rerouted, make sure url segment is correct
     page.goHome();
 

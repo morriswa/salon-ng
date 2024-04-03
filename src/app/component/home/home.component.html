@@ -1,37 +1,39 @@
 <div id="home">
   <!-- heading -->
-  <h1 id="home-header">KEVIN SALON</h1>
+  <h1 id="home-header" class="home-header">Floral Flair Studio</h1>
 
   <!-- three homepage images + captions -->
   <div id="home-main-images">
     <div class="home-main-image-wrapper">
       <img class="home-main-image" ngSrc="assets/images/plant_collection.jpeg" height="400" width="400">
-      <p class="home-main-image-caption">lots of plants</p>
+      <p class="home-main-image-caption">Plenty of Plants</p>
     </div>
     <div class="home-main-image-wrapper">
       <img
         class="home-main-image"
         ngSrc="assets/images/coffee_shop.jpeg" height="400" width="400">
-      <p class="home-main-image-caption">complementary coffee bar</p>
+      <p class="home-main-image-caption">Complementary Coffee Bar</p>
     </div>
     <div class="home-main-image-wrapper">
       <img class="home-main-image" ngSrc="assets/images/salon_picture.jpeg" height="400" width="400">
-      <p class="home-main-image-caption">hair studio</p>
+      <p class="home-main-image-caption">Hair Studio</p>
     </div>
   </div>
 
   <!-- about the salon section -->
   <h2 class="home-subheaders"> ABOUT US </h2>
   <p class="home-plaintext">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus purus non diam imperdiet, in lobortis odio tincidunt. Duis ultricies ante ex. Pellentesque ex justo, sollicitudin ut sem ac, vulputate mattis est.
-    Fusce ultricies interdum orci sed feugiat. Sed eget condimentum tellus. Nunc at metus porta, malesuada risus eget, vestibulum nisi. Morbi a pellentesque libero, et laoreet libero. Donec maximus orci eros, nec luctus
-    urna ultricies ut. Praesent porttitor neque et leo mollis rhoncus. Pellentesque malesuada tellus ac eros fringilla tincidunt. Fusce lacinia purus sit amet erat gravida, id imperdiet velit laoreet. Curabitur fringilla
-    sem sit amet purus tincidunt bibendum. Aliquam sed porta sapien.
-
-    Curabitur malesuada convallis nunc, luctus varius leo finibus eget. Curabitur aliquam ornare nisi, eu rutrum purus tempus ut. Integer pharetra nulla non erat feugiat tempor. Quisque id sapien urna. Cras in nisl vel
-    neque congue dictum. Curabitur placerat commodo massa in tristique. Nullam blandit dictum mi, eu scelerisque nibh tincidunt nec. Quisque sit amet justo dui. Fusce ut facilisis nulla, sodales mattis nulla. In id ex
-    tempor odio rhoncus egestas at quis leo. Etiam dapibus orci ipsum, eu dapibus erat finibus sit amet. Quisque vehicula pretium luctus. Etiam dictum sodales leo, nec elementum urna. Maecenas vitae enim mauris.
-    Praesent efficitur vulputate mauris ut iaculis.
+    At Floral Flair Studio, we believe that every individual possesses their own unique beauty,
+    just like the diverse array of flowers in a flourishing garden. Our mission is to enhance and celebrate your natural beauty while providing you with an
+    unforgettable salon experience.
+    <br><br>
+    Nestled in the heart of Lawrence, KS our studio is a tranquil oasis where you can escape the hustle and bustle of everyday
+    life and indulge in a pampering session tailored just for you.
+    Our team of skilled stylists and beauty experts are passionate about their craft,
+    staying abreast of the latest trends and techniques to ensure that you receive top-notch service every time you visit us.
+    <br><br>
+    At Floral Flair Studio, we're not just a salon; we're a community of beauty enthusiasts dedicated to helping you look and feel your absolute best.
+    Come join us and let your beauty bloom at Floral Flair Studio!
   </p>
 
   <!-- meet the team section -->
@@ -41,6 +43,7 @@
     <div class="employee-content"
          [ngClass]="idx%2==0? 'employee-content-left': 'employee-content-right'">
       <img
+        (click)="page.change(['/profile', employee.employeeId.toString()])"
         class="employee-image-bubble" style="border-radius: 50%" [ngSrc]="employee.profileImage"
         height="300" width="300" alt="">
       <div
@@ -51,3 +54,27 @@
     </div>
   }
 </div>
+
+  <h2 class="home-subheaders" style="
+  text-align: center;
+  ">CONTACT US</h2>
+
+  <div id="contact-info-wrapper">
+      <div id="contact-info">
+        <p><i class="bi bi-geo-alt-fill"></i> 520 W. 15th Street
+          Lawrence,KS — 66045</p>
+        <p><i class="bi bi-telephone-fill"></i> (785) 555-1234</p>
+        <p><i class="bi bi-envelope-heart-fill"></i> info&#64;floralflairstudio.com</p>
+        <p><i class="bi bi-clock-fill"></i><strong> Hours of Operation:</strong><br>
+          Monday - Sunday: 9:00 AM - 7:00 PM<br>
+        </p>
+      </div>
+
+
+      <div id="contact-info-map" style="text-align: right;">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3102.5163072449454!2d-95.25580003881434!3d38.95787714301573!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87bf68d51e197273%3A0xef64f4e9545d6739!2sKU%20School%20of%20Engineering!5e0!3m2!1sen!2sus!4v1712010432613!5m2!1sen!2sus"
+          width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+  </div>

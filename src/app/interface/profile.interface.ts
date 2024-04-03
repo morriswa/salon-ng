@@ -19,4 +19,5 @@ export interface EmployeeInfo extends UserInfo {
 
 export interface EmployeeProfile extends EmployeeInfo {
   profileImage: string,
+  employeeId: number,
 }
