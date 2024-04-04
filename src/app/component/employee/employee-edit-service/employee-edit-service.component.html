@@ -7,9 +7,13 @@
   <h3>{{ service.cost!.toString() | money }} for {{ service.length }} minutes</h3>
 
   @for (image of service.content; track image) {
+    <br>
     <img
       style="max-height: 400px; max-width: 600px"
-      [src]="image">
+      [ngSrc]="image"
+      height="200"
+      width="300"
+      >
   } @empty {
     <p>No images!</p>
   }

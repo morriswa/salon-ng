@@ -3,11 +3,10 @@ import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SalonClient} from "../../../service/salon-client.service";
 import {PageService} from "../../../service/page.service";
 import {BehaviorSubject} from "rxjs";
-import {AsyncPipe, NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgOptimizedImage} from "@angular/common";
 import {ValidatorFactory} from "../../../validator-factory";
-import {EmployeeProfile} from "../../../interface/profile.interface";
 import {MoneyPipe} from "../../../pipe/Money.pipe";
-import {ProvidedServiceDetails, ProvidedServiceProfile} from "../../../interface/provided-service.interface";
+import {ProvidedServiceProfile} from "../../../interface/provided-service.interface";
 
 @Component({
   selector: 'salon-employee-edit-service',
@@ -17,7 +16,8 @@ import {ProvidedServiceDetails, ProvidedServiceProfile} from "../../../interface
     AsyncPipe,
     ReactiveFormsModule,
     MoneyPipe,
-    NgForOf
+    NgForOf,
+    NgOptimizedImage
   ],
   templateUrl: './employee-edit-service.component.html',
   styleUrl: './employee-edit-service.component.scss'

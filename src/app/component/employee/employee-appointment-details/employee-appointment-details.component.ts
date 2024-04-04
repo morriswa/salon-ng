@@ -25,7 +25,7 @@ export class EmployeeAppointmentDetailsComponent {
 
   appointmentDetails$: BehaviorSubject<Appointment|undefined> = new BehaviorSubject<Appointment|undefined>(undefined);
 
-  constructor(salonClient: SalonClient, page: PageService) {
+  constructor(salonClient: SalonClient, public page: PageService) {
 
     const appointmentId = Number(page.getUrlAt(2));
 
