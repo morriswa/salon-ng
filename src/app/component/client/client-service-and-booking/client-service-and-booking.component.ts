@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {SalonClient} from "../../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
 import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {MatSelectModule} from "@angular/material/select";
 import {MoneyPipe} from "../../../pipe/Money.pipe";
 import {MatInput} from "@angular/material/input";
@@ -23,6 +23,7 @@ import {PageService} from "../../../service/page.service";
     MatNativeDateModule,
 
     MoneyPipe,
+    NgOptimizedImage,
   ]
 })
 export class ClientServiceAndBookingComponent {

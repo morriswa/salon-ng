@@ -1,9 +1,12 @@
 
 @if (serviceInfo$ | async; as serviceInfo) {
 
-  <button class="salon-btn-secondary-outline" (click)="page.goBack()">Back</button>
+  <button class="salon-btn-secondary-outline" (click)="page.change(['/client','services'])">Back</button>
 
-  <img *ngFor="let image of serviceInfo.content" [src]="image">
+  <br>
+
+  <img *ngFor="let image of serviceInfo.content" [ngSrc]="image"
+    width="300" height="200" style="object-fit: cover">
 
   <h3>{{ serviceInfo.name }}, provided by
     <a

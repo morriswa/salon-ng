@@ -1,8 +1,18 @@
 
+<button class="salon-btn-secondary-outline" (click)="page.change(['/client','schedule'])">Back</button>
+
 <br>
 
 @if (appointmentDetails$ | async; as details) {
   <h2>{{ details.serviceName }}</h2>
+
+  @if (serviceProfile$ | async; as serviceDetails) {
+
+    <img *ngFor="let image of serviceDetails.content" [ngSrc]="image"
+         width="300" height="200" style="object-fit: cover">
+
+  }
+
   <h4>Scheduled for {{ details.time | localeDate }} at {{ details.time | localeTime }}, {{ details.length }}min. appointment</h4>
   <h4>${{ details.cost }} due on {{ details.paymentDueDate | localeDate }}</h4>
   <h4>with
