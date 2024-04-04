@@ -1,10 +1,24 @@
 import { Component } from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {SalonClient} from "../../../service/salon-client.service";
-import {BehaviorSubject, of, switchMap, tap} from "rxjs";
+import {BehaviorSubject, Observable, of, switchMap, tap} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {ValidatorFactory} from "../../../validator-factory";
 import {PageService} from "../../../service/page.service";
+import {ProvidedServiceDetails} from "../../../interface/provided-service.interface";
+
+type TAB_SELECTOR = 'hair'|'nail'|'other';
+type TAB = { title: string, selector: TAB_SELECTOR };
+const DEFAULT_TAB: TAB_SELECTOR = 'hair';
+
+/**
+ * add tabs here
+ */
+const TABS: TAB[] = [
+  {title: 'Hair', selector: 'hair'},
+  {title: 'Nails', selector: 'nail'},
+  {title: 'Other', selector: 'other'},
+]
 
 @Component({
   selector: 'salon-client-search-services',
@@ -18,31 +32,47 @@ import {PageService} from "../../../service/page.service";
 })
 export class ClientSearchServicesComponent {
 
-  availableServiceSearchResults$: BehaviorSubject<any[]>
-    = new BehaviorSubject<any[]>([]);
+  /**
+   * translate const to class attr
+   */
+  tabs = TABS;
 
-  currentPage$: BehaviorSubject<'hair'|'nail'|'other'>
-    = new BehaviorSubject<'hair'|'nail'|'other'>('hair');
+  /**
+   * emits list of current service details to display
+   */
+  searchResults$: BehaviorSubject<ProvidedServiceDetails[]>
+    = new BehaviorSubject<ProvidedServiceDetails[]>([]);
 
+  /**
+   * emits which tab the user is currently viewing
+   */
+  currentPage$: BehaviorSubject<TAB_SELECTOR>
+    = new BehaviorSubject<TAB_SELECTOR>(DEFAULT_TAB);
+
+  /**
+   * emits whether the component is in a loading state
+   */
   loading$: BehaviorSubject<boolean>
     = new BehaviorSubject<boolean>(true);
+
 
 
   searchServiceForm: FormControl = ValidatorFactory.getGenericForm();
 
 
   constructor(private salonClient: SalonClient, public page: PageService) {
+
     this.salonClient.searchAvailableServices(this.currentPage$.value)
       .subscribe({
         next: res=>{
-          this.availableServiceSearchResults$.next(res);
+          this.searchResults$.next(res);
         }
       });
 
     this.currentPage$.asObservable()
       .pipe(
         tap(()=>this.loading$.next(true)),
-        switchMap((res)=>{
+        switchMap((res): Observable<ProvidedServiceDetails[]>=>{
           switch (res) {
             case 'hair':
               return this.salonClient.searchAvailableServices('hair')
@@ -56,7 +86,7 @@ export class ClientSearchServicesComponent {
       }))
       .subscribe({
         next: res=>{
-          this.availableServiceSearchResults$.next(res);
+          this.searchResults$.next(res);
         }
       });
   }
@@ -68,7 +98,7 @@ export class ClientSearchServicesComponent {
     this.salonClient.searchAvailableServices(searchText)
       .subscribe({
         next: res=>{
-          this.availableServiceSearchResults$.next(res);
+          this.searchResults$.next(res);
         }
       });
   }

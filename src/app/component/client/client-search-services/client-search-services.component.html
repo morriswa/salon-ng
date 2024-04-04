@@ -1,31 +1,22 @@
+
+<!-- generates tabbed layout based on config in component -->
 <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a
-      [ngClass]="
-        (currentPage$|async)==='hair'||!(currentPage$|async)
-        ?'active':''"
-      class="nav-link"
-      (click)="currentPage$.next('hair')">Hair</a>
-  </li>
-  <li class="nav-item">
-    <a
-      [ngClass]="(currentPage$|async)==='nail'?'active':''"
-      class="nav-link"
-      (click)="currentPage$.next('nail')">Nails</a>
-  </li>
-  <li class="nav-item">
-    <a
-      [ngClass]="(currentPage$|async)==='other'?'active':''"
-      class="nav-link"
-      (click)="currentPage$.next('other')">Other</a>
-  </li>
+  @for (tab of tabs; track tab.title) {
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [ngClass]="(currentPage$|async)===tab.selector?'active':''"
+        (click)="currentPage$.next(tab.selector)">{{ tab.title }}</a>
+    </li>
+  }
 </ul>
 
-@if (loading$|async) {
+@if (loading$|async) { <!-- displays if the component is fetching data-->
   <p>loading...</p>
-} @else {
+}
+@else {
 
-  @if((currentPage$|async)==='other') {
+  @if((currentPage$|async)==='other') { <!-- describes search page -->
 
     <h3>Search Services</h3>
 
@@ -44,10 +35,10 @@
 
     <br>
 
-    @for (service of (availableServiceSearchResults$|async); track service.serviceId) {
+    @for (service of (searchResults$|async); track service.serviceId) {
       <h3
         class="search-result-links"
-        (click)="page.change(['/client','service',service.serviceId])">{{ service.name }}</h3>
+        (click)="page.change(['/client','service',service.serviceId!.toString()])">{{ service.name }}</h3>
       <p>With {{ service.employee.firstName }} {{service.employee.lastName }}</p>
     } @empty {
       @if (searchServiceForm.value) {
@@ -55,11 +46,11 @@
       }
     }
   }
-  @else {
-    @for (service of (availableServiceSearchResults$|async); track service.serviceId) {
+  @else { <!-- describes all other tab pages -->
+    @for (service of (searchResults$|async); track service.serviceId) {
       <h3
         class="search-result-links"
-        (click)="page.change(['/client','service',service.serviceId])">{{ service.name }}</h3>
+        (click)="page.change(['/client','service',service.serviceId!.toString()])">{{ service.name }}</h3>
       <p>With {{ service.employee.firstName }} {{service.employee.lastName }}</p>
     } @empty {
       @if (searchServiceForm.value) {
