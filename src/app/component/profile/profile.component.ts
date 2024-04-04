@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject, map, Observable, of, switchMap} from 'rxjs';
 import { SalonClient } from 'src/app/service/salon-client.service';
-import {LoginService} from "../../../service/login.service";
-import {ValidatorFactory} from "../../../validator-factory";
+import {LoginService} from "../../service/login.service";
+import {ValidatorFactory} from "../../validator-factory";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {ClientInfo, EmployeeProfile, UserInfo} from "../../../interface/profile.interface";
+import {ClientInfo, EmployeeProfile, UserInfo} from "../../interface/profile.interface";
 import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
 import {CommonModule} from "@angular/common";
-import {AmericanPhoneNumberPipe} from "../../../pipe/AmericanPhoneNumber.pipe";
-import {AmericanFormattedDatePipe} from "../../../pipe/AmericanFormattedDate.pipe";
+import {AmericanPhoneNumberPipe} from "../../pipe/AmericanPhoneNumber.pipe";
+import {AmericanFormattedDatePipe} from "../../pipe/AmericanFormattedDate.pipe";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
-import {SelectorComponent} from "../bootstrap-selector/selector.component";
-import {SelectorDeclarations} from "../../../selector-declarations";
-import {PageService} from "../../../service/page.service";
+import {BootstrapSelectorComponent} from "../salon-shared/bootstrap-selector/bootstrap-selector.component";
+import {SelectorDeclarations} from "../../selector-declarations";
+import {PageService} from "../../service/page.service";
 
 /**
  * shared component for clients and employees to manage their stored info
@@ -36,7 +36,7 @@ import {PageService} from "../../../service/page.service";
     AmericanPhoneNumberPipe,
     AmericanFormattedDatePipe,
 
-    SelectorComponent,
+    BootstrapSelectorComponent,
   ]
 })
 export class ProfileComponent {

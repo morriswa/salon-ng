@@ -1,23 +1,23 @@
 import {Component} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {SalonClient} from "../../../service/salon-client.service";
-import {LoginService} from "../../../service/login.service";
+import {SalonClient} from "../../service/salon-client.service";
+import {LoginService} from "../../service/login.service";
 import {BehaviorSubject, switchMap} from "rxjs";
 import {CommonModule} from "@angular/common";
-import {ValidatorFactory} from "../../../validator-factory";
-import {PageService} from "../../../service/page.service";
+import {ValidatorFactory} from "../../validator-factory";
+import {PageService} from "../../service/page.service";
 
 @Component({
-  selector: 'salon-register-user',
-  templateUrl: './register-user.component.html',
-  styleUrl: './register-user.component.scss',
+  selector: 'salon-create-user-account',
+  templateUrl: './create-user-account.component.html',
+  styleUrl: './create-user-account.component.scss',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
   ]
 })
-export class RegisterUserComponent {
+export class CreateUserAccountComponent {
 
   /**
    * signals whether the component is currently performing a registration request

@@ -5,10 +5,10 @@ import {BehaviorSubject} from "rxjs";
   selector: 'salon-selector',
   standalone: true,
   imports: [ ],
-  templateUrl: './selector.component.html',
-  styleUrl: './selector.component.scss'
+  templateUrl: './bootstrap-selector.component.html',
+  styleUrl: './bootstrap-selector.component.scss'
 })
-export class SelectorComponent {
+export class BootstrapSelectorComponent {
   @Input() selector$!: BehaviorSubject<string|undefined>
   @Input() options!: any[]
   @Input() title!: string;

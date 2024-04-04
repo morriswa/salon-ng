@@ -1,5 +1,8 @@
 
 @if (serviceInfo$ | async; as serviceInfo) {
+
+  <button class="salon-btn-secondary-outline" (click)="page.goBack()">Back</button>
+
   <h3>{{ serviceInfo.name }}, provided by
     <a
       class="search-result-links"

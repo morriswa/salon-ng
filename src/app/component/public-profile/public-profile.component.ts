@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {SalonClient} from "../../../service/salon-client.service";
+import {SalonClient} from "../../service/salon-client.service";
 import {BehaviorSubject} from "rxjs";
-import {EmployeeProfile} from "../../../interface/profile.interface";
-import {AmericanPhoneNumberPipe} from "../../../pipe/AmericanPhoneNumber.pipe";
+import {EmployeeProfile} from "../../interface/profile.interface";
+import {AmericanPhoneNumberPipe} from "../../pipe/AmericanPhoneNumber.pipe";
 import {CommonModule} from "@angular/common";
-import {PageService} from "../../../service/page.service";
+import {PageService} from "../../service/page.service";
 
 @Component({
   selector: 'salon-public-profile',

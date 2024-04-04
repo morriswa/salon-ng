@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject, switchMap} from "rxjs";
-import {LoginService} from "../../../service/login.service";
-import {SalonClient} from "../../../service/salon-client.service";
-import {ValidatorFactory} from "../../../validator-factory";
+import {LoginService} from "../../service/login.service";
+import {SalonClient} from "../../service/salon-client.service";
+import {ValidatorFactory} from "../../validator-factory";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {CommonModule} from "@angular/common";
-import {SelectorComponent} from "../../shared/bootstrap-selector/selector.component";
-import {SelectorDeclarations} from "../../../selector-declarations";
-import {PageService} from "../../../service/page.service";
+import {BootstrapSelectorComponent} from "../salon-shared/bootstrap-selector/bootstrap-selector.component";
+import {SelectorDeclarations} from "../../selector-declarations";
+import {PageService} from "../../service/page.service";
 
 @Component({
-  selector: 'salon-create-profile-component',
-  templateUrl: './create-profile-component.component.html',
-  styleUrl: './create-profile-component.component.scss',
+  selector: 'salon-create-profile',
+  templateUrl: './create-profile.component.html',
+  styleUrl: './create-profile.component.scss',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MatSelectModule,
-    SelectorComponent,
+    BootstrapSelectorComponent,
   ]
 })
-export class CreateProfileComponentComponent {
+export class CreateProfileComponent {
 
   protected readonly SelectorDeclarations = SelectorDeclarations;
 
