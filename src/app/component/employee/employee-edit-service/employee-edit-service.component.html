@@ -4,9 +4,7 @@
   <button class="salon-btn-secondary-outline" (click)="page.change(['/employee', 'services'])">Back</button>
 
   <h3>Currently editing {{ service.name }}</h3>
-  <h3>Length {{ service.length }}</h3>
-  <h3>Cost {{ service.cost!.toString() | money }}</h3>
-
+  <h3>{{ service.cost!.toString() | money }} for {{ service.length }} minutes</h3>
 
   @for (image of service.content; track image) {
     <img

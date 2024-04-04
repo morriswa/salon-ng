@@ -11,7 +11,6 @@ export const is_public_req = (url:string): boolean  => {
   let publicRequest = false;
   for (const requestMatcher of environment.webService.publicUrls) {
     const testPath = `${environment.webService.path}${requestMatcher}`
-    console.log(testPath)
     publicRequest =
       publicRequest
       || (url===testPath)
