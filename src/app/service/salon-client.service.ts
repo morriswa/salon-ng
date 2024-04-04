@@ -230,4 +230,12 @@ export class SalonClient {
     }));
 
   }
+
+  uploadProvidedServiceImage(serviceId: number, image: File) {
+    let postBody = new FormData();
+    postBody.append("image",image);
+
+    return this.http.post(`${this.SERVICE_URL}/employee/service/${serviceId}`, postBody)
+      .pipe(switchMap(()=>this.getProvidedServiceDetailsForClient(serviceId)));
+  }
 }

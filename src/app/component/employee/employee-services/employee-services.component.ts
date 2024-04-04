@@ -8,6 +8,7 @@ import {ProvidedService} from "../../../interface/provided-service.interface";
 import {CommonModule} from "@angular/common";
 import {MoneyPipe} from "../../../pipe/Money.pipe";
 import {ValidatorFactory} from "../../../validator-factory";
+import {PageService} from "../../../service/page.service";
 
 
 @Component({
@@ -65,7 +66,7 @@ export class EmployeeServicesComponent implements AfterViewInit {
     this.providedServiceData.sort = this.mySorter;
   }
 
-  constructor(private salonClient: SalonClient) {
+  constructor(private salonClient: SalonClient, public page: PageService) {
     this.providedServiceData.sortingDataAccessor = (item, property): any => {
       switch (property) {
         case 'serviceId': return Number(item.serviceId);

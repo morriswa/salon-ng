@@ -7,7 +7,7 @@ import {ValidatorFactory} from "../../../validator-factory";
 import {PageService} from "../../../service/page.service";
 import {ProvidedServiceDetails} from "../../../interface/provided-service.interface";
 
-type TAB_SELECTOR = 'hair'|'nail'|'other';
+type TAB_SELECTOR = 'hair'|'nail'|'massage'|'other';
 type TAB = { title: string, selector: TAB_SELECTOR };
 const DEFAULT_TAB: TAB_SELECTOR = 'hair';
 
@@ -17,6 +17,7 @@ const DEFAULT_TAB: TAB_SELECTOR = 'hair';
 const TABS: TAB[] = [
   {title: 'Hair', selector: 'hair'},
   {title: 'Nails', selector: 'nail'},
+  {title: 'Massages', selector: 'massage'},
   {title: 'Other', selector: 'other'},
 ]
 
@@ -73,16 +74,9 @@ export class ClientSearchServicesComponent {
       .pipe(
         tap(()=>this.loading$.next(true)),
         switchMap((res): Observable<ProvidedServiceDetails[]>=>{
-          switch (res) {
-            case 'hair':
-              return this.salonClient.searchAvailableServices('hair')
-                .pipe(tap(()=>this.loading$.next(false)));
-            case 'nail':
-              return this.salonClient.searchAvailableServices('nail')
-                .pipe(tap(()=>this.loading$.next(false)));
-            default:
-              return of([]).pipe(tap(()=>this.loading$.next(false)));
-          }
+          return this.salonClient.searchAvailableServices(res)
+            .pipe(tap(()=>this.loading$.next(false)));
+
       }))
       .subscribe({
         next: res=>{

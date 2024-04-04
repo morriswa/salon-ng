@@ -36,6 +36,7 @@ import {ClientScheduleComponent} from "src/app/component/client/client-schedule/
 import {
   ClientAppointmentDetailsComponent
 } from "src/app/component/client/client-appointment-details/client-appointment-details.component";
+import {EmployeeEditServiceComponent} from "./component/employee/employee-edit-service/employee-edit-service.component";
 
 
 
@@ -45,6 +46,7 @@ export const salon_application_routes: Routes = [
     children: [
       { path: 'user', component: ProfileComponent },
       { path: 'services', component: EmployeeServicesComponent },
+      { path: 'service/:serviceId', component: EmployeeEditServiceComponent },
       { path: 'schedule', component: EmployeeScheduleComponent },
       { path: 'appointment/:appointmentId', component: EmployeeAppointmentDetailsComponent },
       { path: '**', pathMatch: "full", redirectTo: "schedule"}

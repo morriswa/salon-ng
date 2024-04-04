@@ -3,6 +3,8 @@
 
   <button class="salon-btn-secondary-outline" (click)="page.goBack()">Back</button>
 
+  <img *ngFor="let image of serviceInfo.content" [src]="image">
+
   <h3>{{ serviceInfo.name }}, provided by
     <a
       class="search-result-links"
