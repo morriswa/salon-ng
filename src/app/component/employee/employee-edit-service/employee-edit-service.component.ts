@@ -89,7 +89,8 @@ export class EmployeeEditServiceComponent {
 
     if (this.serviceCostForm.value) params['cost'] = this.serviceCostForm.value;
 
-    if (this.serviceLengthForm.value) params['length'] = ( this.serviceLengthForm.value / 15 );
+    if (this.serviceLengthForm.value) params['length'] =
+      Math.ceil( this.serviceLengthForm.value / 15 );
 
     this.salonClient.updateProvidedService(this.serviceId, params).subscribe({
       next: res=>{
