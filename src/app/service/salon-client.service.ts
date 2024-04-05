@@ -266,4 +266,9 @@ export class SalonClient {
     return this.http.patch(`${this.SERVICE_URL}/employee/service/${serviceId}`, params)
       .pipe(switchMap(()=>this.getProvidedServiceDetailsForClient(serviceId)));
   }
+
+  deleteProvidedService(serviceId: number) {
+    return this.http.delete(`${this.SERVICE_URL}/employee/service/${serviceId}`)
+      .pipe(tap(()=>this.refreshEmployeesProvidedServices()));
+  }
 }

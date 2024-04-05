@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SalonClient} from "../../../service/salon-client.service";
 import {PageService} from "../../../service/page.service";
@@ -38,6 +38,8 @@ export class EmployeeEditServiceComponent {
 
   cachedProfileImage$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
 
+  showDeleteServiceModal$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   profilePhotoUploadForm: FormControl = ValidatorFactory.getGenericForm();
 
   // create service form controls
@@ -45,6 +47,7 @@ export class EmployeeEditServiceComponent {
   serviceCostForm: FormControl = ValidatorFactory.getServiceCostForm();
   serviceLengthForm: FormControl = ValidatorFactory.getServiceLengthForm();
 
+  @ViewChild('deleteServiceModal') deleteServiceModalRef?: ElementRef;
 
   constructor(public page: PageService, private salonClient: SalonClient) {
 
@@ -54,7 +57,15 @@ export class EmployeeEditServiceComponent {
       .subscribe((res)=>this.currentService$.next(res));
 
     salonClient.getProvidedServiceImages(this.serviceId)
-      .subscribe((res)=>this.currentServiceImages$.next(res))
+      .subscribe((res)=>this.currentServiceImages$.next(res));
+
+    this.showDeleteServiceModal$.asObservable()
+      .subscribe((res)=>{
+        if (this.deleteServiceModalRef) {
+          if (res) (<HTMLDialogElement>this.deleteServiceModalRef.nativeElement).showModal();
+          else (<HTMLDialogElement>this.deleteServiceModalRef.nativeElement).hidePopover();
+        }
+      });
   }
 
   uploadProfileImage() {
@@ -98,6 +109,14 @@ export class EmployeeEditServiceComponent {
         this.serviceCostForm.reset();
         this.serviceLengthForm.reset();
         this.currentService$.next(res);
+      }
+    });
+  }
+
+  deleteProvidedService() {
+    this.salonClient.deleteProvidedService(this.serviceId).subscribe({
+      next: ()=>{
+        this.page.change(['/employee','services']);
       }
     });
   }

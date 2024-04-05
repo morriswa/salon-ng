@@ -1,7 +1,10 @@
 <br>
 @if (currentService$|async; as service) {
 
-  <button class="salon-btn-secondary-outline" (click)="page.change(['/employee', 'services'])">Back</button>
+  <button
+    class="salon-btn-secondary-outline"
+    (click)="page.change(['/employee', 'services'])"
+  >Back</button>
 
   <h3>Currently editing {{ service.name }}</h3>
   <h3>{{ service.cost!.toString() | money }} for {{ service.length }} minutes</h3>
@@ -18,7 +21,7 @@
         >
       </div>
       <div>
-        <button class="salon-btn-primary" (click)="deleteImage(image.key)">
+        <button class="btn btn-danger" (click)="deleteImage(image.key)">
           <i class="bi bi-trash-fill"></i>
         </button>
       </div>
@@ -75,5 +78,24 @@
     (click)="editProvidedService()"
     class="salon-btn-primary"
   >Update</button>
+
+  <button
+    (click)="showDeleteServiceModal$.next(true)"
+    class="btn btn-danger"
+  >Delete</button>
+
+  <dialog #deleteServiceModal
+    id="delete-service-modal"
+  >
+    <h3>Are you sure you want to delete Provided Service {{ service.name }}?</h3>
+    <div class="btn-group">
+      <button class="salon-btn-secondary-outline"
+              (click)="showDeleteServiceModal$.next(false)"
+      >Cancel</button>
+      <button class="btn btn-danger"
+              (click)="deleteProvidedService()"
+      >Delete</button>
+    </div>
+  </dialog>
 }
 
