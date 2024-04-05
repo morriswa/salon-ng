@@ -6,14 +6,23 @@
   <h3>Currently editing {{ service.name }}</h3>
   <h3>{{ service.cost!.toString() | money }} for {{ service.length }} minutes</h3>
 
-  @for (image of service.content; track image) {
+  @for (image of (currentServiceImages$ | async) | keyvalue; track image.key) {
     <br>
-    <img
-      style="max-height: 400px; max-width: 600px"
-      [ngSrc]="image"
-      height="200"
-      width="300"
-      >
+    <div style="display: flex">
+      <div>
+        <img
+          style="max-height: 400px; max-width: 600px"
+          [ngSrc]="image.value!"
+          height="200"
+          width="300"
+        >
+      </div>
+      <div>
+        <button class="salon-btn-primary" (click)="deleteImage(image.key)">
+          <i class="bi bi-trash-fill"></i>
+        </button>
+      </div>
+    </div>
   } @empty {
     <p>No images!</p>
   }

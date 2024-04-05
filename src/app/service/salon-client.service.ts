@@ -228,14 +228,22 @@ export class SalonClient {
       if (res) return of(res);
       else return this.http.get<EmployeeProfile[]>(`${this.SERVICE_URL}/public/featuredEmployees`);
     }));
-
   }
 
-  uploadProvidedServiceImage(serviceId: number, image: File) {
+  uploadProvidedServiceImage(serviceId: number, image: File): Observable<Map<String, String>> {
     let postBody = new FormData();
     postBody.append("image",image);
 
     return this.http.post(`${this.SERVICE_URL}/employee/service/${serviceId}`, postBody)
-      .pipe(switchMap(()=>this.getProvidedServiceDetailsForClient(serviceId)));
+      .pipe(switchMap(()=>this.getProvidedServiceImages(serviceId)));
+  }
+
+  getProvidedServiceImages(serviceId:number): Observable<Map<String, String>>  {
+    return this.http.get<Map<String, String>>(`${this.SERVICE_URL}/employee/service/${serviceId}/images`);
+  }
+
+  deleteProvidedServiceImage(serviceId: number, contentId: string): Observable<Map<String, String>> {
+    return this.http.delete(`${this.SERVICE_URL}/employee/service/${serviceId}/image/${contentId}`)
+      .pipe(switchMap(()=>this.getProvidedServiceImages(serviceId)));
   }
 }
