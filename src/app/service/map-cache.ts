@@ -1,4 +1,4 @@
-import {BehaviorSubject, map, Observable, of, switchMap, throwError} from "rxjs";
+import {BehaviorSubject, map, Observable, of, switchMap, takeWhile, } from "rxjs";
 
 export default class MapCache<K, V> {
 
@@ -13,22 +13,21 @@ export default class MapCache<K, V> {
 
     updateCache(key: K, value: V) {
       const lockedAction = () => {
+
         this._updating$.next(true);
 
-        let toUpdate = this._cachedObject$.value;
-        toUpdate.set(key, value);
-        this._cachedObject$.next(toUpdate);
+        let res = this._cachedObject$.value;
+        res.set(key, value);
+        this._cachedObject$.next(res);
 
         this._updating$.next(false);
       }
 
-      if (this._updating$.value) {
-        setTimeout(()=>this.updateCache(key, value), 500);
-        return;
-      } else {
-        lockedAction();
-        return;
-      }
+      this._updating$.asObservable()
+        .pipe(takeWhile(value => !value))
+        .subscribe((locked)=>{
+          if (!locked) lockedAction();
+        });
     }
 
     get$() {
