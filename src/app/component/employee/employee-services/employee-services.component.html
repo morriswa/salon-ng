@@ -1,8 +1,6 @@
 
 
 @if (providedServices$ | async; as providedService) {
-  <button class="salon-btn-secondary-outline" (click)="page.goBack()">Back</button>
-
 
   @if (providedService.length > 0) {
     <h3>Your provided services: </h3>
