@@ -246,4 +246,9 @@ export class SalonClient {
     return this.http.delete(`${this.SERVICE_URL}/employee/service/${serviceId}/image/${contentId}`)
       .pipe(switchMap(()=>this.getProvidedServiceImages(serviceId)));
   }
+
+  updateProvidedService(serviceId: number, params: any) {
+    return this.http.patch(`${this.SERVICE_URL}/employee/service/${serviceId}`, params)
+      .pipe(switchMap(()=>this.getProvidedServiceDetailsForClient(serviceId)));
+  }
 }

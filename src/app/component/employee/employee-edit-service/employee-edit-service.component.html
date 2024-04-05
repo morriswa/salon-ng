@@ -27,7 +27,6 @@
     <p>No images!</p>
   }
 
-
   <div class="input-group mb-3">
     <input
       type="file"
@@ -40,5 +39,41 @@
       (click)="uploadProfileImage()">Upload</label>
   </div>
 
+  <div class="form-floating">
+    <input
+      type="text"
+      class="form-control"
+      [formControl]="serviceNameForm"
+    >
+    <label>Enter a new name for your service! </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      type="text"
+      pattern="^[0-9]{1,3}(\.[0-9]{1,2})?$"
+      class="form-control"
+      [formControl]="serviceCostForm"
+    >
+    <label>How much will your service cost? </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      type="number"
+      class="form-control"
+      [formControl]="serviceLengthForm"
+    >
+    <label>How many minutes will you need to complete your service? </label>
+  </div>
+  <br>
+
+  <button
+    [disabled]="serviceLengthForm.invalid || serviceCostForm.invalid || serviceNameForm.invalid"
+    (click)="editProvidedService()"
+    class="salon-btn-primary"
+  >Update</button>
 }
 

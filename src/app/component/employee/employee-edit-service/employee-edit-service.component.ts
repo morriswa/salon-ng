@@ -40,6 +40,11 @@ export class EmployeeEditServiceComponent {
 
   profilePhotoUploadForm: FormControl = ValidatorFactory.getGenericForm();
 
+  // create service form controls
+  serviceNameForm: FormControl = ValidatorFactory.getServiceNameForm();
+  serviceCostForm: FormControl = ValidatorFactory.getServiceCostForm();
+  serviceLengthForm: FormControl = ValidatorFactory.getServiceLengthForm();
+
 
   constructor(public page: PageService, private salonClient: SalonClient) {
 
@@ -75,5 +80,24 @@ export class EmployeeEditServiceComponent {
   deleteImage(key: any) {
     this.salonClient.deleteProvidedServiceImage(this.serviceId, <string>key)
       .subscribe((res)=>this.currentServiceImages$.next(res));
+  }
+
+  editProvidedService() {
+    let params: any = {};
+
+    if (this.serviceNameForm.value) params['name'] = this.serviceNameForm.value;
+
+    if (this.serviceCostForm.value) params['cost'] = this.serviceCostForm.value;
+
+    if (this.serviceLengthForm.value) params['length'] = ( this.serviceLengthForm.value / 15 );
+
+    this.salonClient.updateProvidedService(this.serviceId, params).subscribe({
+      next: res=>{
+        this.serviceNameForm.reset();
+        this.serviceCostForm.reset();
+        this.serviceLengthForm.reset();
+        this.currentService$.next(res);
+      }
+    });
   }
 }
