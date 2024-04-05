@@ -1,12 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {map, Observable, switchMap, tap} from 'rxjs';
+import {map, Observable, of, switchMap, tap} from 'rxjs';
 import {environment} from "../../environments/environment";
 import {UserAccount} from "../interface/user-account.interface";
 import {ClientInfo, EmployeeProfile} from "../interface/profile.interface";
 import {ProvidedService, ProvidedServiceDetails, ProvidedServiceProfile} from "../interface/provided-service.interface";
 import {Appointment, AppointmentOpening} from "../interface/appointment.interface";
-import MapCache from "./map-cache";
 import CachedResult from "./cached-result";
 
 
@@ -31,7 +30,7 @@ export class SalonClient {
 
   employeeServices$!: CachedResult<ProvidedService[]>;
 
-  searchResults$!: MapCache<string, ProvidedServiceDetails[]>
+  searchResults$!: Map<string, ProvidedServiceDetails[]>
 
   constructor(private http: HttpClient) {
     this.resetCache();
@@ -51,7 +50,7 @@ export class SalonClient {
 
     this.employeeAppointments$ = new CachedResult<Appointment[]>();
 
-    this.searchResults$ = new MapCache<string, ProvidedServiceDetails[]>();
+    this.searchResults$ = new Map<string, ProvidedServiceDetails[]>();
   }
 
   healthCheck(): Observable<string> {
@@ -114,13 +113,12 @@ export class SalonClient {
   }
 
   searchAvailableServices(searchText: string): Observable<ProvidedServiceDetails[]> {
-    return this.searchResults$.getOr(
-      searchText,
-      this.http.get<ProvidedServiceDetails[]>(`${this.SERVICE_URL}/shared/services?searchText=${searchText}`)
-        .pipe(tap((res)=>{
-          this.searchResults$.updateCache(searchText, res);
-        }))
-    );
+    const result = this.searchResults$.get(searchText);
+    if (result) return of(result)
+    else return this.http.get<ProvidedServiceDetails[]>(`${this.SERVICE_URL}/shared/services?searchText=${searchText}`)
+      .pipe(tap((res)=>{
+        this.searchResults$.set(searchText, res);
+      }));
   }
 
   getProvidedServiceDetailsForClient(serviceId: number): Observable<ProvidedServiceProfile> {
