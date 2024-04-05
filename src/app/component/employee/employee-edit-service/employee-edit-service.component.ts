@@ -63,7 +63,7 @@ export class EmployeeEditServiceComponent {
       .subscribe((res)=>{
         if (this.deleteServiceModalRef) {
           if (res) (<HTMLDialogElement>this.deleteServiceModalRef.nativeElement).showModal();
-          else (<HTMLDialogElement>this.deleteServiceModalRef.nativeElement).hidePopover();
+          else (<HTMLDialogElement>this.deleteServiceModalRef.nativeElement).close();
         }
       });
   }
