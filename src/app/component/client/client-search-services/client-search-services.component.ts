@@ -72,15 +72,16 @@ export class ClientSearchServicesComponent {
 
     this.currentPage$.asObservable()
       .pipe(
-        tap(()=>this.loading$.next(true)),
         switchMap((res): Observable<ProvidedServiceDetails[]>=>{
-          return this.salonClient.searchAvailableServices(res)
-            .pipe(tap(()=>this.loading$.next(false)));
-
+          this.loading$.next(true);
+          if (res!=='other')
+            return this.salonClient.searchAvailableServices(res)
+          else return of([]);
       }))
       .subscribe({
         next: res=>{
           this.searchResults$.next(res);
+          this.loading$.next(false);
         }
       });
   }

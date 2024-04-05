@@ -19,12 +19,14 @@ export class SalonClient {
 
   private SERVICE_URL = environment.webService.path;
 
+  // cache
   clientProfile$!: BehaviorSubject<ClientInfo|undefined>;
   employeeProfile$!: BehaviorSubject<EmployeeProfile|undefined>;
   featuredEmployeeProfiles$!: BehaviorSubject<EmployeeProfile[]|undefined>;
   employeeServices$!: BehaviorSubject<ProvidedService[]|undefined>;
   clientAppointments$!: BehaviorSubject<Appointment[]|undefined>;
   employeeAppointments$!: BehaviorSubject<Appointment[]|undefined>;
+  searchResults$!: BehaviorSubject<Map<string, ProvidedServiceDetails[]>>
 
   constructor(private http: HttpClient) {
     this.resetCache();
@@ -43,6 +45,8 @@ export class SalonClient {
     this.clientAppointments$ = new BehaviorSubject<any[] | undefined>(undefined);
 
     this.employeeAppointments$ = new BehaviorSubject<any[] | undefined>(undefined);
+
+    this.searchResults$ = new BehaviorSubject<Map<string, ProvidedServiceDetails[]>>(new Map<string, ProvidedServiceDetails[]>());
   }
 
   healthCheck(): Observable<string> {
@@ -113,7 +117,18 @@ export class SalonClient {
   }
 
   searchAvailableServices(searchText: string): Observable<ProvidedServiceDetails[]> {
-    return this.http.get<ProvidedServiceDetails[]>(`${this.SERVICE_URL}/shared/services?searchText=${searchText}`);
+    return this.searchResults$.pipe(
+      switchMap((res): Observable<ProvidedServiceDetails[]>=>{
+        if (res.has(searchText)) return of(res.get(searchText)!);
+        else return this.http.get<ProvidedServiceDetails[]>
+        (`${this.SERVICE_URL}/shared/services?searchText=${searchText}`)
+        .pipe(tap((res)=>{
+          let searchResults = this.searchResults$.value;
+          searchResults.set(searchText, res);
+          this.searchResults$.next(searchResults)
+        }));
+      })
+    );
   }
 
   getProvidedServiceDetailsForClient(serviceId: number): Observable<ProvidedServiceProfile> {
