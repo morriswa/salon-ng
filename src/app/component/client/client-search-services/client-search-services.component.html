@@ -30,7 +30,6 @@
       class="form-control"
       [formControl]="searchServiceForm"
       placeholder="Search for services..."
-      (keyup)="searchAvailableServices()"
     >
 
     <br>
@@ -38,7 +37,7 @@
     @for (service of (searchResults$|async); track service.serviceId) {
       <h3
         class="search-result-links"
-        (click)="page.change(['/client','service',service.serviceId!.toString()])">{{ service.name }}</h3>
+        (click)="page.change(['/client','service',service.serviceId])">{{ service.name }}</h3>
       <p>With {{ service.employee.firstName }} {{service.employee.lastName }}</p>
     } @empty {
       @if (searchServiceForm.value) {
@@ -50,7 +49,7 @@
     @for (service of (searchResults$|async); track service.serviceId) {
       <h3
         class="search-result-links"
-        (click)="page.change(['/client','service',service.serviceId!.toString()])">{{ service.name }}</h3>
+        (click)="page.change(['/client','service',service.serviceId])">{{ service.name }}</h3>
       <p>With {{ service.employee.firstName }} {{service.employee.lastName }}</p>
     } @empty {
       @if (searchServiceForm.value) {

@@ -23,7 +23,7 @@ export class PageService {
       .catch(err=>console.error(err));
   }
 
-  change(to: string[]) {
+  change(to: any[]) {
     this.lastPage$.next(this.getUrlForNav());
     this.router.navigate(to).catch(err=>console.error(err));
   }

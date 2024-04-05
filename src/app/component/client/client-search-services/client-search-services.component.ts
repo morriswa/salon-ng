@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {SalonClient} from "../../../service/salon-client.service";
-import {BehaviorSubject, Observable, of, switchMap, tap} from "rxjs";
+import {SalonClient} from "src/app/service/salon-client.service";
+import {BehaviorSubject, Observable, of, switchMap} from "rxjs";
 import {CommonModule} from "@angular/common";
-import {ValidatorFactory} from "../../../validator-factory";
-import {PageService} from "../../../service/page.service";
-import {ProvidedServiceDetails} from "../../../interface/provided-service.interface";
+import {ValidatorFactory} from "src/app/validator-factory";
+import {PageService} from "src/app/service/page.service";
+import {ProvidedServiceDetails} from "src/app/interface/provided-service.interface";
 
 type TAB_SELECTOR = 'hair'|'nail'|'massage'|'other';
 type TAB = { title: string, selector: TAB_SELECTOR };
@@ -63,19 +63,12 @@ export class ClientSearchServicesComponent {
 
   constructor(private salonClient: SalonClient, public page: PageService) {
 
-    this.salonClient.searchAvailableServices(this.currentPage$.value)
-      .subscribe({
-        next: res=>{
-          this.searchResults$.next(res);
-        }
-      });
-
-    this.currentPage$.asObservable()
+    this.currentPage$
+      .asObservable()
       .pipe(
         switchMap((res): Observable<ProvidedServiceDetails[]>=>{
           this.loading$.next(true);
-          if (res!=='other')
-            return this.salonClient.searchAvailableServices(res)
+          if (res!=='other') return this.salonClient.searchAvailableServices(res)
           else return of([]);
       }))
       .subscribe({
@@ -84,17 +77,16 @@ export class ClientSearchServicesComponent {
           this.loading$.next(false);
         }
       });
-  }
 
-
-  searchAvailableServices() {
-
-    let searchText = this.searchServiceForm.value;
-    this.salonClient.searchAvailableServices(searchText)
+    this.searchServiceForm
+      .valueChanges
+      .pipe(switchMap((res): Observable<ProvidedServiceDetails[]>=>{
+        if (res.length > 1 && this.currentPage$.value==='other')
+          return this.salonClient.searchAvailableServices(res)
+        else return of([]);
+      }))
       .subscribe({
-        next: res=>{
-          this.searchResults$.next(res);
-        }
+        next: res=>this.searchResults$.next(res)
       });
   }
 }
