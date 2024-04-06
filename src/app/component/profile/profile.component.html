@@ -60,159 +60,164 @@
     (click)="this.isUpdatingContactInfo$.next(true)"
   >Update Info</button>
 
-  @if ((isUpdatingContactInfo$ | async) && (contactInfo$|async)) {
+  <dialog #updateContactInfoDialog id="update-contact-info-dialog" (close)="isUpdatingContactInfo$.next(false)">
 
-    @for(error of (updateFormErrors$|async); track error) {
-      <br><h3>{{error}}</h3>
-    }
+    <div id="update-contact-info-form">
 
-    <salon-selector
-      [selector$]="pronounSelector$"
-      [options]="SelectorDeclarations.pronounOptions"
-      title="Pronouns"
-      undefinedOption="Please select your pronouns..."
-      ></salon-selector>
+      <h3>Update your information...</h3>
 
-    @if(clientProfile$|async; as client) {
-      <mat-form-field class="booking-fields">
-        <mat-label>Enter your birthday</mat-label>
-        <input matInput [matDatepicker]="picker" (dateChange)="selectedBirthday($event)">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+      @for(error of (updateFormErrors$|async); track error) {
+        <br><h3>{{error}}</h3>
+      }
+
+      <salon-selector
+        [selector$]="pronounSelector$"
+        [options]="SelectorDeclarations.pronounOptions"
+        title="Pronouns"
+        undefinedOption="Please select your pronouns..."
+        ></salon-selector>
+
+      @if(clientProfile$|async; as client) {
+        <mat-form-field class="booking-fields">
+          <mat-label>Enter your birthday</mat-label>
+          <input matInput [matDatepicker]="picker" (dateChange)="selectedBirthday($event)">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <br>
+      }
+
+      @if(employeeProfile$|async; as employee) {
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            [formControl]="bioForm"
+            placeholder="Update your employee bio..."
+          >
+          <label>Update bio: </label>
+        </div>
+      }
+
       <br>
-    }
-
-    @if(employeeProfile$|async; as employee) {
       <div class="form-floating">
         <input
           type="text"
           class="form-control"
-          [formControl]="bioForm"
-          placeholder="Update your employee bio..."
-        >
-        <label>Update bio: </label>
+          [formControl]="firstNameForm"
+          placeholder="Update your first name..."
+          >
+        <label>Update first name: </label>
       </div>
-    }
 
-    <br>
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="firstNameForm"
-        placeholder="Update your first name..."
+      <br>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="lastNameForm"
+          placeholder="Update your last name..."
         >
-      <label>Update first name: </label>
-    </div>
+        <label>Update last name: </label>
+      </div>
 
-    <br>
+      <br>
 
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="lastNameForm"
-        placeholder="Update your last name..."
-      >
-      <label>Update last name: </label>
-    </div>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="emailForm"
+          placeholder="Update your email..."
+        >
+        <label>Update email: </label>
+      </div>
+      <br>
 
-    <br>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="phoneNumberForm"
+          placeholder="Update your phone number..."
+        >
+        <label>Update phone number: </label>
+      </div>
+      <br>
 
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="emailForm"
-        placeholder="Update your email..."
-      >
-      <label>Update email: </label>
-    </div>
-    <br>
-
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="phoneNumberForm"
-        placeholder="Update your phone number..."
-      >
-      <label>Update phone number: </label>
-    </div>
-    <br>
-
-    <salon-selector
-      [selector$]="contactMethodSelector$"
-      [options]="SelectorDeclarations.contactMethodOptions"
-      title="Contact Preference"
-      undefinedOption="Select your preferred contact method..."
-    ></salon-selector>
-
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="addressLineOneForm"
-        placeholder="Update your address..."
-      >
-      <label>Update address (line 1): </label>
-    </div>
-    <br>
-
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="addressLineTwoForm"
-        placeholder="Update your address..."
-      >
-      <label>Update address (line 2): </label>
-    </div>
-    <br>
-
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="cityForm"
-        placeholder="Update your city..."
-      >
-      <label>Update address (city): </label>
-
-    </div>
-    <br>
-
-    <salon-selector
-      [selector$]="stateSelector$"
-      [options]="SelectorDeclarations.stateOptions"
-      title="State"
-      undefinedOption="state..."
+      <salon-selector
+        [selector$]="contactMethodSelector$"
+        [options]="SelectorDeclarations.contactMethodOptions"
+        title="Contact Preference"
+        undefinedOption="Select your preferred contact method..."
       ></salon-selector>
 
-    <div class="form-floating">
-      <input
-        type="text"
-        class="form-control"
-        [formControl]="zipCodeForm"
-        placeholder="Update your zip code..."
-      >
-      <label>Update address (zip code): </label>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="addressLineOneForm"
+          placeholder="Update your address..."
+        >
+        <label>Update address (line 1): </label>
+      </div>
+      <br>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="addressLineTwoForm"
+          placeholder="Update your address..."
+        >
+        <label>Update address (line 2): </label>
+      </div>
+      <br>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="cityForm"
+          placeholder="Update your city..."
+        >
+        <label>Update address (city): </label>
+
+      </div>
+      <br>
+
+      <salon-selector
+        [selector$]="stateSelector$"
+        [options]="SelectorDeclarations.stateOptions"
+        title="State"
+        undefinedOption="state..."
+        ></salon-selector>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="zipCodeForm"
+          placeholder="Update your zip code..."
+        >
+        <label>Update address (zip code): </label>
+      </div>
+      <br>
+
+      <button
+        class="salon-btn-primary"
+        (click)="updateContactInfo()">Confirm</button>
+
+      <button
+        class="salon-btn-primary"
+        (click)="this.isUpdatingContactInfo$.next(false)"
+      >Cancel</button>
+
+      <br><br>
+
     </div>
-    <br>
 
-    <button
-      class="salon-btn-primary"
-      (click)="updateContactInfo()">Confirm</button>
-
-    <button
-      class="salon-btn-primary"
-      (click)="this.isUpdatingContactInfo$.next(false)"
-    >Cancel</button>
-
-    <br><br>
-
-  }
-
+  </dialog>
 }

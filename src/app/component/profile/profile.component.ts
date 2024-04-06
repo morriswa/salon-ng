@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {BehaviorSubject, map, Observable, of, switchMap} from 'rxjs';
 import { SalonStore } from 'src/app/service/salon-store.service';
 import {LoginService} from "../../service/login.service";
@@ -122,6 +122,8 @@ export class ProfileComponent {
   profilePhotoUploadForm: FormControl = ValidatorFactory.getGenericForm();
   bioForm: FormControl = ValidatorFactory.getGenericForm();
 
+  @ViewChild('updateContactInfoDialog') updateContactInfoFormRef?: ElementRef;
+
 
   constructor(page: PageService, public login: LoginService, private salonStore: SalonStore) {
 
@@ -156,6 +158,14 @@ export class ProfileComponent {
         }
       });
     }
+
+    this.isUpdatingContactInfo$.asObservable()
+      .subscribe((res)=>{
+        if (this.updateContactInfoFormRef) {
+          if (res) (<HTMLDialogElement>this.updateContactInfoFormRef.nativeElement).showModal();
+          else (<HTMLDialogElement>this.updateContactInfoFormRef.nativeElement).close();
+        }
+      });
   }
 
   get contactInfo$(): Observable<UserInfo|undefined> {
@@ -183,7 +193,7 @@ export class ProfileComponent {
 
   updateContactInfo() { // when user submits updated contact information...
     // mark component as loading so no further changes can be made
-    this.processingProfile$.next(true);
+    // this.processingProfile$.next(true);
 
     // create response body
     let params:any = {};
@@ -233,14 +243,14 @@ export class ProfileComponent {
           this._profile$.next(res); // cache updated profile
           this.resetAllForms(); // reset update profile forms
           this.isUpdatingContactInfo$.next(false); // hide update profile form
-          this.processingProfile$.next(false); // and mark component as available
+          // this.processingProfile$.next(false); // and mark component as available
         },
         error: (err:any) => { // if errors were encountered during update profile
           let errors:string[] = []; // reset error messages
           // cache all server error messages and display them to the user
           err.error.additionalInfo.map((each:any)=>errors.push(each.message));
           this.updateFormErrors$.next(errors);
-          this.processingProfile$.next(false); // and mark component as available
+          // this.processingProfile$.next(false); // and mark component as available
         }
       });
   }
