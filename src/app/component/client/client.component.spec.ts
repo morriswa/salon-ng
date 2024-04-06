@@ -1,13 +1,14 @@
 import {LoginService} from "../../service/login.service";
-import {provideRouter, Router} from "@angular/router";
+import {provideRouter} from "@angular/router";
 import {TestBed} from "@angular/core/testing";
 import {CredentialService} from "../../service/credential.service";
-import {SalonClient} from "../../service/salon-client.service";
+import {SalonStore} from "../../service/salon-store.service";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideHttpClient} from "@angular/common/http";
 import {salon_application_routes} from "src/app/routes";
 import {ClientComponent} from "./client.component";
 import {PageService} from "../../service/page.service";
+import {SalonClient} from "../../service/salon-client.service";
 
 
 describe('ClientComponent', () => {
@@ -22,6 +23,7 @@ describe('ClientComponent', () => {
       ],
       providers: [
         CredentialService,
+        SalonStore,
         SalonClient,
         LoginService,
         PageService,

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {SalonClient} from "../../../service/salon-client.service";
+import {SalonStore} from "../../../service/salon-store.service";
 import {Appointment} from "../../../interface/appointment.interface";
 import {CommonModule} from "@angular/common";
 import {LocaleDatePipe} from "../../../pipe/LocaleDate.pipe";
@@ -24,14 +24,14 @@ export class EmployeeScheduleComponent {
 
   employeeSchedule$: BehaviorSubject<Appointment[] | undefined> = new BehaviorSubject<Appointment[] | undefined>(undefined);
 
-  constructor(private salonClient: SalonClient, public page: PageService) {
-    salonClient.getEmployeeSchedule().subscribe({
+  constructor(private salonStore: SalonStore, public page: PageService) {
+    salonStore.getSchedule('employee').subscribe({
       next: (res:Appointment[]) => this.employeeSchedule$.next(res)
     });
   }
 
   refreshEmployeeSchedule() {
-    this.salonClient.refreshEmployeeSchedule()
+    this.salonStore.refreshAndRetrieveSchedule('employee')
       .subscribe(res=>this.employeeSchedule$.next(res));
   }
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {SalonClient} from "src/app/service/salon-client.service";
+import {SalonStore} from "src/app/service/salon-store.service";
 import {BehaviorSubject, Observable, of, switchMap} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {ValidatorFactory} from "src/app/validator-factory";
@@ -61,14 +61,14 @@ export class ClientSearchServicesComponent {
   searchServiceForm: FormControl = ValidatorFactory.getGenericForm();
 
 
-  constructor(private salonClient: SalonClient, public page: PageService) {
+  constructor(private salonStore: SalonStore, public page: PageService) {
 
     this.currentPage$
       .asObservable()
       .pipe(
         switchMap((res): Observable<ProvidedServiceDetails[]>=>{
           this.loading$.next(true);
-          if (res!=='other') return this.salonClient.searchAvailableServices(res)
+          if (res!=='other') return this.salonStore.searchAvailableServices(res)
           else return of([]);
       }))
       .subscribe({
@@ -82,7 +82,7 @@ export class ClientSearchServicesComponent {
       .valueChanges
       .pipe(switchMap((res): Observable<ProvidedServiceDetails[]>=>{
         if (res.length > 1 && this.currentPage$.value==='other')
-          return this.salonClient.searchAvailableServices(res)
+          return this.salonStore.searchAvailableServices(res)
         else return of([]);
       }))
       .subscribe({

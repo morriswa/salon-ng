@@ -2,13 +2,14 @@ import {TestBed} from '@angular/core/testing';
 import { SalonApplication } from './salon-application.component';
 import {LoginService} from "./service/login.service";
 import {CredentialService} from "./service/credential.service";
-import {SalonClient} from "./service/salon-client.service";
+import {SalonStore} from "./service/salon-store.service";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideHttpClient} from "@angular/common/http";
 import {of} from "rxjs";
 import {provideRouter} from "@angular/router";
 import {salon_application_routes} from "src/app/routes";
 import {PageService} from "./service/page.service";
+import {SalonClient} from "./service/salon-client.service";
 
 
 describe('SalonApplication', () => {
@@ -20,9 +21,10 @@ describe('SalonApplication', () => {
     TestBed.configureTestingModule({
       providers: [
         CredentialService,
-        SalonClient,
         LoginService,
         PageService,
+        SalonStore,
+        SalonClient,
         provideHttpClientTesting(),
         provideHttpClient(),
         provideRouter(salon_application_routes)

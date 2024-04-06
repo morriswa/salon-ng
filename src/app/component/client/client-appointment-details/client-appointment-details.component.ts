@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {SalonClient} from "../../../service/salon-client.service";
+import {SalonStore} from "../../../service/salon-store.service";
 import {BehaviorSubject} from "rxjs";
 import {Appointment} from "../../../interface/appointment.interface";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
@@ -29,24 +29,23 @@ export class ClientAppointmentDetailsComponent {
   serviceProfile$: BehaviorSubject<ProvidedServiceProfile|undefined>
     = new BehaviorSubject<ProvidedServiceProfile|undefined>(undefined);
 
-  constructor(salonClient: SalonClient, public page: PageService) {
+  constructor(salonStore: SalonStore, public page: PageService) {
 
     const appointmentId = Number(page.getUrlAt(2));
 
     this.appointmentDetails$.asObservable().subscribe(details=>{
       if (details) {
-        salonClient.getProvidedServiceDetailsForClient(details.serviceId)
+        salonStore.getProvidedServiceProfile(details.serviceId)
           .subscribe({
           next: (serviceDetails)=>this.serviceProfile$.next(serviceDetails)
         })
       }
     })
 
-    salonClient.getAppointmentDetailsForClient(appointmentId)
+    salonStore.getAppointmentDetails(appointmentId, 'client')
     .subscribe({
       next: (appointment:Appointment) => this.appointmentDetails$.next(appointment),
       error: () => page.change(['/employee'])
     });
-
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {SalonClient} from "../../../service/salon-client.service";
+import {SalonStore} from "../../../service/salon-store.service";
 import {BehaviorSubject} from "rxjs";
 import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
@@ -38,10 +38,10 @@ export class ClientServiceAndBookingComponent {
 
   appointmentConfirmation$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
 
-  constructor(private salonClient: SalonClient, public page: PageService) {
+  constructor(private salonStore: SalonStore, public page: PageService) {
     const serviceId = Number(page.getUrlAt(2));
 
-    salonClient.getProvidedServiceDetailsForClient(serviceId)
+    salonStore.getProvidedServiceProfile(serviceId)
       .subscribe({
         next: res=>{
           this.serviceInfo$.next(res);
@@ -70,7 +70,7 @@ export class ClientServiceAndBookingComponent {
     }
 
     console.log(request)
-    this.salonClient.getAvailableAppointmentTimes(request)
+    this.salonStore.getAvailableAppointmentTimes(request)
       .subscribe({
         next: (value:any[]) => this.availableTimes$.next(value),
         error: () => this.availableTimes$.next([])
@@ -104,7 +104,7 @@ export class ClientServiceAndBookingComponent {
       time: dateTime.time
     };
 
-    this.salonClient.bookAppointment(request)
+    this.salonStore.bookAppointment(request)
       .subscribe({
         next: () => {
           this.appointmentConfirmation$.next(dateTime)

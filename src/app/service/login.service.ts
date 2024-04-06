@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {CredentialService} from "./credential.service";
-import {SalonClient} from "./salon-client.service";
+import {SalonStore} from "./salon-store.service";
 import {BehaviorSubject, catchError, map, Observable, of} from "rxjs";
 import {USER_AUTHORITY} from "../type-declarations";
 import {UserAccount} from "../interface/user-account.interface";
@@ -25,7 +25,7 @@ export class LoginService {
     return this._authenticated$.asObservable();
   }
 
-  constructor(private creds: CredentialService, private salonService: SalonClient) { }
+  constructor(private creds: CredentialService, private salonStore: SalonStore) { }
 
   /**
    * attempts to initialize the login service
@@ -34,7 +34,7 @@ export class LoginService {
    */
   init(): Observable<boolean> {
     // if there are currently credentials cached, attempt login
-    if (this.creds.ready) return this.salonService.login()
+    if (this.creds.ready) return this.salonStore.login()
       .pipe(
         map((res: UserAccount)=>{ // if user was able to log in
           // set status as authenticated and not processing
@@ -80,7 +80,7 @@ export class LoginService {
    */
   public logout() { // on user logout
     // reset salon client cache
-    this.salonService.resetCache();
+    this.salonStore.resetCache();
     // set status as unauthenticated
     this._authenticated$.next(false);
     // delete cached account

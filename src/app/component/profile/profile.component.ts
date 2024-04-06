@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject, map, Observable, of, switchMap} from 'rxjs';
-import { SalonClient } from 'src/app/service/salon-client.service';
+import { SalonStore } from 'src/app/service/salon-store.service';
 import {LoginService} from "../../service/login.service";
 import {ValidatorFactory} from "../../validator-factory";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
@@ -123,7 +123,7 @@ export class ProfileComponent {
   bioForm: FormControl = ValidatorFactory.getGenericForm();
 
 
-  constructor(page: PageService, public login: LoginService, private salonClient: SalonClient) {
+  constructor(page: PageService, public login: LoginService, private salonStore: SalonStore) {
 
     const userType = page.getRootRoute();
 
@@ -140,9 +140,9 @@ export class ProfileComponent {
           switchMap(()=>{
             return (
               this._profileType.getValue()==='employee'?
-                this.salonClient.getEmployeeProfile()
+                this.salonStore.getCurrentEmployeeProfile()
                 :
-                this.salonClient.getClientProfile()
+                this.salonStore.getCurrentClientProfile()
             );
           })
         )
@@ -223,9 +223,9 @@ export class ProfileComponent {
       .pipe(switchMap(()=>{
         return (
           this._profileType.getValue()==='employee'?
-            this.salonClient.updateEmployeeProfile(params as EmployeeProfile)
+            this.salonStore.updateEmployeeProfile(params as EmployeeProfile)
             :
-            this.salonClient.updateClientProfile(params as ClientInfo)
+            this.salonStore.updateCurrentClientProfile(params as ClientInfo)
           );
       })).subscribe({
         next: (res:any) => { // if requests were successful
@@ -275,7 +275,7 @@ export class ProfileComponent {
     const image = this.cachedProfileImage$.getValue();
 
     if (image)
-      this.salonClient.updateEmployeeProfileImage(image)
+      this.salonStore.updateEmployeeProfileImage(image)
         .subscribe({
           next: (res:EmployeeProfile)=>{
             this._profile$.next(res);

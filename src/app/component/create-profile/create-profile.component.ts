@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject, switchMap} from "rxjs";
 import {LoginService} from "../../service/login.service";
-import {SalonClient} from "../../service/salon-client.service";
+import {SalonStore} from "../../service/salon-store.service";
 import {ValidatorFactory} from "../../validator-factory";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
@@ -55,7 +55,7 @@ export class CreateProfileComponent {
   cityForm = ValidatorFactory.getCityForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
 
-  constructor(private page: PageService, public login: LoginService, private salonClient: SalonClient) {
+  constructor(private page: PageService, public login: LoginService, private salonStore: SalonStore) {
     if (!login.authenticated) page.change(['/login']);
     else if (login.hasAuthority('USER')) page.change(['/register2','access']);
   }
@@ -83,7 +83,7 @@ export class CreateProfileComponent {
     if (this.addressLineTwoForm.value) params['addressLineTwo'] = this.addressLineTwoForm.value;
 
     // after response body has been created, call create user profile endpoint with constructed params
-    this.salonClient.createUserProfile(params)
+    this.salonStore.createUserProfile(params)
       .pipe(
         // since this action will update a user's credentials, refresh the login cache
         switchMap(()=>this.login.init())

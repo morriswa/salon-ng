@@ -28,8 +28,9 @@ import {SalonApplication} from "src/app/salon-application.component";
 // Core Services
 import {CredentialService} from "src/app/service/credential.service";
 import {LoginService} from "src/app/service/login.service";
-import {SalonClient} from "src/app/service/salon-client.service";
+import {SalonStore} from "src/app/service/salon-store.service";
 import {PageService} from "./app/service/page.service";
+import {SalonClient} from "./app/service/salon-client.service";
 
 
 // enables production mode for prod builds
@@ -40,8 +41,9 @@ bootstrapApplication(SalonApplication,{
     // provide essential application services
     CredentialService,
     LoginService,
-    SalonClient,
     PageService,
+    SalonStore,
+    SalonClient,
     // with angular animation, router, and http client
     provideProtractorTestingSupport(),
     provideRouter(salon_application_routes),

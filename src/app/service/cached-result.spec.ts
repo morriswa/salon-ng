@@ -15,7 +15,7 @@ describe('CachedResult', ()=>{
   });
 
   it('should take valid entries', ()=>{
-    cacheTest.updateCache('hello');
+    cacheTest.updateCacheWith('hello');
     cacheTest
       .get$()
       .subscribe({
@@ -24,7 +24,7 @@ describe('CachedResult', ()=>{
         }
       });
 
-    cacheTest.getOrThrow()
+    cacheTest.retrieveCacheOrThrow()
       .subscribe((val)=>expect(val).toBe('hello'));
   });
 

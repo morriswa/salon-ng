@@ -29,7 +29,9 @@ export class CreateProfileAccessCodeComponent {
   accessCodeForm: FormControl = ValidatorFactory.getGenericForm();
 
 
-  constructor(private salonClient: SalonClient, private login: LoginService, private page: PageService) {
+  constructor(private salonClient: SalonClient,
+              private login: LoginService,
+              private page: PageService) {
     if (!login.hasAuthority('USER')) page.change(['/register2'])
     else if (!login.hasAuthority('NUSER')) page.goHome();
   }

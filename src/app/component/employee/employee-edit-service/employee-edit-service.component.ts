@@ -1,6 +1,6 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {SalonClient} from "../../../service/salon-client.service";
+import {SalonStore} from "../../../service/salon-store.service";
 import {PageService} from "../../../service/page.service";
 import {BehaviorSubject} from "rxjs";
 import {AsyncPipe, KeyValuePipe, NgForOf, NgOptimizedImage} from "@angular/common";
@@ -49,14 +49,14 @@ export class EmployeeEditServiceComponent {
 
   @ViewChild('deleteServiceModal') deleteServiceModalRef?: ElementRef;
 
-  constructor(public page: PageService, private salonClient: SalonClient) {
+  constructor(public page: PageService, private salonStore: SalonStore) {
 
     this.serviceId = Number(page.getUrlAt(2));
 
-    salonClient.getProvidedServiceDetailsForClient(this.serviceId)
+    salonStore.getProvidedServiceProfile(this.serviceId)
       .subscribe((res)=>this.currentService$.next(res));
 
-    salonClient.getProvidedServiceImages(this.serviceId)
+    salonStore.getProvidedServiceImages(this.serviceId)
       .subscribe((res)=>this.currentServiceImages$.next(res));
 
     this.showDeleteServiceModal$.asObservable()
@@ -72,7 +72,7 @@ export class EmployeeEditServiceComponent {
     const image = this.cachedProfileImage$.getValue();
 
     if (image)
-      this.salonClient.uploadProvidedServiceImage(this.serviceId, image)
+      this.salonStore.uploadProvidedServiceImage(this.serviceId, image)
         .subscribe({
           next: (res)=>{
             this.currentServiceImages$.next(res);
@@ -89,7 +89,7 @@ export class EmployeeEditServiceComponent {
   }
 
   deleteImage(key: any) {
-    this.salonClient.deleteProvidedServiceImage(this.serviceId, <string>key)
+    this.salonStore.deleteProvidedServiceImage(this.serviceId, <string>key)
       .subscribe((res)=>this.currentServiceImages$.next(res));
   }
 
@@ -103,7 +103,7 @@ export class EmployeeEditServiceComponent {
     if (this.serviceLengthForm.value) params['length'] =
       Math.ceil( this.serviceLengthForm.value / 15 );
 
-    this.salonClient.updateProvidedService(this.serviceId, params).subscribe({
+    this.salonStore.updateProvidedServiceAndGetProfile(this.serviceId, params).subscribe({
       next: res=>{
         this.serviceNameForm.reset();
         this.serviceCostForm.reset();
@@ -114,7 +114,7 @@ export class EmployeeEditServiceComponent {
   }
 
   deleteProvidedService() {
-    this.salonClient.deleteProvidedService(this.serviceId).subscribe({
+    this.salonStore.deleteProvidedService(this.serviceId).subscribe({
       next: ()=>{
         this.page.change(['/employee','services']);
       }

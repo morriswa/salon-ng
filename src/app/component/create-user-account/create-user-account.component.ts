@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {SalonClient} from "../../service/salon-client.service";
+import {SalonStore} from "../../service/salon-store.service";
 import {LoginService} from "../../service/login.service";
 import {BehaviorSubject, switchMap} from "rxjs";
 import {CommonModule} from "@angular/common";
@@ -40,7 +40,7 @@ export class CreateUserAccountComponent {
   passwordForm: FormControl = ValidatorFactory.getPasswordForm();
 
 
-  constructor(public page: PageService, private salonClient: SalonClient, private login: LoginService) {
+  constructor(public page: PageService, private salonStore: SalonStore, private login: LoginService) {
     // if the user is already authenticated, they should be re-routed to the appropriate portal
     if (login.authenticated) {
       if (login.hasAuthority('EMPLOYEE'))
@@ -68,7 +68,7 @@ export class CreateUserAccountComponent {
     let username = this.usernameForm.value;
     let password = this.passwordForm.value;
 
-    this.salonClient.registerUser(username, password)
+    this.salonStore.registerUser(username, password)
     .pipe(switchMap(()=>this.login.login(username, password)))
     .subscribe({
       next: () => { // if requests were successful

@@ -1,22 +1,26 @@
-import {BehaviorSubject, map, Observable, of, switchMap} from "rxjs";
+import {BehaviorSubject, map, Observable, of, switchMap, tap} from "rxjs";
 
 export default class CachedResult<V> {
 
-    _cachedObject$: BehaviorSubject<V|undefined>;
+    private _cachedObject$: BehaviorSubject<V|undefined>;
 
     constructor() {
       this._cachedObject$ = new BehaviorSubject<V|undefined>(undefined);
-    }
-
-    updateCache(value: V) {
-      this._cachedObject$.next(value);
     }
 
     get$() {
       return this._cachedObject$.asObservable();
     }
 
-    getOrThrow(): Observable<V> {
+    updateCacheWith(value: V): void {
+      this._cachedObject$.next(value);
+    }
+
+    updateCacheWithAndRetrieveValueOf(obs: Observable<V>): Observable<V> {
+      return obs.pipe(tap((res:V)=>this._cachedObject$.next(res)));
+    }
+
+    retrieveCacheOrThrow(): Observable<V> {
       return this._cachedObject$.asObservable()
         .pipe(map((res)=>{
           if (res) return res;
@@ -24,11 +28,11 @@ export default class CachedResult<V> {
         }));
     }
 
-    getOr(or: Observable<V>): Observable<V> {
+    retrieveCacheOrUpdateWith(obs: Observable<V>): Observable<V> {
       return this._cachedObject$.asObservable()
         .pipe(switchMap((res: V|undefined): Observable<V>=>{
           if (res) return of(res);
-          else return or;
+          else return obs;
         }));
     }
 }
