@@ -60,7 +60,11 @@
     (click)="this.isUpdatingContactInfo$.next(true)"
   >Update Info</button>
 
-  <dialog #updateContactInfoDialog id="update-contact-info-dialog" (close)="isUpdatingContactInfo$.next(false)">
+
+  <div id="update-contact-info-dialog-shade" *ngIf="isUpdatingContactInfo$|async"></div>
+  <dialog #updateContactInfoDialog id="update-contact-info-dialog">
+
+    <button class="btn" (click)="isUpdatingContactInfo$.next(false)"><i class="bi bi-x-lg"></i></button>
 
     <div id="update-contact-info-form">
 

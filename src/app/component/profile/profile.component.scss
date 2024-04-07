@@ -1,7 +1,20 @@
 
+#update-contact-info-dialog-shade {
+  display: block;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
 #update-contact-info-dialog {
   border: none;
   border-radius: 24px;
+  top: 5vh;
+  z-index: 101;
 }
 
 #update-contact-info-form {

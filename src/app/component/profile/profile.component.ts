@@ -162,7 +162,7 @@ export class ProfileComponent {
     this.isUpdatingContactInfo$.asObservable()
       .subscribe((res)=>{
         if (this.updateContactInfoFormRef) {
-          if (res) (<HTMLDialogElement>this.updateContactInfoFormRef.nativeElement).showModal();
+          if (res) (<HTMLDialogElement>this.updateContactInfoFormRef.nativeElement).show();
           else (<HTMLDialogElement>this.updateContactInfoFormRef.nativeElement).close();
         }
       });
