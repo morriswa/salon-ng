@@ -51,7 +51,7 @@ export class EmployeeEditServiceComponent {
 
   constructor(public page: PageService, private salonStore: SalonStore) {
 
-    this.serviceId = Number(page.getUrlAt(2));
+    this.serviceId = Number(page.getUrlSegmentOrThrow(2));
 
     salonStore.getProvidedServiceProfile(this.serviceId)
       .subscribe((res)=>this.currentService$.next(res));

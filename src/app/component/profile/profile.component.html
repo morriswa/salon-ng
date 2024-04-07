@@ -66,18 +66,16 @@
 
       <h3>Update your information...</h3>
 
-      @for(error of (updateFormErrors$|async); track error) {
-        <br><h3>{{error}}</h3>
-      }
-
+      <br>
       <salon-selector
         [selector$]="pronounSelector$"
         [options]="SelectorDeclarations.pronounOptions"
         title="Pronouns"
-        undefinedOption="Please select your pronouns..."
+        undefinedOption="Update pronouns"
         ></salon-selector>
 
       @if(clientProfile$|async; as client) {
+        <br>
         <mat-form-field class="booking-fields">
           <mat-label>Enter your birthday</mat-label>
           <input matInput [matDatepicker]="picker" (dateChange)="selectedBirthday($event)">
@@ -89,6 +87,7 @@
       }
 
       @if(employeeProfile$|async; as employee) {
+        <br>
         <div class="form-floating">
           <input
             type="text"
@@ -111,8 +110,12 @@
         <label>Update first name: </label>
       </div>
 
-      <br>
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('firstName') as error"
+      >{{ error }}</p>
 
+      <br>
       <div class="form-floating">
         <input
           type="text"
@@ -123,8 +126,12 @@
         <label>Update last name: </label>
       </div>
 
-      <br>
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('lastName') as error"
+      >{{ error }}</p>
 
+      <br>
       <div class="form-floating">
         <input
           type="text"
@@ -134,8 +141,13 @@
         >
         <label>Update email: </label>
       </div>
-      <br>
 
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('email') as error"
+      >{{ error }}</p>
+
+      <br>
       <div class="form-floating">
         <input
           type="text"
@@ -145,8 +157,13 @@
         >
         <label>Update phone number: </label>
       </div>
-      <br>
 
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('phoneNumber') as error"
+      >{{ error }}</p>
+
+      <br>
       <salon-selector
         [selector$]="contactMethodSelector$"
         [options]="SelectorDeclarations.contactMethodOptions"
@@ -154,6 +171,7 @@
         undefinedOption="Select your preferred contact method..."
       ></salon-selector>
 
+      <br>
       <div class="form-floating">
         <input
           type="text"
@@ -163,8 +181,13 @@
         >
         <label>Update address (line 1): </label>
       </div>
-      <br>
 
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('addressLineOne') as error"
+      >{{ error }}</p>
+
+      <br>
       <div class="form-floating">
         <input
           type="text"
@@ -174,8 +197,13 @@
         >
         <label>Update address (line 2): </label>
       </div>
-      <br>
 
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('addressLineTwo') as error"
+      >{{ error }}</p>
+
+      <br>
       <div class="form-floating">
         <input
           type="text"
@@ -184,10 +212,14 @@
           placeholder="Update your city..."
         >
         <label>Update address (city): </label>
-
       </div>
-      <br>
 
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('city') as error"
+      >{{ error }}</p>
+
+      <br>
       <salon-selector
         [selector$]="stateSelector$"
         [options]="SelectorDeclarations.stateOptions"
@@ -195,6 +227,7 @@
         undefinedOption="state..."
         ></salon-selector>
 
+      <br>
       <div class="form-floating">
         <input
           type="text"
@@ -204,7 +237,14 @@
         >
         <label>Update address (zip code): </label>
       </div>
+
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('zipCode') as error"
+      >{{ error }}</p>
+
       <br>
+      <h3 class="text-danger" *ngIf="(updateFormErrors$|async)!.size > 0">Oops! Errors were reported</h3>
 
       <button
         class="salon-btn-primary"

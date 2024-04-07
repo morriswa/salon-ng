@@ -10,9 +10,9 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {PageService} from "../../../service/page.service";
 
 @Component({
-  selector: 'salon-client-service-and-booking',
-  templateUrl: './client-service-and-booking.component.html',
-  styleUrl: './client-service-and-booking.component.scss',
+  selector: 'salon-booking',
+  templateUrl: './booking.component.html',
+  styleUrl: './booking.component.scss',
   standalone: true,
   imports: [
     CommonModule,
@@ -26,7 +26,7 @@ import {PageService} from "../../../service/page.service";
     NgOptimizedImage,
   ]
 })
-export class ClientServiceAndBookingComponent {
+export class BookingComponent {
 
   serviceInfo$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
 
@@ -39,7 +39,7 @@ export class ClientServiceAndBookingComponent {
   appointmentConfirmation$: BehaviorSubject<any|undefined> = new BehaviorSubject<any|undefined>(undefined);
 
   constructor(private salonStore: SalonStore, public page: PageService) {
-    const serviceId = Number(page.getUrlAt(2));
+    const serviceId = Number(page.getUrlSegmentOrThrow(2));
 
     salonStore.getProvidedServiceProfile(serviceId)
       .subscribe({

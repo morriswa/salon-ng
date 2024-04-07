@@ -105,8 +105,8 @@ export class ProfileComponent {
   /**
    * errors encountered doing profile updates
    */
-  updateFormErrors$: BehaviorSubject<string[]>
-    = new BehaviorSubject<string[]>([]);
+  updateFormErrors$: BehaviorSubject<Map<any, string>>
+    = new BehaviorSubject<Map<any, string>>(new Map<any, string>());
 
   /**
    * all angular form control objects
@@ -239,16 +239,16 @@ export class ProfileComponent {
           );
       })).subscribe({
         next: (res:any) => { // if requests were successful
-          this.updateFormErrors$.next([]); // reset error messages
+          this.updateFormErrors$.next(new Map<any, string>()); // reset error messages
           this._profile$.next(res); // cache updated profile
           this.resetAllForms(); // reset update profile forms
           this.isUpdatingContactInfo$.next(false); // hide update profile form
           // this.processingProfile$.next(false); // and mark component as available
         },
         error: (err:any) => { // if errors were encountered during update profile
-          let errors:string[] = []; // reset error messages
+          let errors:Map<any, string> = new Map<any, string>(); // reset error messages
           // cache all server error messages and display them to the user
-          err.error.additionalInfo.map((each:any)=>errors.push(each.message));
+          err.error.additionalInfo.map((each:any)=>errors.set(each.field, each.message));
           this.updateFormErrors$.next(errors);
           // this.processingProfile$.next(false); // and mark component as available
         }

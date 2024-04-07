@@ -27,7 +27,7 @@ export class EmployeeAppointmentDetailsComponent {
 
   constructor(salonStore: SalonStore, public page: PageService) {
 
-    const appointmentId = Number(page.getUrlAt(2));
+    const appointmentId = Number(page.getUrlSegmentOrThrow(2));
 
     salonStore.getAppointmentDetails(appointmentId, 'employee')
       .subscribe({

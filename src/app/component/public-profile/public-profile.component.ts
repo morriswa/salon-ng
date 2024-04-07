@@ -22,7 +22,7 @@ export class PublicProfileComponent {
   employeeInfo$: BehaviorSubject<EmployeeProfile|undefined> = new BehaviorSubject<EmployeeProfile|undefined>(undefined);
 
   constructor(salonStore: SalonStore, public page: PageService) {
-    const employeeId = Number(page.getUrlAt(1));
+    const employeeId = Number(page.getUrlSegmentOrThrow(1));
 
     salonStore.getPublicEmployeeProfile(employeeId)
       .subscribe({

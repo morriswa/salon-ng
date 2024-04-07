@@ -47,8 +47,7 @@ export class ClientSearchServicesComponent {
   /**
    * emits which tab the user is currently viewing
    */
-  currentPage$: BehaviorSubject<TAB_SELECTOR>
-    = new BehaviorSubject<TAB_SELECTOR>(DEFAULT_TAB);
+  currentPage$: BehaviorSubject<string>;
 
   /**
    * emits whether the component is in a loading state
@@ -63,10 +62,17 @@ export class ClientSearchServicesComponent {
 
   constructor(private salonStore: SalonStore, public page: PageService) {
 
+    const navigationTab: string = page.getUrlSegmentElse(2, DEFAULT_TAB);
+
+    this.currentPage$ = new BehaviorSubject<string>(navigationTab);
+
+    page.change(['/client', 'services', navigationTab]);
+
     this.currentPage$
       .asObservable()
       .pipe(
         switchMap((res): Observable<ProvidedServiceDetails[]>=>{
+          this.page.change(['/client', 'services', res])
           this.loading$.next(true);
           if (res!=='other') return this.salonStore.searchAvailableServices(res)
           else return of([]);

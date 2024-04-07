@@ -31,7 +31,7 @@ export class ClientAppointmentDetailsComponent {
 
   constructor(salonStore: SalonStore, public page: PageService) {
 
-    const appointmentId = Number(page.getUrlAt(2));
+    const appointmentId = Number(page.getUrlSegmentOrThrow(2));
 
     this.appointmentDetails$.asObservable().subscribe(details=>{
       if (details) {

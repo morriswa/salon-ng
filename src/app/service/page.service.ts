@@ -61,9 +61,15 @@ export class PageService {
     return url_arr;
   }
 
-  getUrlAt(idx: number): string {
+  getUrlSegmentOrThrow(idx: number): string {
     const url_arr = this.getUrlForNav();
     if (idx >= url_arr.length) throw new Error(`No ${idx} element`);
+    return url_arr[idx];
+  }
+
+  getUrlSegmentElse(idx: number, orElse: string): string {
+    const url_arr = this.getUrlForNav();
+    if (idx >= url_arr.length) return orElse;
     return url_arr[idx];
   }
 }
