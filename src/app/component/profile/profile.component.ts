@@ -121,6 +121,7 @@ export class ProfileComponent {
   zipCodeForm = ValidatorFactory.getZipCodeForm();
   profilePhotoUploadForm: FormControl = ValidatorFactory.getGenericForm();
   bioForm: FormControl = ValidatorFactory.getGenericForm();
+  birthdayForm: FormControl = ValidatorFactory.getGenericForm();
 
   @ViewChild('updateContactInfoDialog') updateContactInfoFormRef?: ElementRef;
 
@@ -166,6 +167,18 @@ export class ProfileComponent {
           else (<HTMLDialogElement>this.updateContactInfoFormRef.nativeElement).close();
         }
       });
+
+    this.birthdayForm.valueChanges.subscribe((event)=>{
+      let date = new Date(event);
+
+      date.setHours(9)
+      date.setMinutes(0);
+      date.setSeconds(0);
+
+      const birthdayString = date.toISOString().substring(0, 10);
+
+      this.selectedBirthday$.next(birthdayString);
+    });
   }
 
   get contactInfo$(): Observable<UserInfo|undefined> {
@@ -267,18 +280,6 @@ export class ProfileComponent {
     this.zipCodeForm.reset()
     this.pronounSelector$.next(undefined);
     this.contactMethodSelector$.next(undefined);
-  }
-
-  selectedBirthday($event: MatDatepickerInputEvent<any, any>) {
-    let date = new Date($event.value);
-
-    date.setHours(9)
-    date.setMinutes(0);
-    date.setSeconds(0);
-
-    const birthdayString = date.toISOString().substring(0, 10);
-
-    this.selectedBirthday$.next(birthdayString);
   }
 
   uploadProfileImage() {

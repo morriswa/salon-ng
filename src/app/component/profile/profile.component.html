@@ -82,7 +82,7 @@
         <br>
         <mat-form-field class="booking-fields">
           <mat-label>Enter your birthday</mat-label>
-          <input matInput [matDatepicker]="picker" (dateChange)="selectedBirthday($event)">
+          <input matInput [matDatepicker]="picker" [formControl]="birthdayForm">
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
