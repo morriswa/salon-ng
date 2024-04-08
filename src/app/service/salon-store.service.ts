@@ -23,13 +23,15 @@ export class SalonStore implements SalonStoreInterface {
   clientProfile$!: CachedResult<ClientInfo>;
   employeeProfile$!: CachedResult<EmployeeProfile>
   featuredEmployeeProfiles$!: CachedResult<EmployeeProfile[]>;
-
-  clientAppointments$!: CachedResult<Appointment[]>;
-  employeeAppointments$!: CachedResult<Appointment[]>;
-
+  schedule$!: CachedResult<Appointment[]>;
   employeeServices$!: CachedResult<ProvidedService[]>;
+  clientViewedServices!: Map<number, ProvidedServiceProfile>;
+  publicProfiles!: Map<number, EmployeeProfile>;
+  searchResults!: Map<string, ProvidedServiceDetails[]>;
 
-  searchResults$!: Map<string, ProvidedServiceDetails[]>
+  constructor(private salonClient: SalonClient) {
+    this.resetCache();
+  }
 
   resetCache() {
 
@@ -41,17 +43,14 @@ export class SalonStore implements SalonStoreInterface {
 
     this.employeeServices$ = new CachedResult<ProvidedService[]>();
 
-    this.clientAppointments$ = new CachedResult<Appointment[]>();
+    this.schedule$ = new CachedResult<Appointment[]>();
 
-    this.employeeAppointments$ = new CachedResult<Appointment[]>();
+    this.clientViewedServices = new Map<number, ProvidedServiceProfile>();
 
-    this.searchResults$ = new Map<string, ProvidedServiceDetails[]>();
+    this.publicProfiles = new Map<number, EmployeeProfile>();
+
+    this.searchResults = new Map<string, ProvidedServiceDetails[]>();
   }
-
-  constructor(private salonClient: SalonClient) {
-    this.resetCache();
-  }
-
 
   registerUser(username: string, password: string): Observable<void> {
     return this.salonClient.registerUser(username, password);
@@ -74,11 +73,21 @@ export class SalonStore implements SalonStoreInterface {
   }
 
   getProvidedServiceProfile(serviceId: number): Observable<ProvidedServiceProfile> {
-    return this.salonClient.getProvidedServiceProfile(serviceId);
+    let profile = this.clientViewedServices.get(serviceId);
+    if (profile) return of(profile);
+    else return this.salonClient.getProvidedServiceProfile(serviceId)
+      .pipe(tap((res)=>{
+        this.clientViewedServices.set(serviceId, res);
+      }));
   }
 
   getPublicEmployeeProfile(employeeId: number): Observable<EmployeeProfile> {
-    return this.salonClient.getPublicEmployeeProfile(employeeId);
+    let profile = this.publicProfiles.get(employeeId);
+    if (profile) return of(profile);
+    else return this.salonClient.getPublicEmployeeProfile(employeeId)
+      .pipe(tap((res)=>{
+        this.publicProfiles.set(employeeId, res);
+      }));
   }
 
   refreshAndRetrieveClientProfile(): Observable<ClientInfo> {
@@ -112,11 +121,11 @@ export class SalonStore implements SalonStoreInterface {
   }
 
   searchAvailableServices(searchText: string): Observable<ProvidedServiceDetails[]> {
-    const result = this.searchResults$.get(searchText);
+    const result = this.searchResults.get(searchText);
     if (result) return of(result)
     else return this.salonClient.searchAvailableServices(searchText)
       .pipe(tap((res)=>{
-        this.searchResults$.set(searchText, res);
+        this.searchResults.set(searchText, res);
       }));
   }
 
@@ -126,20 +135,13 @@ export class SalonStore implements SalonStoreInterface {
   }
 
   getSchedule(type: 'client'|'employee'): Observable<Appointment[]> {
-    return this.clientAppointments$.retrieveCacheOrUpdateWith(this.refreshAndRetrieveSchedule(type));
+    return this.schedule$.retrieveCacheOrUpdateWith(this.refreshAndRetrieveSchedule(type));
   }
 
   getAppointmentDetails(appointmentId: number, type: 'client'|'employee'): Observable<Appointment> {
     return of('get appointment details')
     .pipe(
-      map((): CachedResult<any>=>{
-        switch (type) {
-          case "client":
-            return this.clientAppointments$;
-          case "employee":
-            return this.employeeAppointments$;
-        }
-      }),
+      map(()=>this.schedule$),
       switchMap((res:CachedResult<any>)=>res.retrieveCacheOrUpdateWith(this.refreshAndRetrieveSchedule(type))),
       map((res:Appointment[]): Appointment => {
         for (const apt of res) {
@@ -151,7 +153,7 @@ export class SalonStore implements SalonStoreInterface {
   }
 
   refreshAndRetrieveSchedule(type: 'client'|'employee'): Observable<Appointment[]> {
-    return this.clientAppointments$.updateCacheWithAndRetrieveValueOf(
+    return this.schedule$.updateCacheWithAndRetrieveValueOf(
       this.salonClient.getSchedule(type)
     );
   }
