@@ -1,0 +1,23 @@
+
+span {
+  display: block;
+  color: var(--bs-body-color);
+}
+
+.form-control-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: baseline;
+}
+
+.form-control {
+  max-width: 500px;
+  display: inline;
+}
+
+#crop-wrapper {
+  padding: 20px;
+  height: 500px;
+  object-fit: cover;
+}

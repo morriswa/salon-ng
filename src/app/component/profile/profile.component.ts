@@ -5,8 +5,8 @@ import {LoginService} from "../../service/login.service";
 import {ValidatorFactory} from "../../validator-factory";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {ClientInfo, EmployeeProfile, UserInfo} from "../../interface/profile.interface";
-import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
-import {CommonModule} from "@angular/common";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {AmericanPhoneNumberPipe} from "../../pipe/AmericanPhoneNumber.pipe";
 import {AmericanFormattedDatePipe} from "../../pipe/AmericanFormattedDate.pipe";
 import {MatNativeDateModule} from "@angular/material/core";
@@ -14,6 +14,7 @@ import {MatInputModule} from "@angular/material/input";
 import {BootstrapSelectorComponent} from "../salon-shared/bootstrap-selector/bootstrap-selector.component";
 import {SelectorDeclarations} from "../../selector-declarations";
 import {PageService} from "../../service/page.service";
+import {ImageUploadAndCropComponent} from "../salon-shared/image-upload-and-crop/image-upload-and-crop.component";
 
 /**
  * shared component for clients and employees to manage their stored info
@@ -27,6 +28,7 @@ import {PageService} from "../../service/page.service";
   standalone: true,
   imports: [
     CommonModule,
+    NgOptimizedImage,
     ReactiveFormsModule,
 
     MatInputModule,
@@ -37,6 +39,7 @@ import {PageService} from "../../service/page.service";
     AmericanFormattedDatePipe,
 
     BootstrapSelectorComponent,
+    ImageUploadAndCropComponent,
   ]
 })
 export class ProfileComponent {
@@ -108,6 +111,8 @@ export class ProfileComponent {
   updateFormErrors$: BehaviorSubject<Map<any, string>>
     = new BehaviorSubject<Map<any, string>>(new Map<any, string>());
 
+  resetImageForm$: BehaviorSubject<any>
+    = new BehaviorSubject<any>(undefined);
   /**
    * all angular form control objects
    */
@@ -291,15 +296,11 @@ export class ProfileComponent {
           next: (res:EmployeeProfile)=>{
             this._profile$.next(res);
             this.profilePhotoUploadForm.reset();
+            this.resetImageForm$.next('reset');
           },
           error: (err:any)=>this.profilePhotoErrors$.next(err.error.description)
         });
     else
       this.profilePhotoErrors$.next("No image selected!");
-  }
-
-  cacheImageToUpload($event: any) {
-    let file:File = $event.target.files[0];
-    this.cachedProfileImage$.next(file);
   }
 }

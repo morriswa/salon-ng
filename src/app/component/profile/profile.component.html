@@ -11,15 +11,19 @@
 
       <img
         style="max-height: 400px; max-width: 600px"
-        [src]="employee.profileImage">
+        [ngSrc]="employee.profileImage"
+        height="400"
+        width="400"
+        priority
+        [alt]="employee.firstName + ' ' + employee.lastName + '\'s Profile'">
 
-      <div class="input-group mb-3">
-        <input
-          type="file"
-          class="form-control"
-          [formControl]="this.profilePhotoUploadForm"
-          (change)="cacheImageToUpload($event)"
-        >
+      <div class="input-group mb-3 input-group">
+        <salon-image-upload-and-crop
+          [forceAspectRatio]="true"
+          [cropAspectRatio]="1"
+          [resetImageForm]="resetImageForm$"
+          (croppedImageEvent)="cachedProfileImage$.next($event)">
+        </salon-image-upload-and-crop>
         <label
           class="input-group-text"
           (click)="uploadProfileImage()">Upload</label>
