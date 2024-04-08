@@ -1,7 +1,9 @@
 
 @if (serviceInfo$ | async; as serviceInfo) {
 
-  <button class="salon-btn-secondary-outline" (click)="page.change(['/client', 'services'])">Keep browsing</button>
+  <button class="salon-btn-secondary-outline" (click)="
+    page.change(page.lastInstanceOfPrefix(['/client', 'services'])||['/client','services'])
+  ">Keep browsing</button>
 
   <br>
 

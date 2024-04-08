@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {LoginService} from "../../service/login.service";
-import {RouterOutlet} from "@angular/router";
+import {RouterLink, RouterOutlet} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {PageService} from "../../service/page.service";
 
@@ -12,6 +12,7 @@ import {PageService} from "../../service/page.service";
   imports: [
     CommonModule,
     RouterOutlet,
+    RouterLink,
   ]
 })
 export class ClientComponent {
