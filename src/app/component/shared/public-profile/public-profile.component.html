@@ -2,28 +2,40 @@
 
   <button class="salon-btn-secondary-outline" (click)="page.goBack()">Back</button>
 
-  <h1 style="text-align: center;">{{ employeeProfile.firstName }} {{ employeeProfile.lastName }}</h1>
+  <h1 style="text-align: center;"><strong>{{ employeeProfile.firstName }} {{ employeeProfile.lastName }}</strong></h1>
+  <h4 style="text-align: center;"><strong>Pronouns: {{employeeProfile.pronouns }}</strong></h4>
+  <br>
+
   <div style="background-color: white;">
-    <div style="text-align: center;">
-      <h2 id = "bio-wrapper">Biography</h2>
+      <div>
+      <h2 style="position: relative; left: 200px;" id ="bio-wrapper"><strong>Biography</strong></h2>
       </div>
+
+  <div id="contact-info-wrapper">
   <div id = "bio-card-wrapper">
-  <div id="bio-card-image">
+  <div id = "bio-card-image">
+  
     
   <img
     style="max-height: 400px; max-width: 600px"
     [src]="employeeProfile.profileImage">
-    <h4>Pronouns: {{employeeProfile.pronouns }}</h4>
   </div>
+  
+  <div style="position: relative; left: 40px;"id ="bio-info">
+    <br><br>
+    <p style="text-align: left;"id= "emply-wrapper">{{ employeeProfile.bio }}</p>
+  </div>
+  <div class ="fixed" style="position: fixed;"id="contact-info">
+    <h2><strong>Contact Info</strong></h2>
+  <h4 style="margin:2px;display:inline; ">Contact Preference: {{ employeeProfile.contactPreference }}</h4>
+  <br>
+  <h4 style="margin:1px;display:inline;"><i class="bi bi-envelope"></i> {{ employeeProfile.email }}</h4><br>
+  <h4 style="margin:1px;display:inline;"><i class="bi bi-telephone-fill"></i> {{ employeeProfile.phoneNumber | americanPhoneNumber }}</h4>
+  </div>
+  <br><br>
 
-  <div id ="bio-info">
-    <p id = "emply-wrapper">{{ employeeProfile.bio }}</p>
-  </div>
   </div>
 </div>
-  <h2>Contact Info</h2>
-  <h4>Contact Preference: {{ employeeProfile.contactPreference }}</h4>
-  <h4>Email: {{ employeeProfile.email }}</h4>
-  <h4>Phone: {{ employeeProfile.phoneNumber | americanPhoneNumber }}</h4>
+</div>
 
 }
