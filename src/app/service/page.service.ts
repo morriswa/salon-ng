@@ -5,26 +5,38 @@ import {BehaviorSubject} from "rxjs";
 @Injectable()
 export class PageService {
 
+  pagesVisited: string[][] = [];
+
   lastPage$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(['/']);
 
-  constructor(private router: Router) { }
+  currentPage$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(['/']);
+
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(()=>{
+      const lastValue = this.currentPage$.value;
+      const currentValue = this.getUrlForNav();
+
+      // if the value has changed
+      if (lastValue.toString() !== currentValue.toString()) {
+        this.currentPage$.next(currentValue);
+        this.lastPage$.next(lastValue);
+        this.pagesVisited.push(currentValue);
+      }
+    });
+  }
+
 
   // move
   goHome() {
-    this.lastPage$.next(this.getUrlForNav());
     this.router.navigate(['/']).catch(err=>console.error(err));
   }
 
   goBack() {
-    const currentPage = this.getUrlForNav();
-
-    this.router.navigate(this.lastPage$.value)
-      .then(()=>this.lastPage$.next(currentPage))
-      .catch(err=>console.error(err));
+    this.router.navigate(this.lastPage$.value).catch(err=>console.error(err));
   }
 
-  change(to: string[]) {
-    this.lastPage$.next(this.getUrlForNav());
+  change(to: any[]) {
     this.router.navigate(to).catch(err=>console.error(err));
   }
 
@@ -61,9 +73,37 @@ export class PageService {
     return url_arr;
   }
 
-  getUrlAt(idx: number): string {
+  getUrlSegmentOrThrow(idx: number): string {
     const url_arr = this.getUrlForNav();
     if (idx >= url_arr.length) throw new Error(`No ${idx} element`);
     return url_arr[idx];
+  }
+
+  getUrlSegmentElse(idx: number, orElse: string): string {
+    const url_arr = this.getUrlForNav();
+    if (idx >= url_arr.length) return orElse;
+    return url_arr[idx];
+  }
+
+  lastInstanceOfPrefix(prefix: any[]): string[] | undefined {
+    let pageHistory = this.pagesVisited;
+    pageHistory.reverse();
+
+    for (const url of pageHistory) {
+      if (url.length >= prefix.length) {
+        let idx = 0;
+        let matches = true;
+        for (const link of url) {
+          if (idx===prefix.length) break;
+          if (link!==prefix[idx]) {
+            matches = false;
+          }
+          idx++;
+        }
+        if (matches) return url;
+      }
+    }
+
+    return undefined;
   }
 }

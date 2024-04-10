@@ -1,0 +1,271 @@
+
+@if (processingProfile$ | async) {
+  <div class="spinner-border m-5" role="status" style="width: 5rem; height: 5rem;">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+} @else {
+
+  @if (contactInfo$ | async; as contactInfo) {
+
+    @if(employeeProfile$|async; as employee) {
+
+      <img
+        style="max-height: 400px; max-width: 600px"
+        [ngSrc]="employee.profileImage"
+        height="400"
+        width="400"
+        priority
+        [alt]="employee.firstName + ' ' + employee.lastName + '\'s Profile'">
+
+      <div class="input-group mb-3 input-group">
+        <salon-image-upload-and-crop
+          [forceAspectRatio]="true"
+          [cropAspectRatio]="1"
+          [resetImageForm]="resetImageForm$"
+          (croppedImageEvent)="cachedProfileImage$.next($event)">
+        </salon-image-upload-and-crop>
+        <label
+          class="input-group-text"
+          (click)="uploadProfileImage()">Upload</label>
+      </div>
+
+      <h2>Bio</h2>
+      <p>{{ employee.bio }}</p>
+      <br>
+    }
+
+    <h2>Contact Information</h2>
+    <h4>First name: {{ contactInfo.firstName }}</h4>
+    <h4>Last name: {{ contactInfo.lastName }}</h4>
+    <h4>Pronouns: {{contactInfo.pronouns }}</h4>
+    @if(clientProfile$|async; as client) {
+      <p *ngIf="client.birthday">**Rewards Member</p>
+      <h4 *ngIf="client.birthday">Birthday: {{ client.birthday | americanFormattedDate }}</h4>
+    }
+
+    <h4>Email: {{ contactInfo.email }}</h4>
+    <h4>Phone: {{ contactInfo.phoneNumber | americanPhoneNumber }}</h4>
+    <h4>Address: {{ contactInfo.formattedAddress }}</h4>
+    <h4>Contact Preference: {{ contactInfo.contactPreference }}</h4>
+    <br>
+  }
+
+  @if (login.account$ | async; as account) {
+    <h2>Account Information</h2>
+    <h4>Username: {{ account.username }}</h4>
+    <h4>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</h4>
+    <h4>Permissions: {{ account.authorities }}</h4>
+  }
+  <br>
+
+  <button
+    *ngIf="!(isUpdatingContactInfo$|async)"
+    class="salon-btn-primary"
+    (click)="this.isUpdatingContactInfo$.next(true)"
+  >Update Info</button>
+
+
+  <div id="update-contact-info-dialog-shade" *ngIf="isUpdatingContactInfo$|async"></div>
+  <dialog #updateContactInfoDialog id="update-contact-info-dialog">
+
+    <button class="btn" (click)="isUpdatingContactInfo$.next(false)"><i class="bi bi-x-lg"></i></button>
+
+    <div id="update-contact-info-form">
+
+      <h3>Update your information...</h3>
+
+      <br>
+      <salon-selector
+        [selector$]="pronounSelector$"
+        [options]="SelectorDeclarations.pronounOptions"
+        title="Pronouns"
+        undefinedOption="Update pronouns"
+        ></salon-selector>
+
+      @if(clientProfile$|async; as client) {
+        <br>
+        <mat-form-field class="booking-fields">
+          <mat-label>Enter your birthday</mat-label>
+          <input matInput [matDatepicker]="picker" [formControl]="birthdayForm">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <br>
+      }
+
+      @if(employeeProfile$|async; as employee) {
+        <br>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            [formControl]="bioForm"
+            placeholder="Update your employee bio..."
+          >
+          <label>Update bio: </label>
+        </div>
+      }
+
+      <br>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="firstNameForm"
+          placeholder="Update your first name..."
+          >
+        <label>Update first name: </label>
+      </div>
+
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('firstName') as error"
+      >{{ error }}</p>
+
+      <br>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="lastNameForm"
+          placeholder="Update your last name..."
+        >
+        <label>Update last name: </label>
+      </div>
+
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('lastName') as error"
+      >{{ error }}</p>
+
+      <br>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="emailForm"
+          placeholder="Update your email..."
+        >
+        <label>Update email: </label>
+      </div>
+
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('email') as error"
+      >{{ error }}</p>
+
+      <br>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="phoneNumberForm"
+          placeholder="Update your phone number..."
+        >
+        <label>Update phone number: </label>
+      </div>
+
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('phoneNumber') as error"
+      >{{ error }}</p>
+
+      <br>
+      <salon-selector
+        [selector$]="contactMethodSelector$"
+        [options]="SelectorDeclarations.contactMethodOptions"
+        title="Contact Preference"
+        undefinedOption="Select your preferred contact method..."
+      ></salon-selector>
+
+      <br>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="addressLineOneForm"
+          placeholder="Update your address..."
+        >
+        <label>Update address (line 1): </label>
+      </div>
+
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('addressLineOne') as error"
+      >{{ error }}</p>
+
+      <br>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="addressLineTwoForm"
+          placeholder="Update your address..."
+        >
+        <label>Update address (line 2): </label>
+      </div>
+
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('addressLineTwo') as error"
+      >{{ error }}</p>
+
+      <br>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="cityForm"
+          placeholder="Update your city..."
+        >
+        <label>Update address (city): </label>
+      </div>
+
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('city') as error"
+      >{{ error }}</p>
+
+      <br>
+      <salon-selector
+        [selector$]="stateSelector$"
+        [options]="SelectorDeclarations.stateOptions"
+        title="State"
+        undefinedOption="state..."
+        ></salon-selector>
+
+      <br>
+      <div class="form-floating">
+        <input
+          type="text"
+          class="form-control"
+          [formControl]="zipCodeForm"
+          placeholder="Update your zip code..."
+        >
+        <label>Update address (zip code): </label>
+      </div>
+
+      <p
+        class="text-danger"
+        *ngIf="(updateFormErrors$|async)?.get('zipCode') as error"
+      >{{ error }}</p>
+
+      <br>
+      <h3 class="text-danger" *ngIf="(updateFormErrors$|async)!.size > 0">Oops! Errors were reported</h3>
+
+      <button
+        class="salon-btn-primary"
+        (click)="updateContactInfo()">Confirm</button>
+
+      <button
+        class="salon-btn-primary"
+        (click)="this.isUpdatingContactInfo$.next(false)"
+      >Cancel</button>
+
+      <br><br>
+
+    </div>
+
+  </dialog>
+}

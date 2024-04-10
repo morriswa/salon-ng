@@ -1,0 +1,35 @@
+
+<p class="text-danger">{{ errorMessage$ | async }}</p>
+
+<div>
+
+  <span>{{ userDialog }}</span>
+
+  <div class="form-control-container">
+    <input
+      class="form-control"
+      (change)="newImageUploaded($event)"
+      [formControl]="this.fileInput"
+      type="file"
+      required="false">
+  </div>
+
+  @if (fileInput.value && (croppingInProgress$|async) && imageToCrop) {
+    <div id="crop-wrapper">
+      <button
+        class="btn btn-secondary"
+        (click)="confirmCropAndReturnImageObj()">
+        Save!
+      </button>
+
+      <image-cropper
+        [imageChangedEvent]="imageToCrop"
+        [maintainAspectRatio]="forceAspectRatio"
+        [aspectRatio]="cropAspectRatio"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        ></image-cropper>
+    </div>
+  }
+
+</div>

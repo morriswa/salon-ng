@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {SalonClient} from "../../../service/salon-client.service";
+import {SalonStore} from "../../../service/salon-store.service";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatSort, MatSortModule} from "@angular/material/sort";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
@@ -8,6 +8,7 @@ import {ProvidedService} from "../../../interface/provided-service.interface";
 import {CommonModule} from "@angular/common";
 import {MoneyPipe} from "../../../pipe/Money.pipe";
 import {ValidatorFactory} from "../../../validator-factory";
+import {PageService} from "../../../service/page.service";
 
 
 @Component({
@@ -65,7 +66,7 @@ export class EmployeeServicesComponent implements AfterViewInit {
     this.providedServiceData.sort = this.mySorter;
   }
 
-  constructor(private salonClient: SalonClient) {
+  constructor(private salonStore: SalonStore, public page: PageService) {
     this.providedServiceData.sortingDataAccessor = (item, property): any => {
       switch (property) {
         case 'serviceId': return Number(item.serviceId);
@@ -81,7 +82,7 @@ export class EmployeeServicesComponent implements AfterViewInit {
     });
 
     // cache current services
-    salonClient.getEmployeesProvidedServices()
+    salonStore.getCurrentEmployeesServices()
     .subscribe((res: ProvidedService[]) =>{
       this.providedServices$.next(res);
     });
@@ -103,7 +104,7 @@ export class EmployeeServicesComponent implements AfterViewInit {
       length: Math.ceil(serviceLength / 15)
     };
 
-    this.salonClient.createProvidedService(request)
+    this.salonStore.createProvidedService(request)
     .subscribe({
       next: (res:any) => { // if requests were successful
         this.createServiceErrors$.next([]) // reset error messages

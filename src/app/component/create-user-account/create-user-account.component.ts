@@ -1,23 +1,23 @@
 import {Component} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {SalonClient} from "../../../service/salon-client.service";
-import {LoginService} from "../../../service/login.service";
+import {SalonStore} from "../../service/salon-store.service";
+import {LoginService} from "../../service/login.service";
 import {BehaviorSubject, switchMap} from "rxjs";
 import {CommonModule} from "@angular/common";
-import {ValidatorFactory} from "../../../validator-factory";
-import {PageService} from "../../../service/page.service";
+import {ValidatorFactory} from "../../validator-factory";
+import {PageService} from "../../service/page.service";
 
 @Component({
-  selector: 'salon-register-user',
-  templateUrl: './register-user.component.html',
-  styleUrl: './register-user.component.scss',
+  selector: 'salon-create-user-account',
+  templateUrl: './create-user-account.component.html',
+  styleUrl: './create-user-account.component.scss',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
   ]
 })
-export class RegisterUserComponent {
+export class CreateUserAccountComponent {
 
   /**
    * signals whether the component is currently performing a registration request
@@ -40,7 +40,7 @@ export class RegisterUserComponent {
   passwordForm: FormControl = ValidatorFactory.getPasswordForm();
 
 
-  constructor(public page: PageService, private salonClient: SalonClient, private login: LoginService) {
+  constructor(public page: PageService, private salonStore: SalonStore, private login: LoginService) {
     // if the user is already authenticated, they should be re-routed to the appropriate portal
     if (login.authenticated) {
       if (login.hasAuthority('EMPLOYEE'))
@@ -68,7 +68,7 @@ export class RegisterUserComponent {
     let username = this.usernameForm.value;
     let password = this.passwordForm.value;
 
-    this.salonClient.registerUser(username, password)
+    this.salonStore.registerUser(username, password)
     .pipe(switchMap(()=>this.login.login(username, password)))
     .subscribe({
       next: () => { // if requests were successful

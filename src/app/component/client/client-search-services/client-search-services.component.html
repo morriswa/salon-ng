@@ -1,24 +1,60 @@
 
-<input
-  required
-  type="text"
-  class="form-control"
-  [formControl]="searchServiceForm"
-  placeholder="Search for services..."
-  (keyup)="searchAvailableServices($event)"
-  >
+<!-- generates tabbed layout based on config in component -->
+<ul class="nav nav-tabs">
+  @for (tab of tabs; track tab.title) {
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [ngClass]="(currentPage$|async)===tab.selector?'active':''"
+        (click)="currentPage$.next(tab.selector)">{{ tab.title }}</a>
+    </li>
+  }
+</ul>
 
-<br>
+@if (loading$|async) { <!-- displays if the component is fetching data-->
+  <p>loading...</p>
+}
+@else {
 
-@for (service of (availableServiceSearchResults$|async); track service.serviceId) {
-  <h2
-    class="search-result-links"
-    (click)="page.change(['/client','service',service.serviceId])">{{ service.name }}</h2>
-  <p>With {{ service.employee.firstName }} {{service.employee.lastName }}</p>
-} @empty {
-  @if (searchServiceForm.value) {
-    <h1>No results found!</h1>
-  } @else {
-    <h2>Start typing to view available services...</h2>
+  @if((currentPage$|async)==='other') { <!-- describes search page -->
+
+    <h3>Search Services</h3>
+
+    @if (!searchServiceForm.value) {
+      <p>Start typing to view available services...</p>
+    }
+
+    <input
+      required
+      type="text"
+      class="form-control"
+      [formControl]="searchServiceForm"
+      placeholder="Search for services..."
+    >
+
+    <br>
+
+    @for (service of (searchResults$|async); track service.serviceId) {
+      <h3
+        class="search-result-links"
+        (click)="page.change(['/client','service',service.serviceId])">{{ service.name }}</h3>
+      <p>With {{ service.employee.firstName }} {{service.employee.lastName }}</p>
+    } @empty {
+      @if (searchServiceForm.value) {
+        <h1>No results found!</h1>
+      }
+    }
+  }
+  @else { <!-- describes all other tab pages -->
+    @for (service of (searchResults$|async); track service.serviceId) {
+      <h3
+        class="search-result-links"
+        (click)="page.change(['/client','service',service.serviceId])">{{ service.name }}</h3>
+      <p>With {{ service.employee.firstName }} {{service.employee.lastName }}</p>
+    } @empty {
+      @if (searchServiceForm.value) {
+        <h1>No results found!</h1>
+      }
+    }
   }
 }

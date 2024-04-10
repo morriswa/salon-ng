@@ -1,5 +1,15 @@
 
 @if (serviceInfo$ | async; as serviceInfo) {
+
+  <button class="salon-btn-secondary-outline" (click)="
+    page.change(page.lastInstanceOfPrefix(['/client', 'services'])||['/client','services'])
+  ">Keep browsing</button>
+
+  <br>
+
+  <img *ngFor="let image of serviceInfo.content" [ngSrc]="image"
+    width="300" height="200" style="object-fit: cover">
+
   <h3>{{ serviceInfo.name }}, provided by
     <a
       class="search-result-links"

@@ -1,19 +1,20 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {BehaviorSubject, map, Observable, of, switchMap} from 'rxjs';
-import { SalonClient } from 'src/app/service/salon-client.service';
-import {LoginService} from "../../../service/login.service";
-import {ValidatorFactory} from "../../../validator-factory";
+import { SalonStore } from 'src/app/service/salon-store.service';
+import {LoginService} from "../../service/login.service";
+import {ValidatorFactory} from "../../validator-factory";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {ClientInfo, EmployeeProfile, UserInfo} from "../../../interface/profile.interface";
-import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
-import {CommonModule} from "@angular/common";
-import {AmericanPhoneNumberPipe} from "../../../pipe/AmericanPhoneNumber.pipe";
-import {AmericanFormattedDatePipe} from "../../../pipe/AmericanFormattedDate.pipe";
+import {ClientInfo, EmployeeProfile, UserInfo} from "../../interface/profile.interface";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {AmericanPhoneNumberPipe} from "../../pipe/AmericanPhoneNumber.pipe";
+import {AmericanFormattedDatePipe} from "../../pipe/AmericanFormattedDate.pipe";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
-import {SelectorComponent} from "../bootstrap-selector/selector.component";
-import {SelectorDeclarations} from "../../../selector-declarations";
-import {PageService} from "../../../service/page.service";
+import {BootstrapSelectorComponent} from "../salon-shared/bootstrap-selector/bootstrap-selector.component";
+import {SelectorDeclarations} from "../../selector-declarations";
+import {PageService} from "../../service/page.service";
+import {ImageUploadAndCropComponent} from "../salon-shared/image-upload-and-crop/image-upload-and-crop.component";
 
 /**
  * shared component for clients and employees to manage their stored info
@@ -27,6 +28,7 @@ import {PageService} from "../../../service/page.service";
   standalone: true,
   imports: [
     CommonModule,
+    NgOptimizedImage,
     ReactiveFormsModule,
 
     MatInputModule,
@@ -36,7 +38,8 @@ import {PageService} from "../../../service/page.service";
     AmericanPhoneNumberPipe,
     AmericanFormattedDatePipe,
 
-    SelectorComponent,
+    BootstrapSelectorComponent,
+    ImageUploadAndCropComponent,
   ]
 })
 export class ProfileComponent {
@@ -105,9 +108,11 @@ export class ProfileComponent {
   /**
    * errors encountered doing profile updates
    */
-  updateFormErrors$: BehaviorSubject<string[]>
-    = new BehaviorSubject<string[]>([]);
+  updateFormErrors$: BehaviorSubject<Map<any, string>>
+    = new BehaviorSubject<Map<any, string>>(new Map<any, string>());
 
+  resetImageForm$: BehaviorSubject<any>
+    = new BehaviorSubject<any>(undefined);
   /**
    * all angular form control objects
    */
@@ -121,9 +126,12 @@ export class ProfileComponent {
   zipCodeForm = ValidatorFactory.getZipCodeForm();
   profilePhotoUploadForm: FormControl = ValidatorFactory.getGenericForm();
   bioForm: FormControl = ValidatorFactory.getGenericForm();
+  birthdayForm: FormControl = ValidatorFactory.getGenericForm();
+
+  @ViewChild('updateContactInfoDialog') updateContactInfoFormRef?: ElementRef;
 
 
-  constructor(page: PageService, public login: LoginService, private salonClient: SalonClient) {
+  constructor(page: PageService, public login: LoginService, private salonStore: SalonStore) {
 
     const userType = page.getRootRoute();
 
@@ -140,9 +148,9 @@ export class ProfileComponent {
           switchMap(()=>{
             return (
               this._profileType.getValue()==='employee'?
-                this.salonClient.getEmployeeProfile()
+                this.salonStore.getCurrentEmployeeProfile()
                 :
-                this.salonClient.getClientProfile()
+                this.salonStore.getCurrentClientProfile()
             );
           })
         )
@@ -156,6 +164,26 @@ export class ProfileComponent {
         }
       });
     }
+
+    this.isUpdatingContactInfo$.asObservable()
+      .subscribe((res)=>{
+        if (this.updateContactInfoFormRef) {
+          if (res) (<HTMLDialogElement>this.updateContactInfoFormRef.nativeElement).show();
+          else (<HTMLDialogElement>this.updateContactInfoFormRef.nativeElement).close();
+        }
+      });
+
+    this.birthdayForm.valueChanges.subscribe((event)=>{
+      let date = new Date(event);
+
+      date.setHours(9)
+      date.setMinutes(0);
+      date.setSeconds(0);
+
+      const birthdayString = date.toISOString().substring(0, 10);
+
+      this.selectedBirthday$.next(birthdayString);
+    });
   }
 
   get contactInfo$(): Observable<UserInfo|undefined> {
@@ -183,7 +211,7 @@ export class ProfileComponent {
 
   updateContactInfo() { // when user submits updated contact information...
     // mark component as loading so no further changes can be made
-    this.processingProfile$.next(true);
+    // this.processingProfile$.next(true);
 
     // create response body
     let params:any = {};
@@ -223,24 +251,24 @@ export class ProfileComponent {
       .pipe(switchMap(()=>{
         return (
           this._profileType.getValue()==='employee'?
-            this.salonClient.updateEmployeeProfile(params as EmployeeProfile)
+            this.salonStore.updateEmployeeProfile(params as EmployeeProfile)
             :
-            this.salonClient.updateClientProfile(params as ClientInfo)
+            this.salonStore.updateCurrentClientProfile(params as ClientInfo)
           );
       })).subscribe({
         next: (res:any) => { // if requests were successful
-          this.updateFormErrors$.next([]); // reset error messages
+          this.updateFormErrors$.next(new Map<any, string>()); // reset error messages
           this._profile$.next(res); // cache updated profile
           this.resetAllForms(); // reset update profile forms
           this.isUpdatingContactInfo$.next(false); // hide update profile form
-          this.processingProfile$.next(false); // and mark component as available
+          // this.processingProfile$.next(false); // and mark component as available
         },
         error: (err:any) => { // if errors were encountered during update profile
-          let errors:string[] = []; // reset error messages
+          let errors:Map<any, string> = new Map<any, string>(); // reset error messages
           // cache all server error messages and display them to the user
-          err.error.additionalInfo.map((each:any)=>errors.push(each.message));
+          err.error.additionalInfo.map((each:any)=>errors.set(each.field, each.message));
           this.updateFormErrors$.next(errors);
-          this.processingProfile$.next(false); // and mark component as available
+          // this.processingProfile$.next(false); // and mark component as available
         }
       });
   }
@@ -259,36 +287,20 @@ export class ProfileComponent {
     this.contactMethodSelector$.next(undefined);
   }
 
-  selectedBirthday($event: MatDatepickerInputEvent<any, any>) {
-    let date = new Date($event.value);
-
-    date.setHours(9)
-    date.setMinutes(0);
-    date.setSeconds(0);
-
-    const birthdayString = date.toISOString().substring(0, 10);
-
-    this.selectedBirthday$.next(birthdayString);
-  }
-
   uploadProfileImage() {
     const image = this.cachedProfileImage$.getValue();
 
     if (image)
-      this.salonClient.updateEmployeeProfileImage(image)
+      this.salonStore.updateEmployeeProfileImage(image)
         .subscribe({
           next: (res:EmployeeProfile)=>{
             this._profile$.next(res);
             this.profilePhotoUploadForm.reset();
+            this.resetImageForm$.next('reset');
           },
           error: (err:any)=>this.profilePhotoErrors$.next(err.error.description)
         });
     else
       this.profilePhotoErrors$.next("No image selected!");
-  }
-
-  cacheImageToUpload($event: any) {
-    let file:File = $event.target.files[0];
-    this.cachedProfileImage$.next(file);
   }
 }

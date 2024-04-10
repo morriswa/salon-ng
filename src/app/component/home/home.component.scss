@@ -18,9 +18,18 @@
 }
 
 //hover on images animation
+.bouncy {
+  border: 0 solid var(--bs-primary);
+  transition: border .2s, transform .2s;
+
+  &:hover {
+    transform: scale(1.05);
+    border-width: 5px;
+  }
+}
+
 .home-main-image {
-    transition: transform .2s;
-    animation: loadingAnimation 1.5s;
+  animation: loadingAnimation 1.5s;
 
     @media (width >= 1400px) {
       height: 350px;
@@ -36,13 +45,6 @@
       height: 250px;
       width: 250px;
     }
-
-    &:hover {
-      transform: scale(1.05);
-      border: 5px solid var(--bs-primary);
-    }
-
-
 }
 
 #home-main-images {
@@ -115,7 +117,6 @@
 
 .employee-image-bubble {
   height: 300px;
-  transition: transform .2s;
   object-fit: cover;
 
   &.left {
@@ -124,11 +125,6 @@
 
   &.right {
     order: 1;
-  }
-
-  &:hover {
-    transform: scale(1.05);
-    border: 5px solid var(--bs-primary);
   }
 }
 

@@ -12,7 +12,7 @@
 <button
   *ngIf="login.hasAuthority('CLIENT')"
   class="salon-btn-secondary-outline"
-  (click)="page.change(['/client','schedule'])"
+  [routerLink]="['/client','schedule']"
   [disabled]="page.is('/client/schedule')"
 >View Schedule</button>
 

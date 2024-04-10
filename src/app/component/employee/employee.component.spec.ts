@@ -1,21 +1,22 @@
 import {EmployeeComponent} from "./employee.component";
 import {LoginService} from "../../service/login.service";
-import {provideRouter, Router} from "@angular/router";
+import {provideRouter} from "@angular/router";
 import {TestBed} from "@angular/core/testing";
 import {CredentialService} from "../../service/credential.service";
-import {SalonClient} from "../../service/salon-client.service";
+import {SalonStore} from "../../service/salon-store.service";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideHttpClient} from "@angular/common/http";
 import {salon_application_routes} from "src/app/routes";
 import {of} from "rxjs";
 import {PageService} from "../../service/page.service";
+import {SalonClient} from "../../service/salon-client.service";
 
 
 describe('EmployeeComponent', () => {
 
   let page: PageService;
   let loginService: LoginService;
-  let salonClient: SalonClient;
+  let salonClient: SalonStore;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,6 +25,7 @@ describe('EmployeeComponent', () => {
       ],
       providers: [
         CredentialService,
+        SalonStore,
         SalonClient,
         LoginService,
         PageService,
@@ -35,7 +37,7 @@ describe('EmployeeComponent', () => {
 
     page = TestBed.inject(PageService);
     loginService = TestBed.inject(LoginService);
-    salonClient = TestBed.inject(SalonClient);
+    salonClient = TestBed.inject(SalonStore);
   });
 
   it('should be created', () => {
@@ -109,7 +111,7 @@ describe('EmployeeComponent', () => {
       = spyOn(loginService, 'hasAuthority').and.returnValue(true);
     let spyReroute = spyOn(page, 'change');
     let spyGetEmployeeProfile
-      = spyOn(salonClient, 'getEmployeeProfile').and.returnValue(of(
+      = spyOn(salonClient, 'getCurrentEmployeeProfile').and.returnValue(of(
       {
         employeeId: 1,
         firstName: firstName,

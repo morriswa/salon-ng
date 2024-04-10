@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
 import {BehaviorSubject, switchMap} from "rxjs";
-import {LoginService} from "../../../service/login.service";
-import {SalonClient} from "../../../service/salon-client.service";
-import {ValidatorFactory} from "../../../validator-factory";
+import {LoginService} from "../../service/login.service";
+import {SalonStore} from "../../service/salon-store.service";
+import {ValidatorFactory} from "../../validator-factory";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {CommonModule} from "@angular/common";
-import {SelectorComponent} from "../../shared/bootstrap-selector/selector.component";
-import {SelectorDeclarations} from "../../../selector-declarations";
-import {PageService} from "../../../service/page.service";
+import {BootstrapSelectorComponent} from "../salon-shared/bootstrap-selector/bootstrap-selector.component";
+import {SelectorDeclarations} from "../../selector-declarations";
+import {PageService} from "../../service/page.service";
 
 @Component({
-  selector: 'salon-create-profile-component',
-  templateUrl: './create-profile-component.component.html',
-  styleUrl: './create-profile-component.component.scss',
+  selector: 'salon-create-profile',
+  templateUrl: './create-profile.component.html',
+  styleUrl: './create-profile.component.scss',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MatSelectModule,
-    SelectorComponent,
+    BootstrapSelectorComponent,
   ]
 })
-export class CreateProfileComponentComponent {
+export class CreateProfileComponent {
 
   protected readonly SelectorDeclarations = SelectorDeclarations;
 
@@ -55,7 +55,7 @@ export class CreateProfileComponentComponent {
   cityForm = ValidatorFactory.getCityForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
 
-  constructor(private page: PageService, public login: LoginService, private salonClient: SalonClient) {
+  constructor(private page: PageService, public login: LoginService, private salonStore: SalonStore) {
     if (!login.authenticated) page.change(['/login']);
     else if (login.hasAuthority('USER')) page.change(['/register2','access']);
   }
@@ -83,7 +83,7 @@ export class CreateProfileComponentComponent {
     if (this.addressLineTwoForm.value) params['addressLineTwo'] = this.addressLineTwoForm.value;
 
     // after response body has been created, call create user profile endpoint with constructed params
-    this.salonClient.createUserProfile(params)
+    this.salonStore.createUserProfile(params)
       .pipe(
         // since this action will update a user's credentials, refresh the login cache
         switchMap(()=>this.login.init())

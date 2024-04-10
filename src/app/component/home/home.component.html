@@ -5,17 +5,17 @@
   <!-- three homepage images + captions -->
   <div id="home-main-images">
     <div class="home-main-image-wrapper">
-      <img class="home-main-image" ngSrc="assets/images/plant_collection.jpeg" height="400" width="400">
+      <img class="home-main-image bouncy" ngSrc="assets/images/plant_collection.jpeg" height="400" width="400">
       <p class="home-main-image-caption">Plenty of Plants</p>
     </div>
     <div class="home-main-image-wrapper">
       <img
-        class="home-main-image"
+        class="home-main-image bouncy"
         ngSrc="assets/images/coffee_shop.jpeg" height="400" width="400">
       <p class="home-main-image-caption">Complementary Coffee Bar</p>
     </div>
     <div class="home-main-image-wrapper">
-      <img class="home-main-image" ngSrc="assets/images/salon_picture.jpeg" height="400" width="400">
+      <img class="home-main-image bouncy" ngSrc="assets/images/salon_picture.jpeg" height="400" width="400">
       <p class="home-main-image-caption">Hair Studio</p>
     </div>
   </div>
@@ -44,8 +44,11 @@
          [ngClass]="idx%2==0? 'employee-content-left': 'employee-content-right'">
       <img
         (click)="page.change(['/profile', employee.employeeId.toString()])"
-        class="employee-image-bubble" style="border-radius: 50%" [ngSrc]="employee.profileImage"
-        height="300" width="300" alt="">
+        class="employee-image-bubble bouncy"
+        style="border-radius: 50%"
+        [ngSrc]="employee.profileImage"
+        height="300" width="300"
+        alt="">
       <div
         class="employee-content-text">
         <p class='employee-content-title'>{{ employee.firstName + " " + employee.lastName }}</p>

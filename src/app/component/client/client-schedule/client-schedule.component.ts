@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {SalonClient} from "../../../service/salon-client.service";
+import {SalonStore} from "../../../service/salon-store.service";
 import {BehaviorSubject} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {LocaleTimePipe} from "../../../pipe/LocaleTime.pipe";
@@ -22,8 +22,8 @@ export class ClientScheduleComponent {
 
   clientSchedule$: BehaviorSubject<any[]|undefined> = new BehaviorSubject<any[]|undefined>(undefined);
 
-  constructor(salonClient: SalonClient, public page: PageService) {
-    salonClient.getClientSchedule().subscribe({
+  constructor(salonStore: SalonStore, public page: PageService) {
+    salonStore.getSchedule('client').subscribe({
       next: (res:any[]) => this.clientSchedule$.next(res)
     });
   }

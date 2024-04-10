@@ -1,6 +1,8 @@
 
 <br>
 
+<button class="salon-btn-secondary-outline" (click)="page.change(['/employee','schedule'])">Back</button>
+
 @if (appointmentDetails$ | async; as details) {
   <h2>{{ details.serviceName }}</h2>
   <h4>Scheduled for {{ details.time | localeDate }} at {{ details.time | localeTime }}</h4>

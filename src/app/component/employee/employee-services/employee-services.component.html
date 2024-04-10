@@ -21,7 +21,13 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
           Name
         </th>
-        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        <td mat-cell *matCellDef="let element">
+          <a
+            class="search-result-links"
+            (click)="page.change(['/employee', 'service', element.serviceId ])">
+            {{ element.name }}
+          </a>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="length">

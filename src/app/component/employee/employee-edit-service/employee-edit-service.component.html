@@ -1,0 +1,101 @@
+<br>
+@if (currentService$|async; as service) {
+
+  <button
+    class="salon-btn-secondary-outline"
+    (click)="page.change(['/employee', 'services'])"
+  >Back</button>
+
+  <h3>Currently editing {{ service.name }}</h3>
+  <h3>{{ service.cost!.toString() | money }} for {{ service.length }} minutes</h3>
+
+  @for (image of (currentServiceImages$ | async) | keyvalue; track image.key) {
+    <br>
+    <div style="display: flex">
+      <div>
+        <img
+          style="max-height: 400px; max-width: 600px"
+          [ngSrc]="image.value!"
+          height="200"
+          width="300"
+        >
+      </div>
+      <div>
+        <button class="btn btn-danger" (click)="deleteImage(image.key)">
+          <i class="bi bi-trash-fill"></i>
+        </button>
+      </div>
+    </div>
+  } @empty {
+    <p>No images!</p>
+  }
+
+  <div class="input-group mb-3">
+    <input
+      type="file"
+      class="form-control"
+      [formControl]="this.profilePhotoUploadForm"
+      (change)="cacheImageToUpload($event)"
+    >
+    <label
+      class="input-group-text"
+      (click)="uploadProfileImage()">Upload</label>
+  </div>
+
+  <div class="form-floating">
+    <input
+      type="text"
+      class="form-control"
+      [formControl]="serviceNameForm"
+    >
+    <label>Enter a new name for your service! </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      type="text"
+      pattern="^[0-9]{1,3}(\.[0-9]{1,2})?$"
+      class="form-control"
+      [formControl]="serviceCostForm"
+    >
+    <label>How much will your service cost? </label>
+  </div>
+  <br>
+
+  <div class="form-floating">
+    <input
+      type="number"
+      class="form-control"
+      [formControl]="serviceLengthForm"
+    >
+    <label>How many minutes will you need to complete your service? </label>
+  </div>
+  <br>
+
+  <button
+    [disabled]="serviceLengthForm.invalid || serviceCostForm.invalid || serviceNameForm.invalid"
+    (click)="editProvidedService()"
+    class="salon-btn-primary"
+  >Update</button>
+
+  <button
+    (click)="showDeleteServiceModal$.next(true)"
+    class="btn btn-danger"
+  >Delete</button>
+
+  <dialog #deleteServiceModal
+    id="delete-service-modal"
+  >
+    <h3>Are you sure you want to delete Provided Service {{ service.name }}?</h3>
+    <div class="btn-group">
+      <button class="salon-btn-secondary-outline"
+              (click)="showDeleteServiceModal$.next(false)"
+      >Cancel</button>
+      <button class="btn btn-danger"
+              (click)="deleteProvidedService()"
+      >Delete</button>
+    </div>
+  </dialog>
+}
+

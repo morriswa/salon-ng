@@ -1,10 +1,25 @@
 import { Component } from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {SalonClient} from "../../../service/salon-client.service";
-import {BehaviorSubject} from "rxjs";
+import {SalonStore} from "src/app/service/salon-store.service";
+import {BehaviorSubject, Observable, of, switchMap} from "rxjs";
 import {CommonModule} from "@angular/common";
-import {ValidatorFactory} from "../../../validator-factory";
-import {PageService} from "../../../service/page.service";
+import {ValidatorFactory} from "src/app/validator-factory";
+import {PageService} from "src/app/service/page.service";
+import {ProvidedServiceDetails} from "src/app/interface/provided-service.interface";
+
+type TAB_SELECTOR = 'hair'|'nail'|'massage'|'other';
+type TAB = { title: string, selector: TAB_SELECTOR };
+const DEFAULT_TAB: TAB_SELECTOR = 'hair';
+
+/**
+ * add tabs here
+ */
+const TABS: TAB[] = [
+  {title: 'Hair', selector: 'hair'},
+  {title: 'Nails', selector: 'nail'},
+  {title: 'Massages', selector: 'massage'},
+  {title: 'Other', selector: 'other'},
+]
 
 @Component({
   selector: 'salon-client-search-services',
@@ -18,22 +33,66 @@ import {PageService} from "../../../service/page.service";
 })
 export class ClientSearchServicesComponent {
 
-  availableServiceSearchResults$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  /**
+   * translate const to class attr
+   */
+  tabs = TABS;
+
+  /**
+   * emits list of current service details to display
+   */
+  searchResults$: BehaviorSubject<ProvidedServiceDetails[]>
+    = new BehaviorSubject<ProvidedServiceDetails[]>([]);
+
+  /**
+   * emits which tab the user is currently viewing
+   */
+  currentPage$: BehaviorSubject<string>;
+
+  /**
+   * emits whether the component is in a loading state
+   */
+  loading$: BehaviorSubject<boolean>
+    = new BehaviorSubject<boolean>(true);
+
+
 
   searchServiceForm: FormControl = ValidatorFactory.getGenericForm();
 
 
-  constructor(private salonClient: SalonClient, public page: PageService) { }
+  constructor(private salonStore: SalonStore, public page: PageService) {
 
+    const navigationTab: string = page.getUrlSegmentElse(2, DEFAULT_TAB);
 
-  searchAvailableServices($event: KeyboardEvent) {
+    this.currentPage$ = new BehaviorSubject<string>(navigationTab);
 
-    let searchText = this.searchServiceForm.value;
-    this.salonClient.searchAvailableServices(searchText)
+    page.change(['/client', 'services', navigationTab]);
+
+    this.currentPage$
+      .asObservable()
+      .pipe(
+        switchMap((res): Observable<ProvidedServiceDetails[]>=>{
+          this.page.change(['/client', 'services', res])
+          this.loading$.next(true);
+          if (res!=='other') return this.salonStore.searchAvailableServices(res)
+          else return of([]);
+      }))
       .subscribe({
         next: res=>{
-          this.availableServiceSearchResults$.next(res);
+          this.searchResults$.next(res);
+          this.loading$.next(false);
         }
+      });
+
+    this.searchServiceForm
+      .valueChanges
+      .pipe(switchMap((res): Observable<ProvidedServiceDetails[]>=>{
+        if (res.length > 1 && this.currentPage$.value==='other')
+          return this.salonStore.searchAvailableServices(res)
+        else return of([]);
+      }))
+      .subscribe({
+        next: res=>this.searchResults$.next(res)
       });
   }
 }
