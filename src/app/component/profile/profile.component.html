@@ -72,14 +72,14 @@
 
     <div id="update-contact-info-form">
 
-      <h3>Update your information...</h3>
+      <h3 style="text-align: center;"><strong>Update Your Information</strong></h3>
 
       <br>
       <salon-selector
         [selector$]="pronounSelector$"
         [options]="SelectorDeclarations.pronounOptions"
         title="Pronouns"
-        undefinedOption="Update pronouns"
+        undefinedOption="Update Pronouns"
         ></salon-selector>
 
       @if(clientProfile$|async; as client) {
@@ -96,26 +96,23 @@
 
       @if(employeeProfile$|async; as employee) {
         <br>
+        <label>Update Bio: </label>
         <div class="form-floating">
-          <input
-            type="text"
-            class="form-control"
-            [formControl]="bioForm"
-            placeholder="Update your employee bio..."
-          >
-          <label>Update bio: </label>
+          <input 
+          class="form-control form-control-lg" 
+          type="text" 
+          placeholder="Update your Biography"
+          [formControl]="bioForm">
         </div>
       }
 
       <br>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="firstNameForm"
-          placeholder="Update your first name..."
-          >
-        <label>Update first name: </label>
+    <form class="row g-3">
+      <br>
+      <div class="input-group">
+        <span class="input-group-text">First and Last name</span>
+        <input required [formControl]="firstNameForm" type="text" aria-label="First name" class="form-control" placeholder="Enter First Name">
+        <input required [formControl]="lastNameForm" type="text" aria-label="Last name" class="form-control" placeholder="Enter Last Name">
       </div>
 
       <p
@@ -124,15 +121,6 @@
       >{{ error }}</p>
 
       <br>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="lastNameForm"
-          placeholder="Update your last name..."
-        >
-        <label>Update last name: </label>
-      </div>
 
       <p
         class="text-danger"
@@ -140,14 +128,9 @@
       >{{ error }}</p>
 
       <br>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="emailForm"
-          placeholder="Update your email..."
-        >
-        <label>Update email: </label>
+      <div class="col-md-6">
+        <label class="form-label">Email</label>
+        <input required [formControl]="emailForm" class="form-control" placeholder="example@email.com">
       </div>
 
       <p
@@ -155,15 +138,9 @@
         *ngIf="(updateFormErrors$|async)?.get('email') as error"
       >{{ error }}</p>
 
-      <br>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="phoneNumberForm"
-          placeholder="Update your phone number..."
-        >
-        <label>Update phone number: </label>
+      <div class="col-md-6">
+        <label class="form-label">Phone</label>
+        <input required [formControl]="phoneNumberForm" class="form-control" placeholder="5555555555">
       </div>
 
       <p
@@ -176,18 +153,13 @@
         [selector$]="contactMethodSelector$"
         [options]="SelectorDeclarations.contactMethodOptions"
         title="Contact Preference"
-        undefinedOption="Select your preferred contact method..."
+        undefinedOption="Select Your Preferred Contact Method"
       ></salon-selector>
 
       <br>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="addressLineOneForm"
-          placeholder="Update your address..."
-        >
-        <label>Update address (line 1): </label>
+      <div class="col-md-6">
+        <label class="form-label">Address</label>
+        <input required [formControl]="addressLineOneForm" class="form-control" placeholder="1234 Main St">
       </div>
 
       <p
@@ -196,14 +168,9 @@
       >{{ error }}</p>
 
       <br>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="addressLineTwoForm"
-          placeholder="Update your address..."
-        >
-        <label>Update address (line 2): </label>
+      <div class="col-md-6">
+        <label class="form-label">Address 2 <i>(Optional)</i> </label>
+        <input [formControl]="addressLineTwoForm" class="form-control" placeholder="Apartment, studio, or floor">
       </div>
 
       <p
@@ -212,14 +179,9 @@
       >{{ error }}</p>
 
       <br>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="cityForm"
-          placeholder="Update your city..."
-        >
-        <label>Update address (city): </label>
+      <div class="col-md-6">
+        <label class="form-label">City</label>
+        <input required [formControl]="cityForm" class="form-control" placeholder="Jamestown">
       </div>
 
       <p
@@ -228,22 +190,21 @@
       >{{ error }}</p>
 
       <br>
-      <salon-selector
-        [selector$]="stateSelector$"
-        [options]="SelectorDeclarations.stateOptions"
-        title="State"
-        undefinedOption="state..."
+      <div class="col-md-4">
+
+        <salon-selector
+          [selector$]="stateSelector$"
+          [options]="SelectorDeclarations.stateOptions"
+          title="State"
+          undefinedOption="Please select your state..."
         ></salon-selector>
+    
+      </div>
 
       <br>
-      <div class="form-floating">
-        <input
-          type="text"
-          class="form-control"
-          [formControl]="zipCodeForm"
-          placeholder="Update your zip code..."
-        >
-        <label>Update address (zip code): </label>
+      <div class="col-md-2">
+        <label class="form-label">Zip</label>
+        <input required [formControl]="zipCodeForm" class="form-control" placeholder="55555">
       </div>
 
       <p
@@ -255,7 +216,7 @@
       <h3 class="text-danger" *ngIf="(updateFormErrors$|async)!.size > 0">Oops! Errors were reported</h3>
 
       <button
-        class="salon-btn-primary"
+        class="salon-btn-primary" 
         (click)="updateContactInfo()">Confirm</button>
 
       <button
@@ -264,6 +225,7 @@
       >Cancel</button>
 
       <br><br>
+    </form>
 
     </div>
 
