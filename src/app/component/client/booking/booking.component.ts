@@ -24,9 +24,9 @@ const TABS: Map<number, TAB> = new Map([
 
 
 @Component({
-  selector: 'salon-client-search-services',
-  templateUrl: './client-search-services.component.html',
-  styleUrl: './client-search-services.component.scss',
+  selector: 'salon-booking',
+  templateUrl: './booking.component.html',
+  styleUrl: './booking.component.scss',
   standalone: true,
   imports: [
     CommonModule,
@@ -35,7 +35,7 @@ const TABS: Map<number, TAB> = new Map([
     NgOptimizedImage,
   ]
 })
-export class ClientSearchServicesComponent {
+export class BookingComponent {
 
   /**
    * translate const to class attr

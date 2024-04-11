@@ -27,8 +27,8 @@ import {
 // Client
 import {ClientComponent} from "src/app/component/client/client.component";
 import {
-  ClientSearchServicesComponent
-} from "src/app/component/client/client-search-services/client-search-services.component";
+  BookingComponent
+} from "src/app/component/client/booking/booking.component";
 import {
   BookingDetailsComponent
 } from "src/app/component/client/booking-details/booking-details.component";
@@ -54,8 +54,8 @@ export const salon_application_routes: Routes = [
   { path: 'client', component: ClientComponent,
     children: [
       { path: 'user', component: ProfileComponent },
-      { path: 'services', component: ClientSearchServicesComponent },
-      { path: 'services/:keyword', component: ClientSearchServicesComponent },
+      { path: 'services', component: BookingComponent },
+      { path: 'services/:keyword', component: BookingComponent },
       { path: 'service/:serviceId', component: BookingDetailsComponent },
       { path: 'schedule', component: ClientScheduleComponent },
       { path: 'appointment/:appointmentId', component: ClientAppointmentDetailsComponent },
