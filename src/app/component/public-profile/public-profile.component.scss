@@ -1,0 +1,23 @@
+
+#bio-card-wrapper{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);
+  border-radius: var(--bs-border-radius-2xl);
+  padding: 20px;
+  align-items: center;
+}
+
+#bio-wrapper{
+  text-align: center;
+}
+
+#bio-info{
+  text-align: center;
+  width: 100%;
+
+  p {
+    margin: 0;
+  }
+}

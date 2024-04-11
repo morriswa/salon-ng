@@ -2,19 +2,37 @@
 
   <button class="salon-btn-secondary-outline" (click)="page.goBack()">Back</button>
 
-  <h2>Meet {{ employeeProfile.firstName }} {{ employeeProfile.lastName }}!</h2>
-  <h4>Pronouns: {{employeeProfile.pronouns }}</h4>
-  <p>{{ employeeProfile.bio }}</p>
+  <h1 style="text-align: center;"><strong>{{ employeeProfile.firstName }} {{ employeeProfile.lastName }}</strong></h1>
+  <h4 style="text-align: center;"><strong>Pronouns: {{employeeProfile.pronouns }}</strong></h4>
+  <br>
 
-  <img
-    style="max-height: 400px; max-width: 600px"
-    [src]="employeeProfile.profileImage">
+  <div id="bio-card-wrapper">
 
-  <br><br>
+    <div id="bio-card-image">
+      <img
+        style="max-height: 400px; max-width: 600px; border-radius:50%;"
+        [src]="employeeProfile.profileImage"
+      >
+    </div>
 
-  <h2>Contact Info</h2>
-  <h4>Contact Preference: {{ employeeProfile.contactPreference }}</h4>
-  <h4>Email: {{ employeeProfile.email }}</h4>
-  <h4>Phone: {{ employeeProfile.phoneNumber | americanPhoneNumber }}</h4>
+    <div id="bio-info">
+
+      <br>
+      <h2><strong>Biography</strong></h2>
+      <p>{{ employeeProfile.bio }}</p>
+
+      <br>
+      <h2><strong>Contact Info</strong></h2>
+      <p>Contact Preference: {{ employeeProfile.contactPreference }}</p>
+      <p><i class="bi bi-envelope"></i>{{ employeeProfile.email }}</p>
+      <p><i class="bi bi-telephone-fill"></i>{{ employeeProfile.phoneNumber | americanPhoneNumber }}</p>
+
+      <br>
+
+    </div>
+
+    <br><br>
+
+  </div>
 
 }
