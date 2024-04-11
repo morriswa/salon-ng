@@ -7,20 +7,21 @@ import {ValidatorFactory} from "src/app/validator-factory";
 import {PageService} from "src/app/service/page.service";
 import {ProvidedServiceDetails} from "src/app/interface/provided-service.interface";
 
-type TAB_SELECTOR = 'hair perm'|'nail'|'massage grooming'|'piercing'|'other';
-type TAB = { title: string, selector: TAB_SELECTOR };
-const DEFAULT_TAB: TAB_SELECTOR = 'hair perm';
+type TAB = { title: string, searchTerm: string };
+const DEFAULT_TAB: number = 1;
+const OTHER_TAB: number = 100;
 
 /**
  * add tabs here
  */
-const TABS: TAB[] = [
-  {title: 'Hair', selector: 'hair perm'},
-  //{title: 'Nails', selector: 'nail'},
-  {title: 'Massages', selector: 'massage grooming'},
-  {title: 'Piercings', selector: 'piercing'},
-  {title: 'Other', selector: 'other'}
-]
+const TABS: Map<number, TAB> = new Map([
+  [DEFAULT_TAB, {title: 'Hair', searchTerm: 'hair perm'}],
+  [5, {title: 'Nails', searchTerm: 'nail' }],
+  [2, {title: 'Massages', searchTerm: 'massage grooming' }],
+  [3, {title: 'Piercings', searchTerm: 'piercing'}],
+  [OTHER_TAB, {title: 'Other', searchTerm: 'other'}]
+]);
+
 
 @Component({
   selector: 'salon-client-search-services',
@@ -50,7 +51,7 @@ export class ClientSearchServicesComponent {
   /**
    * emits which tab the user is currently viewing
    */
-  currentPage$: BehaviorSubject<string>;
+  currentPage$: BehaviorSubject<number>;
 
   /**
    * emits whether the component is in a loading state
@@ -65,9 +66,9 @@ export class ClientSearchServicesComponent {
 
   constructor(private salonStore: SalonStore, public page: PageService) {
 
-    const navigationTab: string = page.getUrlSegmentElse(2, DEFAULT_TAB);
+    const navigationTab: number = Number(page.getUrlSegmentElse(2, DEFAULT_TAB.toString()));
 
-    this.currentPage$ = new BehaviorSubject<string>(navigationTab);
+    this.currentPage$ = new BehaviorSubject<number>(navigationTab);
 
     page.change(['/client', 'services', navigationTab]);
 
@@ -77,7 +78,7 @@ export class ClientSearchServicesComponent {
         switchMap((res): Observable<ProvidedServiceDetails[]>=>{
           this.page.change(['/client', 'services', res])
           this.loading$.next(true);
-          if (res!=='other') return this.salonStore.searchAvailableServices(res)
+          if (res!==OTHER_TAB) return this.salonStore.searchAvailableServices(this.tabs.get(res)?.searchTerm!);
           else return of([]);
       }))
       .subscribe({
@@ -90,7 +91,7 @@ export class ClientSearchServicesComponent {
     this.searchServiceForm
       .valueChanges
       .pipe(switchMap((res): Observable<ProvidedServiceDetails[]>=>{
-        if (res.length > 1 && this.currentPage$.value==='other')
+        if (res.length > 1 && this.currentPage$.value===OTHER_TAB)
           return this.salonStore.searchAvailableServices(res)
         else return of([]);
       }))
@@ -98,4 +99,6 @@ export class ClientSearchServicesComponent {
         next: res=>this.searchResults$.next(res)
       });
   }
+
+  protected readonly OTHER_TAB = OTHER_TAB;
 }

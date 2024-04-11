@@ -1,46 +1,32 @@
-.home-subheaders {
-    color: var(--bs-primary);
-    font-size: 100px;
-    font-family: "Italiana", sans-serif;
-    font-weight: 800;
-    text-align: center;
-}
 
-.makenna-tab {
-    color: var(--bs-primary);
-    border: none;
-    outline: none;
-    font-size: 25px;
-}
-
-.makenna-tab:hover {
+.salon-btn-fancy:hover,
+.disabled {
     color: var(--bs-secondary);
-    text-decoration: underline; 
+    text-decoration: underline;
 }
 
 #search-page-wrapper {
-    margin-left: 150px;
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 #search-page-tabs {
     flex: 1;
+    display: block;
     margin-right: 5px;
 }
 
 #search-page-content {
     flex: 1;
-    position: absolute;
-    left: 750px;
-    top: 275px;
+    display: block;
+    margin-right: 16px;
 }
 
 #results {
     margin-top: 20px;
-    margin-left: 15px;
+    margin-left: 16px;
 }
 
 #perm-image {
