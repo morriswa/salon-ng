@@ -1,4 +1,10 @@
 
+.locked-profile-wrapper {
+  width: 100%;
+  position: fixed;
+  top:4vh;
+}
+
 #update-contact-info-dialog-shade {
   display: block;
   background-color: rgba(0,0,0,0.4);
@@ -11,7 +17,7 @@
 }
 
 #update-contact-info-dialog {
-  max-width: 90vw;
+  max-width: 80vw;
   background-color: var(--bs-body-bg);
   border: none;
   border-radius: 24px;
