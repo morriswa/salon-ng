@@ -6,41 +6,33 @@
   <h4 style="text-align: center;"><strong>Pronouns: {{employeeProfile.pronouns }}</strong></h4>
   <br>
 
-  <div style="background-color: white; border: solid 5px; box-shadow: inset 0 0 35px 5px rgba(0,0,0,0.25), inset 0 2px 1px 1px rgba(255,255,255,0.9), inset 0 -2px 1px rgba(0,0,0,0.25);">
-    <div>
-      <h2 style="position: relative; left: 200px;" id ="bio-wrapper"><strong>Biography</strong></h2>
+  <div id="bio-card-wrapper">
+
+    <div id="bio-card-image">
+      <img
+        style="max-height: 400px; max-width: 600px; border-radius:50%;"
+        [src]="employeeProfile.profileImage"
+      >
     </div>
 
-    <div id="contact-info-wrapper">
-      <div id = "bio-card-wrapper">
-        <div id = "bio-card-image">
+    <div id="bio-info">
 
-          <img
-            style="max-height: 400px; max-width: 600px; border-radius:50%;"
-            [src]="employeeProfile.profileImage">
-        </div>
+      <br>
+      <h2><strong>Biography</strong></h2>
+      <p>{{ employeeProfile.bio }}</p>
 
-        <div style="position: relative; left: 40px;"id ="bio-info">
-          <br><br>
-          <p style="text-align: left;"id= "emply-wrapper">{{ employeeProfile.bio }}</p>
-        </div>
+      <br>
+      <h2><strong>Contact Info</strong></h2>
+      <p>Contact Preference: {{ employeeProfile.contactPreference }}</p>
+      <p><i class="bi bi-envelope"></i>{{ employeeProfile.email }}</p>
+      <p><i class="bi bi-telephone-fill"></i>{{ employeeProfile.phoneNumber | americanPhoneNumber }}</p>
 
-        <div class ="fixed" style="position: fixed;"id="contact-info">
-          <h2><strong>Contact Info</strong></h2>
+      <br>
 
-          <h4 style="margin:2px;display:inline; ">Contact Preference: {{ employeeProfile.contactPreference }}</h4>
-
-          <br>
-          <h4 style="margin:1px;display:inline;"><i class="bi bi-envelope"></i> {{ employeeProfile.email }}</h4>
-          <br>
-
-          <h4 style="margin:1px;display:inline;"><i class="bi bi-telephone-fill"></i> {{ employeeProfile.phoneNumber | americanPhoneNumber }}</h4>
-        </div>
-
-        <br><br>
-
-      </div>
     </div>
+
+    <br><br>
+
   </div>
 
 }
