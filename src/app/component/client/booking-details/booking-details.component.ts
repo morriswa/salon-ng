@@ -10,9 +10,9 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {PageService} from "../../../service/page.service";
 
 @Component({
-  selector: 'salon-booking',
-  templateUrl: './booking.component.html',
-  styleUrl: './booking.component.scss',
+  selector: 'salon-booking-details',
+  templateUrl: './booking-details.component.html',
+  styleUrl: './booking-details.component.scss',
   standalone: true,
   imports: [
     CommonModule,
@@ -26,7 +26,7 @@ import {PageService} from "../../../service/page.service";
     NgOptimizedImage,
   ]
 })
-export class BookingComponent {
+export class BookingDetailsComponent {
 
   serviceInfo$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
 
