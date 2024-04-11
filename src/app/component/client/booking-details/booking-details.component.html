@@ -2,7 +2,7 @@
 @if (serviceInfo$ | async; as serviceInfo) {
 
   <button class="salon-btn-secondary-outline" (click)="
-    page.change(page.lastInstanceOfPrefix(['/client', 'services'])||['/client','services'])
+    page.change(page.lastInstanceOfPrefix(['/client', 'booking'])||['/client','booking'])
   ">Keep browsing</button>
 
   <br>
@@ -12,7 +12,7 @@
   <h3>
     <h4 id="service-name">
     {{ serviceInfo.name }}
-    <br> 
+    <br>
     </h4>
     provided by
     <a

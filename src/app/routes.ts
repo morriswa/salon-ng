@@ -54,9 +54,9 @@ export const salon_application_routes: Routes = [
   { path: 'client', component: ClientComponent,
     children: [
       { path: 'user', component: ProfileComponent },
-      { path: 'services', component: BookingComponent },
-      { path: 'services/:keyword', component: BookingComponent },
-      { path: 'service/:serviceId', component: BookingDetailsComponent },
+      { path: 'booking', component: BookingComponent },
+      { path: 'booking/:keyword', component: BookingComponent },
+      { path: 'book/:serviceId', component: BookingDetailsComponent },
       { path: 'schedule', component: ClientScheduleComponent },
       { path: 'appointment/:appointmentId', component: ClientAppointmentDetailsComponent },
       { path: '**', pathMatch: "full", redirectTo: "schedule"}

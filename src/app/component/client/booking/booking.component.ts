@@ -70,13 +70,13 @@ export class BookingComponent {
 
     this.currentPage$ = new BehaviorSubject<number>(navigationTab);
 
-    page.change(['/client', 'services', navigationTab]);
+    page.change(['/client', 'booking', navigationTab]);
 
     this.currentPage$
       .asObservable()
       .pipe(
         switchMap((res): Observable<ProvidedServiceDetails[]>=>{
-          this.page.change(['/client', 'services', res])
+          this.page.change(['/client', 'booking', res])
           this.loading$.next(true);
           if (res!==OTHER_TAB) return this.salonStore.searchAvailableServices(this.tabs.get(res)?.searchTerm!);
           else return of([]);

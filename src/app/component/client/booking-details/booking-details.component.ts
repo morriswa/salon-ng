@@ -47,7 +47,7 @@ export class BookingDetailsComponent {
           this.serviceInfo$.next(res);
         },
         error: err => {
-          page.change(['/client','services'])
+          page.change(['/client','booking'])
         }
       });
   }
