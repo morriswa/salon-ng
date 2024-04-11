@@ -106,4 +106,8 @@ export class PageService {
 
     return undefined;
   }
+
+  subpageOf(s: string) {
+    return this.router.url.startsWith(s);
+  }
 }

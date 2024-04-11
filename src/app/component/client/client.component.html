@@ -20,8 +20,8 @@
   *ngIf="login.hasAuthority('CLIENT')"
   class="salon-btn-secondary-outline"
   (click)="page.change(['/client','services'])"
-  [disabled]="page.is('/client/services')"
->Search for Services</button>
+  [disabled]="page.subpageOf('/client/service')"
+>Book Appointment</button>
 
 <div style="display: block; margin: 20px auto 0 auto;">
   <router-outlet></router-outlet>
