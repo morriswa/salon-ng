@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ViewChild} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {SalonStore} from "../../../service/salon-store.service";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
@@ -26,7 +26,7 @@ import {PageService} from "../../../service/page.service";
     MoneyPipe,
   ]
 })
-export class EmployeeServicesComponent implements AfterViewInit {
+export class EmployeeServicesComponent implements AfterViewChecked {
 
   /**
    * state of view create service menu
@@ -56,15 +56,14 @@ export class EmployeeServicesComponent implements AfterViewInit {
   // required table controls
   providedServiceData: MatTableDataSource<ProvidedService> = new MatTableDataSource<ProvidedService>([]);
   providedServiceColumns: string[] = ['serviceId', 'name', 'length', 'cost'];
+  @ViewChild(MatSort) providedServiceSorter?: MatSort;
 
-  // magic code to make table work
-  @ViewChild(MatSort) set mySorter(sort: MatSort) {
-    this.providedServiceData.sort = sort;
+
+  // required lifecycle hook for sort
+  ngAfterViewChecked(): void {
+    if (this.providedServiceSorter) this.providedServiceData.sort = this.providedServiceSorter;
   }
 
-  ngAfterViewInit(): void {
-    this.providedServiceData.sort = this.mySorter;
-  }
 
   constructor(private salonStore: SalonStore, public page: PageService) {
     this.providedServiceData.sortingDataAccessor = (item, property): any => {
