@@ -10,9 +10,10 @@
 
     <div id="bio-card-image">
       <img
-        style="max-height: 400px; max-width: 600px; border-radius:50%;"
-        [src]="employeeProfile.profileImage"
-      >
+        height="400" width="400"
+        class="salon-employee-img"
+        [ngSrc]="employeeProfile.profileImage"
+        [alt]="employeeProfile.firstName + ' ' + employeeProfile.lastName + '\'s profile image'">
     </div>
 
     <div id="bio-info">

@@ -43,12 +43,11 @@
     <div class="employee-content"
          [ngClass]="idx%2==0? 'employee-content-left': 'employee-content-right'">
       <img
-        (click)="page.change(['/profile', employee.employeeId.toString()])"
-        class="employee-image-bubble bouncy"
-        style="border-radius: 50%"
-        [ngSrc]="employee.profileImage"
         height="300" width="300"
-        alt="">
+        class="salon-employee-img employee-image-bubble bouncy"
+        [ngSrc]="employee.profileImage"
+        [routerLink]="['/profile', employee.employeeId]"
+        [alt]="employee.firstName + ' ' + employee.lastName + '\'s profile image'">
       <div
         class="employee-content-text">
         <p class='employee-content-title'>{{ employee.firstName + " " + employee.lastName }}</p>

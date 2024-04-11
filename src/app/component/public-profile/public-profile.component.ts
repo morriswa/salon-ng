@@ -3,7 +3,7 @@ import {SalonStore} from "../../service/salon-store.service";
 import {BehaviorSubject} from "rxjs";
 import {EmployeeProfile} from "../../interface/profile.interface";
 import {AmericanPhoneNumberPipe} from "../../pipe/AmericanPhoneNumber.pipe";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {PageService} from "../../service/page.service";
 
 @Component({
@@ -13,6 +13,8 @@ import {PageService} from "../../service/page.service";
   standalone: true,
   imports: [
     CommonModule,
+
+    NgOptimizedImage,
 
     AmericanPhoneNumberPipe,
   ]

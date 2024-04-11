@@ -188,49 +188,48 @@
     @if(employeeProfile$|async; as employee) {
 
       <img
-        style="max-height: 400px; max-width: 600px"
+        class="salon-employee-img"
         [ngSrc]="employee.profileImage"
         height="400"
         width="400"
         priority
         [alt]="employee.firstName + ' ' + employee.lastName + '\'s Profile'">
 
-      <div class="input-group">
-        <salon-image-upload-and-crop
-          [forceAspectRatio]="true"
-          [cropAspectRatio]="1"
-          [resetImageForm]="resetImageForm$"
-          (uploadImageEvent)="uploadProfileImage($event)">
-        </salon-image-upload-and-crop>
-
-      </div>
-
-      <h2>Bio</h2>
+      <h3>Bio</h3>
       <p>{{ employee.bio }}</p>
       <br>
+
+      <h3>Update Profile Image</h3>
+      <salon-image-upload-and-crop
+        [forceAspectRatio]="true"
+        [cropAspectRatio]="1"
+        [resetImageForm]="resetImageForm$"
+        (uploadImageEvent)="uploadProfileImage($event)">
+      </salon-image-upload-and-crop>
     }
 
-    <h2>Contact Information</h2>
-    <h4>First name: {{ contactInfo.firstName }}</h4>
-    <h4>Last name: {{ contactInfo.lastName }}</h4>
-    <h4>Pronouns: {{contactInfo.pronouns }}</h4>
+    <br>
+    <h3>Contact Information</h3>
+    <p>First name: {{ contactInfo.firstName }}</p>
+    <p>Last name: {{ contactInfo.lastName }}</p>
+    <p>Pronouns: {{contactInfo.pronouns }}</p>
     @if(clientProfile$|async; as client) {
       <p *ngIf="client.birthday">**Rewards Member</p>
-      <h4 *ngIf="client.birthday">Birthday: {{ client.birthday | americanFormattedDate }}</h4>
+      <p *ngIf="client.birthday">Birthday: {{ client.birthday | americanFormattedDate }}</p>
     }
 
-    <h4>Email: {{ contactInfo.email }}</h4>
-    <h4>Phone: {{ contactInfo.phoneNumber | americanPhoneNumber }}</h4>
-    <h4>Address: {{ contactInfo.formattedAddress }}</h4>
-    <h4>Contact Preference: {{ contactInfo.contactPreference }}</h4>
+    <p>Email: {{ contactInfo.email }}</p>
+    <p>Phone: {{ contactInfo.phoneNumber | americanPhoneNumber }}</p>
+    <p>Address: {{ contactInfo.formattedAddress }}</p>
+    <p>Contact Preference: {{ contactInfo.contactPreference }}</p>
     <br>
   }
 
   @if (login.account$ | async; as account) {
-    <h2>Account Information</h2>
-    <h4>Username: {{ account.username }}</h4>
-    <h4>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</h4>
-    <h4>Permissions: {{ account.authorities }}</h4>
+    <h3>Account Information</h3>
+    <p>Username: {{ account.username }}</p>
+    <p>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</p>
+    <p>Permissions: {{ account.authorities }}</p>
   }
   <br>
 

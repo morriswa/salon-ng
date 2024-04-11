@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {EmployeeProfile} from "../../interface/profile.interface";
 import {PageService} from "../../service/page.service";
+import {RouterLink} from "@angular/router";
 
 
 /**
@@ -17,7 +18,8 @@ import {PageService} from "../../service/page.service";
   imports: [
     CommonModule,
 
-    NgOptimizedImage
+    RouterLink,
+    NgOptimizedImage,
   ]
 })
 export class HomeComponent {

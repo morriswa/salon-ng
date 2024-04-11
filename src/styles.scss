@@ -74,6 +74,10 @@ body {
   margin: 0;
 }
 
+p {
+  margin: 0;
+}
+
 // defn global classes
 .salon-btn-primary {
   @extend .btn;
@@ -158,4 +162,9 @@ body {
   font-family: "Italiana", sans-serif;
   font-weight: 800;
   text-align: center;
+}
+
+.salon-employee-img {
+  object-fit: cover;
+  border-radius: 50%
 }
