@@ -16,8 +16,8 @@
         <img
           style="max-height: 400px; max-width: 600px"
           [ngSrc]="image.value!"
-          height="200"
-          width="300"
+          height="180"
+          width="320"
         >
       </div>
       <div>
@@ -30,17 +30,12 @@
     <p>No images!</p>
   }
 
-  <div class="input-group mb-3">
-    <input
-      type="file"
-      class="form-control"
-      [formControl]="this.profilePhotoUploadForm"
-      (change)="cacheImageToUpload($event)"
-    >
-    <label
-      class="input-group-text"
-      (click)="uploadProfileImage()">Upload</label>
-  </div>
+  <salon-image-upload-and-crop
+    [resetImageForm]="resetImageForm$"
+    [cropAspectRatio]="16 / 9"
+    [forceAspectRatio]="true"
+    (uploadImageEvent)="uploadProfileImage($event)"
+  ></salon-image-upload-and-crop>
 
   <div class="form-floating">
     <input

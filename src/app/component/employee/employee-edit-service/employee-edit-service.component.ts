@@ -7,6 +7,7 @@ import {AsyncPipe, KeyValuePipe, NgForOf, NgOptimizedImage} from "@angular/commo
 import {ValidatorFactory} from "../../../validator-factory";
 import {MoneyPipe} from "../../../pipe/Money.pipe";
 import {ProvidedServiceProfile} from "../../../interface/provided-service.interface";
+import {ImageUploadAndCropComponent} from "../../salon-shared/image-upload-and-crop/image-upload-and-crop.component";
 
 @Component({
   selector: 'salon-employee-edit-service',
@@ -22,6 +23,7 @@ import {ProvidedServiceProfile} from "../../../interface/provided-service.interf
     KeyValuePipe,
 
     MoneyPipe,
+    ImageUploadAndCropComponent,
   ],
   templateUrl: './employee-edit-service.component.html',
   styleUrl: './employee-edit-service.component.scss'
@@ -36,11 +38,9 @@ export class EmployeeEditServiceComponent {
   currentServiceImages$: BehaviorSubject<any>
     = new BehaviorSubject<any>(undefined);
 
-  cachedProfileImage$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
-
   showDeleteServiceModal$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  profilePhotoUploadForm: FormControl = ValidatorFactory.getGenericForm();
+  resetImageForm$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
 
   // create service form controls
   serviceNameForm: FormControl = ValidatorFactory.getServiceNameForm();
@@ -68,24 +68,14 @@ export class EmployeeEditServiceComponent {
       });
   }
 
-  uploadProfileImage() {
-    const image = this.cachedProfileImage$.getValue();
-
-    if (image)
-      this.salonStore.uploadProvidedServiceImage(this.serviceId, image)
-        .subscribe({
-          next: (res)=>{
-            this.currentServiceImages$.next(res);
-            this.profilePhotoUploadForm.reset();
-          },
-        });
-    else
-      console.error("No image selected!");
-  }
-
-  cacheImageToUpload($event: any) {
-    let file:File = $event.target.files[0];
-    this.cachedProfileImage$.next(file);
+  uploadProfileImage($event: File) {
+    this.salonStore.uploadProvidedServiceImage(this.serviceId, $event)
+      .subscribe({
+        next: (res)=>{
+          this.currentServiceImages$.next(res);
+          this.resetImageForm$.next('reset');
+        },
+      });
   }
 
   deleteImage(key: any) {

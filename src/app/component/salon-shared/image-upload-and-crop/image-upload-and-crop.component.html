@@ -3,16 +3,13 @@
 
 <span>{{ userDialog }}</span>
 
-<div class="input-group">
-  <input
-    class="form-control"
-    (change)="newImageUploaded($event)"
-    [formControl]="this.fileInput"
-    type="file"
-    required="false"
-  >
-</div>
-
+<input
+  class="form-control"
+  (change)="newImageUploaded($event)"
+  [formControl]="this.fileInput"
+  type="file"
+  required="false"
+>
 
 @if (fileInput.value && (croppingInProgress$|async) && imageToCrop) {
   <br>

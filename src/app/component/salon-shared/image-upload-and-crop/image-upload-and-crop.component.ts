@@ -84,7 +84,8 @@ export class ImageUploadAndCropComponent implements OnInit {
     if (finalImage) {
       this.croppingInProgress$.next(false);
       this.imageToCrop = undefined;
-      this.uploadImageEvent.emit(finalImage as File)
+      this.uploadImageEvent.emit(finalImage as File);
+      this.errorMessage$.next("");
     }
   }
 }
