@@ -1,4 +1,4 @@
-
+<body>
 @if (serviceInfo$ | async; as serviceInfo) {
 
   <button class="salon-btn-secondary-outline" (click)="
@@ -6,11 +6,15 @@
   ">Keep browsing</button>
 
   <br>
-
   <img *ngFor="let image of serviceInfo.content" [ngSrc]="image"
     width="300" height="200" style="object-fit: cover">
 
-  <h3>{{ serviceInfo.name }}, provided by
+  <h3>
+    <h4 id="service-name">
+    {{ serviceInfo.name }}
+    <br> 
+    </h4>
+    provided by
     <a
       class="search-result-links"
       (click)="page.change(['/profile', serviceInfo.employee.employeeId])"
@@ -27,12 +31,14 @@
 
   } @else {
 
-    <p>Images and additional content will go here. Thinking employee bio/terms? Not sure yet :)</p>
+    <!-- <p>Images and additional content will go here. Thinking employee bio/terms? Not sure yet :)</p>
 
     <br>
 
-    <p>This is where clients will book their appointments</p>
+    <p>This is where clients will book their appointments</p> -->
 
+    <br>
+    <br>
     <mat-form-field class="booking-fields">
       <mat-label>Choose a date</mat-label>
       <input matInput [matDatepicker]="picker" (dateChange)="selectedDate($event)">
@@ -74,3 +80,4 @@
 } @else {
   <h1>Retrieving service info...</h1>
 }
+</body>

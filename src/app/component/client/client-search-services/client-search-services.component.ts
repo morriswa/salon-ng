@@ -2,23 +2,24 @@ import { Component } from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {SalonStore} from "src/app/service/salon-store.service";
 import {BehaviorSubject, Observable, of, switchMap} from "rxjs";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {ValidatorFactory} from "src/app/validator-factory";
 import {PageService} from "src/app/service/page.service";
 import {ProvidedServiceDetails} from "src/app/interface/provided-service.interface";
 
-type TAB_SELECTOR = 'hair'|'nail'|'massage'|'other';
+type TAB_SELECTOR = 'hair perm'|'nail'|'massage grooming'|'piercing'|'other';
 type TAB = { title: string, selector: TAB_SELECTOR };
-const DEFAULT_TAB: TAB_SELECTOR = 'hair';
+const DEFAULT_TAB: TAB_SELECTOR = 'hair perm';
 
 /**
  * add tabs here
  */
 const TABS: TAB[] = [
-  {title: 'Hair', selector: 'hair'},
-  {title: 'Nails', selector: 'nail'},
-  {title: 'Massages', selector: 'massage'},
-  {title: 'Other', selector: 'other'},
+  {title: 'Hair', selector: 'hair perm'},
+  //{title: 'Nails', selector: 'nail'},
+  {title: 'Massages', selector: 'massage grooming'},
+  {title: 'Piercings', selector: 'piercing'},
+  {title: 'Other', selector: 'other'}
 ]
 
 @Component({
@@ -29,6 +30,8 @@ const TABS: TAB[] = [
   imports: [
     CommonModule,
     ReactiveFormsModule,
+
+    NgOptimizedImage,
   ]
 })
 export class ClientSearchServicesComponent {
