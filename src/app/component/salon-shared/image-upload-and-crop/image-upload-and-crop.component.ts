@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ImageCroppedEvent, ImageCropperModule} from "ngx-image-cropper";
 import {ReactiveFormsModule} from "@angular/forms";
 import {BehaviorSubject, Subject} from "rxjs";
@@ -19,7 +19,7 @@ import {AsyncPipe, NgIf} from "@angular/common";
   ],
   standalone: true
 })
-export class ImageUploadAndCropComponent {
+export class ImageUploadAndCropComponent implements OnInit {
 
   /**
    * one way binding for ngx image cropper
@@ -27,12 +27,12 @@ export class ImageUploadAndCropComponent {
   imageToCrop: any;
 
 
-  @Input() resetImageForm: Subject<any> = new Subject<any>();
+  @Input() resetImageForm!: Subject<any>;
   @Input() cropAspectRatio: number = 1;
   @Input() forceAspectRatio: boolean = false;
   @Input() userDialog?: string;
 
-  @Output() croppedImageEvent: EventEmitter<File|undefined> = new EventEmitter<File|undefined>();
+  @Output() uploadImageEvent: EventEmitter<File> = new EventEmitter<File>();
 
 
   croppingInProgress$:BehaviorSubject<boolean>= new BehaviorSubject<boolean>(false);
@@ -43,8 +43,7 @@ export class ImageUploadAndCropComponent {
 
   fileInput = ValidatorFactory.getGenericForm();
 
-
-  constructor() {
+  ngOnInit(): void {
     this.resetImageForm.subscribe(()=>this.reset())
   }
 
@@ -81,12 +80,11 @@ export class ImageUploadAndCropComponent {
   }
 
   public confirmCropAndReturnImageObj() {
-
     const finalImage = this.finalImage$.value;
     if (finalImage) {
       this.croppingInProgress$.next(false);
       this.imageToCrop = undefined;
-      this.croppedImageEvent.emit(finalImage as File)
+      this.uploadImageEvent.emit(finalImage as File)
     }
   }
 }

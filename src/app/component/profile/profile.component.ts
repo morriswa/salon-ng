@@ -94,12 +94,6 @@ export class ProfileComponent {
     = new BehaviorSubject<string | undefined>(undefined);
 
   /**
-   * currently cached profile image to upload
-   */
-  cachedProfileImage$: BehaviorSubject<File| undefined>
-    = new BehaviorSubject<File| undefined>(undefined);
-
-  /**
    * errors encountered doing profile image upload
    */
   profilePhotoErrors$: BehaviorSubject<string>
@@ -124,7 +118,6 @@ export class ProfileComponent {
   addressLineTwoForm = ValidatorFactory.getAddressLnTwoForm();
   cityForm = ValidatorFactory.getCityForm();
   zipCodeForm = ValidatorFactory.getZipCodeForm();
-  profilePhotoUploadForm: FormControl = ValidatorFactory.getGenericForm();
   bioForm: FormControl = ValidatorFactory.getGenericForm();
   birthdayForm: FormControl = ValidatorFactory.getGenericForm();
 
@@ -287,20 +280,15 @@ export class ProfileComponent {
     this.contactMethodSelector$.next(undefined);
   }
 
-  uploadProfileImage() {
-    const image = this.cachedProfileImage$.getValue();
-
-    if (image)
-      this.salonStore.updateEmployeeProfileImage(image)
-        .subscribe({
-          next: (res:EmployeeProfile)=>{
-            this._profile$.next(res);
-            this.profilePhotoUploadForm.reset();
-            this.resetImageForm$.next('reset');
-          },
-          error: (err:any)=>this.profilePhotoErrors$.next(err.error.description)
-        });
-    else
-      this.profilePhotoErrors$.next("No image selected!");
+  uploadProfileImage($event: File) {
+    this.salonStore.updateEmployeeProfileImage($event)
+    .subscribe({
+      next: (res:EmployeeProfile)=>{
+        this._profile$.next(res);
+        // this.profilePhotoUploadForm.reset();
+        this.resetImageForm$.next('reset');
+      },
+      error: (err:any)=>this.profilePhotoErrors$.next(err.error.description)
+    });
   }
 }
