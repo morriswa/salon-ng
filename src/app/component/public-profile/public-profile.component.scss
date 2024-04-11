@@ -1,0 +1,22 @@
+#bio-card-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+
+#bio-wrapper{
+    text-align: center;
+}
+
+#bio-info{
+    text-align: right;
+}
+
+div.fixed{
+    position: absolute;
+    left: 200px;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+}
+
