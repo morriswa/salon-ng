@@ -5,17 +5,27 @@
   <!-- three homepage images + captions -->
   <div id="home-main-images">
     <div class="home-main-image-wrapper">
-      <img class="home-main-image bouncy" ngSrc="assets/images/plant_collection.jpeg" height="400" width="400">
+      <img
+        height="400" width="400" priority
+        class="home-main-image bouncy"
+        ngSrc="assets/images/plant_collection.jpeg"
+      >
       <p class="home-main-image-caption">Plenty of Plants</p>
     </div>
     <div class="home-main-image-wrapper">
       <img
+        height="400" width="400" priority
         class="home-main-image bouncy"
-        ngSrc="assets/images/coffee_shop.jpeg" height="400" width="400">
+        ngSrc="assets/images/coffee_shop.jpeg"
+      >
       <p class="home-main-image-caption">Complementary Coffee Bar</p>
     </div>
     <div class="home-main-image-wrapper">
-      <img class="home-main-image bouncy" ngSrc="assets/images/salon_picture.jpeg" height="400" width="400">
+      <img
+        height="400" width="400" priority
+        class="home-main-image bouncy"
+        ngSrc="assets/images/salon_picture.jpeg"
+      >
       <p class="home-main-image-caption">Hair Studio</p>
     </div>
   </div>
@@ -47,7 +57,8 @@
         class="salon-employee-img employee-image-bubble bouncy"
         [ngSrc]="employee.profileImage"
         [routerLink]="['/profile', employee.employeeId]"
-        [alt]="employee.firstName + ' ' + employee.lastName + '\'s profile image'">
+        [alt]="employee.firstName + ' ' + employee.lastName + '\'s profile image'"
+      >
       <div
         class="employee-content-text">
         <p class='employee-content-title'>{{ employee.firstName + " " + employee.lastName }}</p>
