@@ -7,32 +7,32 @@
     <div class="home-main-image-wrapper">
       <img
         height="400" width="400" priority
-        class="home-main-image bouncy"
-        ngSrc="assets/images/plant_collection.jpeg"
+        class="home-main-image salon-fx-load-in salon-fx-bouncy"
+        ngSrc="assets/images/plant_collection_400.jpg"
       >
       <p class="home-main-image-caption">Plenty of Plants</p>
     </div>
     <div class="home-main-image-wrapper">
       <img
         height="400" width="400" priority
-        class="home-main-image bouncy"
-        ngSrc="assets/images/coffee_shop.jpeg"
+        class="home-main-image salon-fx-load-in salon-fx-bouncy"
+        ngSrc="assets/images/coffee_shop_400.jpg"
       >
       <p class="home-main-image-caption">Complementary Coffee Bar</p>
     </div>
     <div class="home-main-image-wrapper">
       <img
         height="400" width="400" priority
-        class="home-main-image bouncy"
-        ngSrc="assets/images/salon_picture.jpeg"
+        class="home-main-image salon-fx-load-in salon-fx-bouncy"
+        ngSrc="assets/images/salon_picture_400.jpg"
       >
       <p class="home-main-image-caption">Hair Studio</p>
     </div>
   </div>
 
   <!-- about the salon section -->
-  <h2 class="home-subheaders"> ABOUT US </h2>
-  <p class="home-plaintext">
+  <h2 class="salon-subheader"> ABOUT US </h2>
+  <p class="salon-plaintext">
     At Floral Flair Studio, we believe that every individual possesses their own unique beauty,
     just like the diverse array of flowers in a flourishing garden. Our mission is to enhance and celebrate your natural beauty while providing you with an
     unforgettable salon experience.
@@ -47,14 +47,14 @@
   </p>
 
   <!-- meet the team section -->
-  <h2 class="home-subheaders"> MEET THE TEAM </h2>
+  <h2 class="salon-subheader"> MEET THE TEAM </h2>
 
   @for (employee of (featuredEmployees$ | async); track employee.email; let idx = $index) {
     <div class="employee-content"
          [ngClass]="idx%2==0? 'employee-content-left': 'employee-content-right'">
       <img
         height="300" width="300"
-        class="salon-employee-img employee-image-bubble bouncy"
+        class="salon-employee-img employee-image-bubble salon-fx-bouncy"
         [ngSrc]="employee.profileImage"
         [routerLink]="['/profile', employee.employeeId]"
         [alt]="employee.firstName + ' ' + employee.lastName + '\'s profile image'"
@@ -62,13 +62,13 @@
       <div
         class="employee-content-text">
         <p class='employee-content-title'>{{ employee.firstName + " " + employee.lastName }}</p>
-        <p>{{ employee.bio }}</p>
+        <p class="salon-plaintext">{{ employee.bio }}</p>
       </div>
     </div>
   }
 </div>
 
-  <h2 class="home-subheaders" style="
+  <h2 class="salon-subheader" style="
   text-align: center;
   ">CONTACT US</h2>
 

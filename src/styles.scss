@@ -163,9 +163,45 @@ p {
   font-family: "Italiana", sans-serif;
   font-weight: 800;
   text-align: center;
+  padding-top: 50px;
 }
 
 .salon-employee-img {
   object-fit: cover;
   border-radius: 50%
+}
+
+//small text
+.salon-plaintext {
+  color: rgb(32, 32, 32);
+  font-family: "Roboto Mono", monospace;
+  font-size: 16px;
+}
+
+
+@keyframes loadingAnimation{
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.salon-fx-load-in {
+  animation: loadingAnimation 1.5s;
+}
+
+//hover on images animation
+.salon-fx-bouncy {
+  border: 0 solid var(--bs-primary);
+  transition: border .2s, transform .2s;
+
+  &:hover {
+    transform: scale(1.05);
+    border-width: 5px;
+  }
 }
