@@ -7,21 +7,20 @@ import {ValidatorFactory} from "src/app/validator-factory";
 import {PageService} from "src/app/service/page.service";
 import {ProvidedServiceDetails} from "src/app/interface/provided-service.interface";
 
-type TAB = { title: string, searchTerm: string };
-const DEFAULT_TAB: number = 1;
-const OTHER_TAB: number = 100;
+type TAB = { title: string, searchTerm: string, order: number, href: string };
+const DEFAULT_TAB: string = 'hair';
+const OTHER_TAB: string = 'other';
 
 /**
  * add tabs here
  */
-const TABS: Map<number, TAB> = new Map([
-  [DEFAULT_TAB, {title: 'Hair', searchTerm: 'hair perm'}],
-  [5, {title: 'Nails', searchTerm: 'nail' }],
-  [2, {title: 'Massages', searchTerm: 'massage grooming' }],
-  [3, {title: 'Piercings', searchTerm: 'piercing'}],
-  [OTHER_TAB, {title: 'Other', searchTerm: 'other'}]
-]);
-
+const TABS: TAB[] = [
+  { href: 'hair', title: 'Hair', searchTerm: 'hair perm', order: 1 },
+  { href: 'nails', title: 'Nails', searchTerm: 'nail', order: 2 },
+  { href: 'massages', title: 'Massages', searchTerm: 'massage grooming', order: 3 },
+  { href: 'piercings', title: 'Piercings', searchTerm: 'piercing', order: 4 },
+  { href: 'other', title: 'Other', searchTerm: 'other', order: 5 }
+];
 
 @Component({
   selector: 'salon-booking',
@@ -37,10 +36,12 @@ const TABS: Map<number, TAB> = new Map([
 })
 export class BookingComponent {
 
+  tabMap: Map<string, any>;
+
   /**
    * translate const to class attr
    */
-  tabs = TABS;
+  tabs: TAB[] = TABS;
 
   /**
    * emits list of current service details to display
@@ -51,7 +52,7 @@ export class BookingComponent {
   /**
    * emits which tab the user is currently viewing
    */
-  currentPage$: BehaviorSubject<number>;
+  currentPage$: BehaviorSubject<string>;
 
   /**
    * emits whether the component is in a loading state
@@ -66,9 +67,15 @@ export class BookingComponent {
 
   constructor(private salonStore: SalonStore, public page: PageService) {
 
-    const navigationTab: number = Number(page.getUrlSegmentElse(2, DEFAULT_TAB.toString()));
+    {
+      let buildTabMap = new Map<string, TAB>();
+      for (let tab of this.tabs) buildTabMap.set(tab.href, tab);
+      this.tabMap = buildTabMap;
+    }
 
-    this.currentPage$ = new BehaviorSubject<number>(navigationTab);
+    const navigationTab: string = page.getUrlSegmentElse(2, DEFAULT_TAB);
+
+    this.currentPage$ = new BehaviorSubject<string>(navigationTab);
 
     page.change(['/client', 'booking', navigationTab]);
 
@@ -78,7 +85,7 @@ export class BookingComponent {
         switchMap((res): Observable<ProvidedServiceDetails[]>=>{
           this.page.change(['/client', 'booking', res])
           this.loading$.next(true);
-          if (res!==OTHER_TAB) return this.salonStore.searchAvailableServices(this.tabs.get(res)?.searchTerm!);
+          if (res!==OTHER_TAB) return this.salonStore.searchAvailableServices(this.tabMap.get(res)?.searchTerm!);
           else return of([]);
       }))
       .subscribe({

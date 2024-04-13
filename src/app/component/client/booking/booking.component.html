@@ -5,12 +5,12 @@
 
     <!-- generates tabbed layout based on config in component -->
     <ul class="nav">
-      @for (tab of tabs|keyvalue; track tab.key) {
+      @for (tab of tabs; track tab.order;) {
         <li class="nav-item">
           <a
             class="salon-btn-fancy nav-link"
-            [ngClass]="(currentPage$|async)===tab.key?'disabled':''"
-            (click)="currentPage$.next(tab.key)">{{ tab.value.title }}</a>
+            [ngClass]="(currentPage$|async)===tab.href?'disabled':''"
+            (click)="currentPage$.next(tab.href)">{{ tab.title }}</a>
         </li>
       }
     </ul>
