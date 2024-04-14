@@ -40,6 +40,10 @@
           placeholder="Update your Biography"
           [formControl]="bioForm"
         >
+        <p
+          class="text-danger"
+          *ngIf="(updateFormErrors$|async)?.get('bio') as error"
+        >{{ error }}</p>
       </div>
     }
 

@@ -102,8 +102,8 @@ export class ProfileComponent {
   /**
    * errors encountered doing profile updates
    */
-  updateFormErrors$: BehaviorSubject<Map<any, string>>
-    = new BehaviorSubject<Map<any, string>>(new Map<any, string>());
+  updateFormErrors$: BehaviorSubject<Map<string, string>>
+    = new BehaviorSubject<Map<string, string>>(new Map<string, string>());
 
   resetImageForm$: BehaviorSubject<any>
     = new BehaviorSubject<any>(undefined);

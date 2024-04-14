@@ -43,7 +43,8 @@ export class CreateProfileComponent {
   /**
    * stores service errors encountered during http requests
    */
-  serviceErrors$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+  serviceErrors$: BehaviorSubject<Map<string, string>>
+    = new BehaviorSubject<Map<string, string>>(new Map<string, string>());
 
 
   firstNameForm = ValidatorFactory.getFirstNameForm();
@@ -91,14 +92,14 @@ export class CreateProfileComponent {
       .subscribe({
         next: (res:any) => { // if requests were successful
           // this.account$ = this.login.account$; // get new login information
-          this.serviceErrors$.next([]); // reset error messages
+          this.serviceErrors$.next(new Map<string, string>()); // reset error messages
           this.processingProfile$.next(false); // and mark component as available
           this.page.change(['/register2','access'])
         },
         error: (err:any) => { // if errors were encountered during profile creation
-          let errors:string[] = []; // reset error messages
+          let errors:Map<any, string> = new Map<any, string>();
           // cache all server error messages and display them to the user
-          err.error.additionalInfo.map((each:any)=>errors.push(each.message));
+          err.error.additionalInfo.map((each:any)=>errors.set(each.field, each.message));
           this.serviceErrors$.next(errors);
           this.processingProfile$.next(false); // and mark component as available
         }
