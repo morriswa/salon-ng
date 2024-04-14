@@ -175,62 +175,61 @@
 
   <h3 class="salon-subheader">Your Profile</h3>
 
-  @if (contactInfo$ | async; as contactInfo) {
+  <div id="profile-wrapper">
+    @if (contactInfo$ | async; as contactInfo) {
 
-    @if(employeeProfile$|async; as employee) {
+      <div *ngIf="(employeeProfile$|async) as employee" id="employee-profile-image-wrapper">
+        <img
+          class="salon-employee-img"
+          [ngSrc]="employee.profileImage"
+          height="400"
+          width="400"
+          priority
+          [alt]="employee.firstName + ' ' + employee.lastName + '\'s Profile'">
+      </div>
 
-      <img
-        class="salon-employee-img"
-        [ngSrc]="employee.profileImage"
-        height="400"
-        width="400"
-        priority
-        [alt]="employee.firstName + ' ' + employee.lastName + '\'s Profile'">
+      <div id="profile-details">
 
-      <h3>Bio</h3>
-      <p>{{ employee.bio }}</p>
-      <br>
+        @if(employeeProfile$|async; as employee) {
+          <h3>Update Profile Image</h3>
+          <salon-image-upload-and-crop
+            [forceAspectRatio]="true"
+            [cropAspectRatio]="1"
+            [resetImageForm]="resetImageForm$"
+            (uploadImageEvent)="uploadProfileImage($event)">
+          </salon-image-upload-and-crop>
 
-      <h3>Update Profile Image</h3>
-      <salon-image-upload-and-crop
-        [forceAspectRatio]="true"
-        [cropAspectRatio]="1"
-        [resetImageForm]="resetImageForm$"
-        (uploadImageEvent)="uploadProfileImage($event)">
-      </salon-image-upload-and-crop>
+          <br>
+          <h3>Bio</h3>
+          <p>{{ employee.bio }}</p>
+        }
+
+        <br>
+        <h3>Your Info</h3>
+        <p>First name: {{ contactInfo.firstName }}</p>
+        <p>Last name: {{ contactInfo.lastName }}</p>
+        <p>Pronouns: {{contactInfo.pronouns }}</p>
+
+        @if(clientProfile$|async; as client) {
+          <p *ngIf="client.birthday">**Rewards Member</p>
+          <p *ngIf="client.birthday">Birthday: {{ client.birthday | americanFormattedDate }}</p>
+        }
+
+        <p>Email: {{ contactInfo.email }}</p>
+        <p>Phone: {{ contactInfo.phoneNumber | americanPhoneNumber }}</p>
+        <p>Address: {{ contactInfo.formattedAddress }}</p>
+        <p>Contact Preference: {{ contactInfo.contactPreference }}</p>
+
+        <br>
+        <button
+          *ngIf="!(isUpdatingContactInfo$|async)"
+          class="salon-btn-primary"
+          (click)="this.isUpdatingContactInfo$.next(true)"
+        >Update Info</button>
+      </div>
     }
 
-    <br>
-    <h3>Contact Information</h3>
-    <p>First name: {{ contactInfo.firstName }}</p>
-    <p>Last name: {{ contactInfo.lastName }}</p>
-    <p>Pronouns: {{contactInfo.pronouns }}</p>
-    @if(clientProfile$|async; as client) {
-      <p *ngIf="client.birthday">**Rewards Member</p>
-      <p *ngIf="client.birthday">Birthday: {{ client.birthday | americanFormattedDate }}</p>
-    }
-
-    <p>Email: {{ contactInfo.email }}</p>
-    <p>Phone: {{ contactInfo.phoneNumber | americanPhoneNumber }}</p>
-    <p>Address: {{ contactInfo.formattedAddress }}</p>
-    <p>Contact Preference: {{ contactInfo.contactPreference }}</p>
-    <br>
-  }
-
-  @if (login.account$ | async; as account) {
-    <h3>Account Information</h3>
-    <p>Username: {{ account.username }}</p>
-    <p>Date created: {{ account.accountCreationDate.toLocaleDateString() }}</p>
-    <p>Permissions: {{ account.authorities }}</p>
-  }
-  <br>
-
-  <button
-    *ngIf="!(isUpdatingContactInfo$|async)"
-    class="salon-btn-primary"
-    (click)="this.isUpdatingContactInfo$.next(true)"
-  >Update Info</button>
-
+  </div>
 }
 
 </div>
