@@ -30,6 +30,7 @@
     <p>No images!</p>
   }
 
+  <br>
   <salon-image-upload-and-crop
     [resetImageForm]="resetImageForm$"
     [cropAspectRatio]="16 / 9"
@@ -37,6 +38,7 @@
     (uploadImageEvent)="uploadProfileImage($event)"
   ></salon-image-upload-and-crop>
 
+  <br>
   <div class="form-floating">
     <input
       type="text"

@@ -45,20 +45,17 @@
 
     <br>
     <div class="row g-3">
+
       <br>
       <div class="input-group">
         <span class="input-group-text">First and Last name</span>
         <input required [formControl]="firstNameForm" type="text" aria-label="First name" class="form-control" placeholder="Enter First Name">
         <input required [formControl]="lastNameForm" type="text" aria-label="Last name" class="form-control" placeholder="Enter Last Name">
       </div>
-
       <p
         class="text-danger"
         *ngIf="(updateFormErrors$|async)?.get('firstName') as error"
       >{{ error }}</p>
-
-      <br>
-
       <p
         class="text-danger"
         *ngIf="(updateFormErrors$|async)?.get('lastName') as error"
@@ -68,22 +65,19 @@
       <div class="col-md-6">
         <label class="form-label">Email</label>
         <input required [formControl]="emailForm" class="form-control" placeholder="example@email.com">
+        <p
+          class="text-danger"
+          *ngIf="(updateFormErrors$|async)?.get('email') as error"
+        >{{ error }}</p>
       </div>
-
-      <p
-        class="text-danger"
-        *ngIf="(updateFormErrors$|async)?.get('email') as error"
-      >{{ error }}</p>
-
       <div class="col-md-6">
         <label class="form-label">Phone</label>
         <input required [formControl]="phoneNumberForm" class="form-control" placeholder="5555555555">
+        <p
+          class="text-danger"
+          *ngIf="(updateFormErrors$|async)?.get('phoneNumber') as error"
+        >{{ error }}</p>
       </div>
-
-      <p
-        class="text-danger"
-        *ngIf="(updateFormErrors$|async)?.get('phoneNumber') as error"
-      >{{ error }}</p>
 
       <br>
       <salon-selector
@@ -97,64 +91,59 @@
       <div class="col-md-6">
         <label class="form-label">Address</label>
         <input required [formControl]="addressLineOneForm" class="form-control" placeholder="1234 Main St">
+        <p
+          class="text-danger"
+          *ngIf="(updateFormErrors$|async)?.get('addressLineOne') as error"
+        >{{ error }}</p>
       </div>
-
-      <p
-        class="text-danger"
-        *ngIf="(updateFormErrors$|async)?.get('addressLineOne') as error"
-      >{{ error }}</p>
 
       <br>
       <div class="col-md-6">
         <label class="form-label">Address 2 <i>(Optional)</i> </label>
         <input [formControl]="addressLineTwoForm" class="form-control" placeholder="Apartment, studio, or floor">
+        <p
+          class="text-danger"
+          *ngIf="(updateFormErrors$|async)?.get('addressLineTwo') as error"
+        >{{ error }}</p>
       </div>
-
-      <p
-        class="text-danger"
-        *ngIf="(updateFormErrors$|async)?.get('addressLineTwo') as error"
-      >{{ error }}</p>
 
       <br>
       <div class="col-md-6">
         <label class="form-label">City</label>
         <input required [formControl]="cityForm" class="form-control" placeholder="Jamestown">
+        <p
+          class="text-danger"
+          *ngIf="(updateFormErrors$|async)?.get('city') as error"
+        >{{ error }}</p>
       </div>
-
-      <p
-        class="text-danger"
-        *ngIf="(updateFormErrors$|async)?.get('city') as error"
-      >{{ error }}</p>
 
       <br>
       <div class="col-md-4">
-
         <salon-selector
           [selector$]="stateSelector$"
           [options]="SelectorDeclarations.stateOptions"
           title="State"
           undefinedOption="Please select your state..."
         ></salon-selector>
-
       </div>
 
       <br>
       <div class="col-md-2">
         <label class="form-label">Zip</label>
         <input required [formControl]="zipCodeForm" class="form-control" placeholder="55555">
+        <p
+          class="text-danger"
+          *ngIf="(updateFormErrors$|async)?.get('zipCode') as error"
+        >{{ error }}</p>
       </div>
 
-      <p
-        class="text-danger"
-        *ngIf="(updateFormErrors$|async)?.get('zipCode') as error"
-      >{{ error }}</p>
-
       <br>
-      <h3 class="text-danger" *ngIf="(updateFormErrors$|async)!.size > 0">Oops! Errors were reported</h3>
+      <p class="text-danger" *ngIf="(updateFormErrors$|async)!.size > 0">Oops! Errors were reported</p>
 
       <br><br>
 
       <div class="col-md-4"></div>
+
       <div class="col-md-2">
         <button
           class="salon-btn-primary"
@@ -167,6 +156,7 @@
           (click)="this.isUpdatingContactInfo$.next(false)"
         >Cancel</button>
       </div>
+
       <div class="col-md-4"></div>
 
     </div>

@@ -10,8 +10,11 @@
   type="file"
   required="false"
 >
+<br>
+
 
 @if (fileInput.value && (croppingInProgress$|async) && imageToCrop) {
+
   <br>
   <button
     type="button"
@@ -21,6 +24,8 @@
   >
     Save and Upload!
   </button>
+
+  <br>
   <image-cropper
     [imageChangedEvent]="imageToCrop"
     [maintainAspectRatio]="forceAspectRatio"
