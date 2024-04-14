@@ -7,25 +7,52 @@
         [disabled]="page.isRoot()"
         (click)="page.goHome()">Home</button>
 
-      @if (loginService.authenticated$ | async){
+      @if (loginService.authenticated$ | async) {
         <button
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           *ngIf="loginService.hasAuthority('NUSER')"
           [disabled]="page.hasRoot('/register2')"
           (click)="page.change(['/register2'])"
-        >Finish Account Setup</button>
-        <button
-          [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
-          *ngIf="loginService.hasAuthority('CLIENT')"
-          [disabled]="page.hasRoot('/client')"
-          (click)="page.change(['/client'])"
-        >Portal</button>
-        <button
-          [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
-          *ngIf="loginService.hasAuthority('EMPLOYEE')"
-          [disabled]="page.hasRoot('/employee')"
-          (click)="page.change(['/employee'])"
-        >Portal</button>
+        >Account</button>
+
+        @if (loginService.hasAuthority('CLIENT'))  {
+          <button
+            [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
+            (click)="page.change(['/client','user'])"
+            [disabled]="page.is('/client/user')"
+          >Profile</button>
+
+          <button
+            [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
+            [routerLink]="['/client','schedule']"
+            [disabled]="page.is('/client/schedule')"
+          >Schedule</button>
+
+          <button
+            [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
+            (click)="page.change(['/client','booking'])"
+            [disabled]="page.subpageOf('/client/book')"
+          >Book</button>
+        }
+
+        @if (loginService.hasAuthority('EMPLOYEE')) {
+          <button
+            [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
+            (click)="page.change(['/employee','user'])"
+            [disabled]="page.is('/employee/user')"
+          >Profile</button>
+          <button
+            [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
+            (click)="page.change(['/employee','schedule'])"
+            [disabled]="page.is('/employee/schedule')"
+          >Schedule</button>
+          <button
+            [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
+            (click)="page.change(['/employee','services'])"
+            [disabled]="page.is('/employee/services')"
+          >Services</button>
+        }
+
         <button
           [ngClass]="(displayHeader$|async)? 'salon-btn-fancy-header':'salon-btn-fancy-bg'"
           (click)="logout()"

@@ -1,70 +1,71 @@
 <div id="create-profile">
-<h2 style="text-align: center;">Please enter your contact information!</h2>
-<p style="text-align: center;"><i>After entering your contact information, you should gain access to the client portal</i></p>
+  <h3 class="salon-subheader">Welcome!</h3>
 
-@for(error of (serviceErrors$|async); track error) {
-  <br><h3>{{error}}</h3>
-}
+  <p class="salon-plaintext" style="text-align: center;">
+    <i>Please enter your contact information so you can begin scheduling appointments...</i>
+  </p>
 
-<br>
+  @for(error of (serviceErrors$|async); track error) {
+    <br><h3>{{error}}</h3>
+  }
 
-<p style="text-align:center;"><strong>Personal Info</strong></p>
-<div class="h-25 d-inline-block" style="width: 350px;">
-<salon-selector
-  [selector$]="pronounSelector$"
-  [options]="SelectorDeclarations.pronounOptions"
-  title="Pronouns"
-  undefinedOption="Please select your pronouns..."
-></salon-selector>
-</div>
-<br>
-<br>
-<div class="input-group">
-  <span class="input-group-text">First and Last name</span>
-  <input required [formControl]="firstNameForm" type="text" aria-label="First name" class="form-control" placeholder="Enter First Name">
-  <input required [formControl]="lastNameForm" type="text" aria-label="Last name" class="form-control" placeholder="Enter Last Name">
-</div>
-<br>
-
-<form class="row g-3">
-  <div class="col-md-6">
-    <label class="form-label">Email</label>
-    <input required [formControl]="emailForm" class="form-control" placeholder="example@email.com">
-  </div>
-  <div class="col-md-6">
-    <label class="form-label">Phone</label>
-    <input required [formControl]="phoneNumberForm" class="form-control" placeholder="5555555555">
-  </div>
-  <div class="col-md-6">
-    <label class="form-label">Address</label>
-    <input required [formControl]="addressLineOneForm" class="form-control" placeholder="1234 Main St">
-  </div>
-  <div class="col-md-6">
-    <label class="form-label">Address 2 <i>(Optional)</i> </label>
-    <input [formControl]="addressLineTwoForm" class="form-control" placeholder="Apartment, studio, or floor">
-  </div>
-  <div class="col-md-6">
-    <label class="form-label">City</label>
-    <input required [formControl]="cityForm" class="form-control" placeholder="Jamestown">
-  </div>
-  <div class="col-md-4">
-
+  <br>
+  <div class="h-25 d-inline-block" style="width: 350px;">
     <salon-selector
-      [selector$]="selectedState$"
-      [options]="SelectorDeclarations.stateOptions"
-      title="State"
-      undefinedOption="Please select your state..."
+      [selector$]="pronounSelector$"
+      [options]="SelectorDeclarations.pronounOptions"
+      title="Pronouns"
+      undefinedOption="Please select your pronouns..."
     ></salon-selector>
+  </div>
 
+  <br><br>
+  <div class="input-group">
+    <span class="input-group-text">First and Last name</span>
+    <input required [formControl]="firstNameForm" type="text" aria-label="First name" class="form-control" placeholder="Enter First Name">
+    <input required [formControl]="lastNameForm" type="text" aria-label="Last name" class="form-control" placeholder="Enter Last Name">
   </div>
-  <div class="col-md-2">
-    <label class="form-label">Zip</label>
-    <input required [formControl]="zipCodeForm" class="form-control" placeholder="55555">
-  </div>
-  <div class="col-12 d-flex justify-content-center">
-    <button type="button" class="salon-btn-primary" (click)="createUserProfile()">Create Account</button>
-  </div>
-</form>
+
+  <br>
+  <form class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Email</label>
+      <input required [formControl]="emailForm" class="form-control" placeholder="example@email.com">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Phone</label>
+      <input required [formControl]="phoneNumberForm" class="form-control" placeholder="5555555555">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Address</label>
+      <input required [formControl]="addressLineOneForm" class="form-control" placeholder="1234 Main St">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Address 2 <i>(Optional)</i> </label>
+      <input [formControl]="addressLineTwoForm" class="form-control" placeholder="Apartment, studio, or floor">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">City</label>
+      <input required [formControl]="cityForm" class="form-control" placeholder="Jamestown">
+    </div>
+    <div class="col-md-4">
+
+      <salon-selector
+        [selector$]="selectedState$"
+        [options]="SelectorDeclarations.stateOptions"
+        title="State"
+        undefinedOption="Please select your state..."
+      ></salon-selector>
+
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Zip</label>
+      <input required [formControl]="zipCodeForm" class="form-control" placeholder="55555">
+    </div>
+    <div class="col-12 d-flex justify-content-center">
+      <button type="button" class="salon-btn-primary" (click)="createUserProfile()">Create Account</button>
+    </div>
+  </form>
 </div>
 
 

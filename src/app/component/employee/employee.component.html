@@ -1,27 +1,2 @@
 
-<h1 *ngIf="firstName$ | async as name">Hello {{ name }}!</h1>
-
-<br>
-<h2>What would you like to do today?</h2>
-
-<button
-  class="salon-btn-secondary-outline"
-  (click)="page.change(['/employee','user'])"
-  [disabled]="page.is('/employee/user')"
-  >Your Profile</button>
-
-<button
-  class="salon-btn-secondary-outline"
-  (click)="page.change(['/employee','schedule'])"
-  [disabled]="page.is('/employee/schedule')"
-  >View Schedule</button>
-
-<button
-  class="salon-btn-secondary-outline"
-  (click)="page.change(['/employee','services'])"
-  [disabled]="page.is('/employee/services')"
-  >Edit Services</button>
-
-<div style="display: block; margin: 20px auto 0 auto;">
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>

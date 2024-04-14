@@ -1,28 +1,2 @@
-<!-- <h1>client portal works!</h1>
-<h2>This page will contain all client facing actions</h2>
-<p><i>Users should only be able to access this functionality AFTER providing their contact information...</i></p> -->
 
-
-<button
-  class="salon-btn-secondary-outline"
-  (click)="page.change(['/client','user'])"
-  [disabled]="page.is('/client/user')"
->Your Profile</button>
-
-<button
-  *ngIf="login.hasAuthority('CLIENT')"
-  class="salon-btn-secondary-outline"
-  [routerLink]="['/client','schedule']"
-  [disabled]="page.is('/client/schedule')"
->View Schedule</button>
-
-<button
-  *ngIf="login.hasAuthority('CLIENT')"
-  class="salon-btn-secondary-outline"
-  (click)="page.change(['/client','booking'])"
-  [disabled]="page.subpageOf('/client/book')"
->Book Appointment</button>
-
-<div style="display: block; margin: 20px auto 0 auto; width: 80vw;">
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>

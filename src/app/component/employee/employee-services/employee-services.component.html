@@ -3,7 +3,9 @@
 @if (providedServices$ | async; as providedService) {
 
   @if (providedService.length > 0) {
-    <h3>Your provided services: </h3>
+
+    <h3 class="salon-subheader">Your services</h3>
+
     <table
       mat-table
       [dataSource]="providedServiceData"
