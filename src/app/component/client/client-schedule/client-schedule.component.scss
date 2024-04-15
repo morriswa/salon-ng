@@ -1,10 +1,9 @@
 
 .appointment-box {
-  color: rgb(133,176,85);
   margin: auto;
-  width: 75%;
+  width: 60vw;
   text-align: center;
-  border-radius: 25px;
-  border: 2px solid rgb(133,176,85);
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  border: 1px solid var(--bs-secondary);
+  border-radius: var(--bs-border-radius-xl);
+  box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.3);
 }

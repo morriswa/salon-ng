@@ -1,4 +1,4 @@
-<body>
+
 @if (serviceInfo$ | async; as serviceInfo) {
 
   <button class="salon-btn-secondary-outline" (click)="
@@ -9,35 +9,27 @@
   <img *ngFor="let image of serviceInfo.content" [ngSrc]="image"
     width="300" height="200" style="object-fit: cover">
 
-  <h3>
-    <h4 id="service-name">
-    {{ serviceInfo.name }}
-    <br>
-    </h4>
+  <br>
+  <h4 id="service-name">{{ serviceInfo.name }}</h4>
+
+  <p>
     provided by
     <a
       class="search-result-links"
       (click)="page.change(['/profile', serviceInfo.employee.employeeId])"
     >{{ serviceInfo.employee.firstName }} {{ serviceInfo.employee.lastName }}</a>
-  </h3>
-  <h3>{{ serviceInfo.cost | money }} for {{ serviceInfo.length }} min.</h3>
+  </p>
+  <p>{{ serviceInfo.cost | money }} for {{ serviceInfo.length }} min.</p>
 
 
   @if (appointmentConfirmation$ | async; as appointmentConfirmation) {
 
     <br>
-    <h3>Your appointment has been confirmed!</h3>
-    <h3>{{ formatAsString(appointmentConfirmation.time) }}</h3>
+    <p>Your appointment has been confirmed!</p>
+    <p>{{ formatAsString(appointmentConfirmation.time) }}</p>
 
   } @else {
 
-    <!-- <p>Images and additional content will go here. Thinking employee bio/terms? Not sure yet :)</p>
-
-    <br>
-
-    <p>This is where clients will book their appointments</p> -->
-
-    <br>
     <br>
     <mat-form-field class="booking-fields">
       <mat-label>Choose a date</mat-label>
@@ -80,4 +72,3 @@
 } @else {
   <h1>Retrieving service info...</h1>
 }
-</body>
