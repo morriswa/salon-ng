@@ -1,0 +1,33 @@
+
+@if (schedule$ | async; as schedule) {
+
+  <h3 class="salon-subheader">Upcoming Appointments</h3>
+  <br>
+
+  @if (schedule.length == 0) {
+    <h2 style="text-align: center;">You have no scheduled appointments!</h2>
+    <p style="text-align: center;">Click Book to begin scheduling!</p>
+  }
+  @for (appointment of schedule; track appointment.appointmentId) {
+
+    <div class="appointment-box">
+      @if (mode==='client') {
+        <h3
+          class="search-result-links"
+          (click)="page.change(['/client', 'appointment', appointment.appointmentId])"
+        >{{ appointment.serviceName }}</h3>
+        <h5>on {{ appointment.time | localeDate }} at {{ appointment.time | localeTime }}</h5>
+        <h5>with {{ appointment.employee.firstName }} {{ appointment.employee.lastName }}</h5>
+      } @else if (mode==='employee') {
+        <h3
+          class="search-result-links"
+          (click)="page.change(['/employee', 'appointment', appointment.appointmentId])"
+        >{{ appointment.serviceName }}</h3>
+        <h5>on {{ appointment.time | localeDate }} at {{ appointment.time | localeTime }}</h5>
+        <h5>with {{ appointment.client.firstName }} {{ appointment.client.lastName }}</h5>
+      }
+    </div>
+    <br>
+  }
+
+}

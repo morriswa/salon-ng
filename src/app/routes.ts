@@ -19,7 +19,6 @@ import {PublicProfileComponent} from "src/app/component/public-profile/public-pr
 // Employee
 import {EmployeeComponent} from "src/app/component/employee/employee.component";
 import {EmployeeServicesComponent} from "src/app/component/employee/employee-services/employee-services.component";
-import {EmployeeScheduleComponent} from "src/app/component/employee/employee-schedule/employee-schedule.component";
 import {
   EmployeeAppointmentDetailsComponent
 } from "src/app/component/employee/employee-appointment-details/employee-appointment-details.component";
@@ -32,7 +31,7 @@ import {
 import {
   BookingDetailsComponent
 } from "src/app/component/client/booking-details/booking-details.component";
-import {ClientScheduleComponent} from "src/app/component/client/client-schedule/client-schedule.component";
+import {ScheduleComponent} from "src/app/component/schedule/schedule.component";
 import {
   ClientAppointmentDetailsComponent
 } from "src/app/component/client/client-appointment-details/client-appointment-details.component";
@@ -47,7 +46,7 @@ export const salon_application_routes: Routes = [
       { path: 'user', component: ProfileComponent },
       { path: 'services', component: EmployeeServicesComponent },
       { path: 'service/:serviceId', component: EmployeeEditServiceComponent },
-      { path: 'schedule', component: EmployeeScheduleComponent },
+      { path: 'schedule', component: ScheduleComponent },
       { path: 'appointment/:appointmentId', component: EmployeeAppointmentDetailsComponent },
       { path: '**', pathMatch: "full", redirectTo: "schedule"}
     ] },
@@ -57,7 +56,7 @@ export const salon_application_routes: Routes = [
       { path: 'booking', component: BookingComponent },
       { path: 'booking/:keyword', component: BookingComponent },
       { path: 'book/:serviceId', component: BookingDetailsComponent },
-      { path: 'schedule', component: ClientScheduleComponent },
+      { path: 'schedule', component: ScheduleComponent },
       { path: 'appointment/:appointmentId', component: ClientAppointmentDetailsComponent },
       { path: '**', pathMatch: "full", redirectTo: "schedule"}
     ] },
