@@ -86,12 +86,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "prod": {
-              "buildTarget": "salon-ng:build:prod",
-              "proxyConfig": "src/proxy-prod.conf.json"
+              "buildTarget": "salon-ng:build:prod"
             },
             "qa": {
-              "buildTarget": "salon-ng:build:qa",
-              "proxyConfig": "src/proxy-prod.conf.json"
+              "buildTarget": "salon-ng:build:qa"
             },
             "local": {
               "buildTarget": "salon-ng:build:local"
