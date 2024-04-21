@@ -2,7 +2,7 @@
 export const environment = {
   production: true,
   webService: {
-    path: '//salon.morriswa.org/api',
+    path: 'https://salon.morriswa.org/api',
     publicUrls : [
       '/register',
       '/health',

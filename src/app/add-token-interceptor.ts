@@ -33,7 +33,7 @@ export const is_public_req = (url:string): boolean  => {
 export const add_token_interceptor: HttpInterceptorFn = (req, next) => {
   const creds = inject(CredentialService);
 
-  if (req.url.startsWith("https:"+environment.webService.path) && !is_public_req(req.url)) {
+  if (req.url.startsWith(environment.webService.path) && !is_public_req(req.url)) {
 
     const authReq = req.clone({
       headers: req.headers.set('Authorization', creds.token),

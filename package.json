@@ -3,7 +3,7 @@
   "version": "0.2.2-SNAPSHOT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config src/proxy.conf.json",
+    "start": "ng serve",
     "start:qa": "ng serve -c qa",
     "build": "ng build",
     "build:prod": "ng build -c prod",
