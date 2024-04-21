@@ -11,7 +11,7 @@ import {enableProdMode} from '@angular/core';
 import {bootstrapApplication, provideProtractorTestingSupport} from "@angular/platform-browser";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideRouter} from "@angular/router";
-import {provideHttpClient, withInterceptors} from "@angular/common/http";
+import {provideHttpClient, withInterceptors, withXsrfConfiguration} from "@angular/common/http";
 
 // Application Environment
 import {environment} from 'src/environments/environment';
@@ -31,6 +31,7 @@ import {LoginService} from "src/app/service/login.service";
 import {SalonStore} from "src/app/service/salon-store.service";
 import {PageService} from "./app/service/page.service";
 import {SalonClient} from "./app/service/salon-client.service";
+import {xhr_interceptor} from "./app/xhr-interceptor";
 
 
 // enables production mode for prod builds
@@ -47,7 +48,13 @@ bootstrapApplication(SalonApplication,{
     // with angular animation, router, and http client
     provideProtractorTestingSupport(),
     provideRouter(salon_application_routes),
-    provideHttpClient(withInterceptors([add_token_interceptor])),
+    provideHttpClient(
+      withInterceptors([add_token_interceptor, xhr_interceptor]),
+      withXsrfConfiguration({
+        cookieName: "XSRF-TOKEN",
+        headerName: "X-XSRF-TOKEN"
+      })
+    ),
     provideAnimations(),
   ],
 // log all errors to the js console

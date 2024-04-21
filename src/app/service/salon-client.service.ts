@@ -34,7 +34,7 @@ export class SalonClient {
   }
 
   login(): Observable<UserAccount> {
-    return this.http.get(`${this.SERVICE_URL}/login`)
+    return this.http.post(`${this.SERVICE_URL}/login`, {})
       .pipe(map((res:any)=>{
         // maps JSON response to typescript type
         const account: UserAccount = {
