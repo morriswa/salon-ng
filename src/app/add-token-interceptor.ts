@@ -33,6 +33,7 @@ export const is_public_req = (url:string): boolean  => {
 export const add_token_interceptor: HttpInterceptorFn = (req, next) => {
   const creds = inject(CredentialService);
 
+  console.log('testing ',req.url)
   if (req.url.startsWith(environment.webService.path) && !is_public_req(req.url)) {
 
     const authReq = req.clone({
