@@ -35,12 +35,14 @@ export const add_token_interceptor: HttpInterceptorFn = (req, next) => {
 
   console.log('testing ',req.url)
   if (req.url.startsWith(environment.webService.path) && !is_public_req(req.url)) {
-
+    console.log('sending auth')
     const authReq = req.clone({
       headers: req.headers.set('Authorization', creds.token),
       withCredentials: true
     });
 
     return next(authReq);
-  } else return next(req);
+  }
+  console.log('not sending auth')
+  return next(req);
 }
