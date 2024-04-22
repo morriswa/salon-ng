@@ -33,16 +33,14 @@ export const is_public_req = (url:string): boolean  => {
 export const add_token_interceptor: HttpInterceptorFn = (req, next) => {
   const creds = inject(CredentialService);
 
-  console.log('testing ',req.url)
   if (req.url.startsWith(environment.webService.path) && !is_public_req(req.url)) {
-    console.log('sending auth ', creds.token)
     const authReq = req.clone({
-      headers: req.headers.set('Proxy-Authorization', creds.token),
+      headers: req.headers.set('Authorization', creds.token),
       withCredentials: true
     });
 
     return next(authReq);
   }
-  console.log('not sending auth')
+
   return next(req);
 }
