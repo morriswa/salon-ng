@@ -34,6 +34,8 @@ export const add_token_interceptor: HttpInterceptorFn = (req, next) => {
   const creds = inject(CredentialService);
 
   if (req.url.startsWith(environment.webService.path) && !is_public_req(req.url)) {
+
+    console.log(`doing auth ${req.url}`)
     const authReq = req.clone({
       headers: req.headers.set('Authorization', creds.token),
       withCredentials: true
@@ -41,6 +43,8 @@ export const add_token_interceptor: HttpInterceptorFn = (req, next) => {
 
     return next(authReq);
   }
+
+  console.log('no auth')
 
   return next(req);
 }
