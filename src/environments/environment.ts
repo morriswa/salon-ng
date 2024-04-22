@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   webService: {
-    path: '//localhost:4200/api',
+    path: '//localhost:8080',
     publicUrls : [
       '/register',
       '/health',
